@@ -3,7 +3,10 @@ HEIGHT ?= 4
 MANSUBA_FLAGS = -DWIDTH=$(WIDTH) -DHEIGHT=$(HEIGHT)
 CFLAGS = -Wall -Wextra -std=c99 -g3 $(MANSUBA_FLAGS)
 
-all: project
+all: create project
+
+create:
+	mkdir -p build
 
 %.o: src/%.c
 	- gcc -c $(CFLAGS) -o build/$@ $<
