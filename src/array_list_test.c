@@ -1,10 +1,7 @@
 #include "array_list.h"
 #include <assert.h>
 #include <stdio.h>
-
-void free_nothing(void *_){
-
-}
+#include "util.h"
 
 int main(){
     array_list_t *l;
