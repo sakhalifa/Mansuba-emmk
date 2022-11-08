@@ -5,14 +5,14 @@ CFLAGS = -Wall -Wextra -std=c99 -g3 $(MANSUBA_FLAGS)
 
 all: project
 
-%.o: %.c
-	gcc -c $(CFLAGS) $<
+%.o: src/%.c
+	- gcc -c $(CFLAGS) -o build/$@ $<
 
-project: # (Add your dependency here, e.g "project.o")
-	# (Add your compile command here, e.g "gcc $(CFLAGS) project.o -o project")
+project: geometry.o neighbors.o world.o project.o
+	gcc $(CFLAGS) build/geometry.o build/neighbors.o build/world.o build/project.o -o project
 
 test_project: # (Add your dependency here, e.g "test.o")
 	# (Add your compile command here, e.g "gcc $(CFLAGS) test.o -o test_project")
 
 clean:
-	rm -f *.o *~
+	rm -f build/*.o *~
