@@ -1,7 +1,7 @@
-#include "array_list.h"
+#include "../src/array_list.h"
 #include <assert.h>
 #include <stdio.h>
-#include "util.h"
+#include "../src/util.h"
 
 int main(){
     array_list_t *l;
