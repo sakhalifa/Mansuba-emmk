@@ -23,7 +23,10 @@ test_project: # (Add your dependency here, e.g "test.o")
 test_array_list: array_list.o array_list_test.o
 	gcc $(CFLAGS) $(BUILDDIR)/array_list.o $(BUILDDIR)/array_list_test.o -o test_array_list
 
+test: test_array_list
+	./test_array_list
+
 clean:
 	rm -f $(BUILDDIR)/*.o *~
 	rm -f project
-	rm -f 
+	rm -f test_array_list
