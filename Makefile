@@ -19,3 +19,4 @@ test_project: # (Add your dependency here, e.g "test.o")
 
 clean:
 	rm -f build/*.o *~
+	rm project
