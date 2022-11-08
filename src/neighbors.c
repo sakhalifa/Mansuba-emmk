@@ -77,7 +77,6 @@ struct neighbors_t get_neighbors(unsigned int idx){
         }
 
     }
-    printf("found %d neighs\n", neighs_index);
     if (neighs_index == MAX_NEIGHBORS) return neighs;
     
     neighs.n[neighs_index].d = NO_DIR;
