@@ -15,13 +15,13 @@ create:
 	- gcc -c $(CFLAGS) -o $(BUILDDIR)/$@ $<
 
 project: geometry.o neighbors.o world.o project.o
-	gcc $(CFLAGS) $(BUILDDIR)/geometry.o $(BUILDDIR)/neighbors.o $(BUILDDIR)/world.o $(BUILDDIR)/project.o -o project
+	gcc $(CFLAGS) $(addprefix $(BUILDDIR)/, $^) -o project
 
 test_project: # (Add your dependency here, e.g "test.o")
 	# (Add your compile command here, e.g "gcc $(CFLAGS) test.o -o test_project")
 
 test_array_list: array_list.o array_list_test.o
-	gcc $(CFLAGS) $(BUILDDIR)/array_list.o $(BUILDDIR)/array_list_test.o -o test_array_list
+	gcc $(CFLAGS) $(addprefix $(BUILDDIR)/, $^) -o test_array_list
 
 test: test_array_list
 	./test_array_list
