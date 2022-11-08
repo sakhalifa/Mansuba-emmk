@@ -1,6 +1,7 @@
 #ifndef __ARRAY_LIST_H__
 #define __ARRAY_LIST_H__
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct array_list{
     void **list;
@@ -36,9 +37,17 @@ void *array_list_get(array_list_t *list, int idx);
 void array_list_set(array_list_t *list, void *val, int idx);
 
 /**
- * Frees the array_list. Does NOT free the elements inside it.
+ * Returns true iif the array_list contains the value within the interval [0,l->len[
+ * Checks equality using cmp_func.
+*/
+bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void*, void*));
+
+/**
+ * Frees the array_list. This WILL free all the elements inside of it.
 */
 void array_list_free(array_list_t *array_list);
+
+
 
 
 
