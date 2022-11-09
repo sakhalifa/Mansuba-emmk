@@ -25,7 +25,34 @@ bool test_get_neighbors(){
 
 bool test_get_neighbor(){
 
+    uint n;
+    n = get_neighbor(0, NORTH);
+    assert(n == UINT_MAX);
+    n = get_neighbor(0, SOUTH);
+    assert(n == 5);
+    n = get_neighbor(7, SEAST);
+    assert(n == 13);
+    n = get_neighbor(4, WEST);
+    assert(n == 3);
+    n = get_neighbor(4, EAST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(9, SWEST);
+    assert(n == 13);
+    n = get_neighbor(19, NWEST);
+    assert(n == 13);
+    n = get_neighbor(19, NEAST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(18, NEAST);
+    assert(n == 14);
 
+    n = get_neighbor(-4, NEAST);
+    assert(n == UINT_MAX);  
+    n = get_neighbor(20, NORTH);
+    assert(n == UINT_MAX);
+    n = get_neighbor(-5, SOUTH);
+    assert(n == UINT_MAX);
+    n = get_neighbor(24, SOUTH);
+    assert(n == UINT_MAX);
 
     return true;
 }
