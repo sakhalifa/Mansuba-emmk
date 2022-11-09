@@ -69,7 +69,7 @@ void *array_list_remove(array_list_t *list, int idx)
 
 bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
 {
-    for (int i = 0; i < l->len; i++)
+    for (size_t i = 0; i < l->len; i++)
     {
         if(!cmp_func(val, array_list_get(l, i))){
             return true;
@@ -83,7 +83,7 @@ bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void *, voi
  */
 void array_list_free(array_list_t *array_list)
 {
-    for (int i = 0; i < array_list->len; i++)
+    for (size_t i = 0; i < array_list->len; i++)
     {
         array_list->free_func(array_list_get(array_list, i));
     }
