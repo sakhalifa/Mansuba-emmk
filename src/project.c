@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     // init_neighbors(0);*
 
     current_player = get_random_player();
-    while nobody has won:
+    while (!game_won(w)):
         p = choose_random_piece_belonging_to(w, current_player);
         m = choose_random_move_for_piece(w, p);
         move_piece(w, m);
