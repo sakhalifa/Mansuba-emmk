@@ -1,7 +1,6 @@
 #include "world.h"
 #include "neighbors.h"
-#include <stdlib.h>
-#include <stdbool.h>
+#include "util.h"
 
 bool world_initialized = false;
 struct world_t world;
@@ -12,20 +11,24 @@ struct world_t {
 };
 
 enum color_t world_get(const struct world_t* b, unsigned int idx){
+    assert(idx < WORLD_SIZE);
     return b->color_array[idx];
 }
 
 void world_set(struct world_t* b, unsigned int idx, enum color_t c){
+    assert(idx < WORLD_SIZE);
     b->color_array[idx] = c;
 }
 
 
 enum sort_t world_get_sort(const struct world_t* b, unsigned int idx){
+    assert(idx < WORLD_SIZE);
     return b->sort_array[idx];
 }
 
 
 void world_set_sort(struct world_t* b, unsigned int idx, enum sort_t c){
+    assert(idx < WORLD_SIZE);
     b->sort_array[idx] = c;
 }
 
