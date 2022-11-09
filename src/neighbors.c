@@ -7,51 +7,14 @@ unsigned int get_neighbor(unsigned int idx, enum dir_t d){
     uint col = idx%WIDTH;
     uint row = idx/WIDTH;
     
-    switch (d)
-    {
-    case NO_DIR:
-        return UINT_MAX;
-        break;
+    if (d == NORTH || d == NWEST || d == NEAST) row -= 1;
+
+    if (d == SOUTH || d == SWEST || d == SEAST) row += 1;
     
-    case NORTH:
-        row -= 1;
-        break;
+    if (d == EAST || d == NEAST || d == SEAST) col += 1;
 
-    case SOUTH:
-        row += 1;
-        break;
-    
-    case EAST:
-        col += 1;
-        break;
+    if (d == WEST || d == NWEST || d == SWEST) col -= 1;
 
-    case WEST:
-        col -= 1;
-        break;
-
-    case NWEST:
-        col -= 1;
-        row -= 1;
-        break;
-
-    case NEAST:
-        col += 1;
-        row -= 1;
-        break;
-
-    case SWEST:
-        col -= 1;
-        row += 1;
-        break;
-
-    case SEAST:
-        col += 1;
-        row += 1;
-        break;
-
-    default:
-        break;
-    }
 
     //if the coordinates are outside the square game grid then it is not a neighbor
     if(col > WIDTH-1 || row > HEIGHT-1) return UINT_MAX;
