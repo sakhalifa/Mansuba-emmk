@@ -1,10 +1,8 @@
 #include "neighbors.h"
-#include "limits.h"
-#include <stdio.h>
-typedef unsigned int uint;
+#include "util.h"
 
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
-    if (d == NO_DIR) return UINT_MAX;
+    if (d == NO_DIR || idx >= WORLD_SIZE) return UINT_MAX;
 
     uint col = idx%WIDTH;
     uint row = idx/WIDTH;

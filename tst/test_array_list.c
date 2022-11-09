@@ -1,9 +1,13 @@
 #include "../src/array_list.h"
-#include <assert.h>
-#include <stdio.h>
 #include "../src/util.h"
 
-int main(){
+
+static void free_nothing(void *_){
+    _ = _;
+}
+
+bool test_array(){
+
     array_list_t *l;
     l = array_list_init(20, free_nothing);
     assert(l->len == 20);
@@ -51,5 +55,6 @@ int main(){
     array_list_free(l);
     array_list_free(zero_array);
 
-    printf("Successfully tested 'array_list.c'\n");
+    return true;
 }
+

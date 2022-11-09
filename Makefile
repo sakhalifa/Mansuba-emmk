@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -std=c99 -g3 $(MANSUBA_FLAGS)
 
 BUILDDIR = build
 SOURCEDIR = src
+TESTSDIR = tst
 
 all: create project
 
@@ -14,19 +15,17 @@ create:
 %.o: $(SOURCEDIR)/%.c
 	- gcc -c $(CFLAGS) -o $(BUILDDIR)/$@ $<
 
+%.o: $(TESTSDIR)/%.c
+	- gcc -c $(CFLAGS) -o $(BUILDDIR)/$@ $<
+
 project: geometry.o neighbors.o world.o project.o
 	gcc $(CFLAGS) $(addprefix $(BUILDDIR)/, $^) -o project
 
-test_project: # (Add your dependency here, e.g "test.o")
-	# (Add your compile command here, e.g "gcc $(CFLAGS) test.o -o test_project")
-
-test_array_list: array_list.o array_list_test.o
-	gcc $(CFLAGS) $(addprefix $(BUILDDIR)/, $^) -o test_array_list
-
-test: test_array_list
-	./test_array_list
+test_project: test.o test_array_list.o test_neighbors.o neighbors.o array_list.o
+	gcc -Wall -Wextra -std=c99 -g3 -DWIDTH=5 -DHEIGHT=4 $(addprefix $(BUILDDIR)/, $^) -o test_project
+	./test_project
 
 clean:
 	rm -f $(BUILDDIR)/*.o *~
 	rm -f project
-	rm -f test_array_list
+	rm -f test_project
