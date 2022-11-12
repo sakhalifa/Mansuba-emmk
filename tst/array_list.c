@@ -3,7 +3,7 @@
 
 
 static void free_nothing(void *_){
-    _ = _;
+    _ = _; // Remove warning lol
 }
 
 bool test_array(){
