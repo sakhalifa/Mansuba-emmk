@@ -67,15 +67,20 @@ void *array_list_remove(array_list_t *list, int idx)
     return element;
 }
 
-bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
+int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
 {
-    for (size_t i = 0; i < l->len; i++)
+    for (int i = 0; i < l->len; i++)
     {
         if(!cmp_func(val, array_list_get(l, i))){
-            return true;
+            return i;
         }
     }
-    return false;
+    return -1;
+}
+
+bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
+{
+    return array_list_get_index(l, val, cmp_func) != -1;
 }
 
 /**

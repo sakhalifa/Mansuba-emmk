@@ -43,6 +43,11 @@ void array_list_set(array_list_t *list, void *val, int idx);
 bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void*, void*));
 
 /**
+ * If val is in the array_list within [0, l->len[, returns its index.
+ * Else, returns -1
+*/
+int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void*, void*));
+/**
  * Frees the array_list. This WILL free all the elements inside of it.
 */
 void array_list_free(array_list_t *array_list);
