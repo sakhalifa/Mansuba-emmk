@@ -9,11 +9,11 @@ int main(){
     test_array();
     printf("Finished testing array_list.c\n");
 
-    test_linked();
-    printf("Finished testing linked_list.c\n");
+    test_moves();
+    printf("Finished testing moves.c\n");
 
-    // test_moves();
-    // printf("Finished testing moves.c\n");
+    test_trees();
+    printf("Finished testing moves.c\n");
 
     return 0;
 }

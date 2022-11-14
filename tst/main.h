@@ -9,11 +9,11 @@ bool test_get_neighbor();
 //*****ARRAY_LIST*****//
 bool test_array();
 
-//****LINKED_LIST*****//
-bool test_linked();
-
 //*******MOVES*******//
-// void test_moves();
+void test_moves();
+
+//*******TREE******//
+void test_trees();
 
 
 
