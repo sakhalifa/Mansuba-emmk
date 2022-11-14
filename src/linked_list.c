@@ -1,12 +1,12 @@
 #include "linked_list.h"
 #include <stdlib.h>
 
-typedef struct cell
+struct cell
 {
     void *value;
     struct cell *next;
     struct cell *prev;
-} cell_t;
+};
 struct linked_list
 {
     cell_t *first;
@@ -14,6 +14,14 @@ struct linked_list
     size_t length;
     void (*free_func)(void *);
 };
+
+cell_t *cell_next(cell_t *c){
+    return c->next;
+}
+
+cell_t *cell_prev(cell_t* c){
+    return c->prev;
+}
 
 cell_t *create_cell(void *val)
 {

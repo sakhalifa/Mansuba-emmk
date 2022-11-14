@@ -1,9 +1,12 @@
 #ifndef __LINKED_LIST_H__
 #define __LINKED_LIST_H__
 #include <stdbool.h>
+typedef struct cell cell_t;
 struct linked_list;
 typedef struct linked_list linked_list_t;
 
+cell_t* cell_next(cell_t *c);
+cell_t* cell_prev(cell_t *c);
 /**
  * Allocates a new linked list on the heap
 */
