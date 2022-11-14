@@ -15,12 +15,19 @@ struct linked_list
     void (*free_func)(void *);
 };
 
-cell_t *cell_next(cell_t *c){
+cell_t *cell_next(cell_t *c)
+{
     return c->next;
 }
 
-cell_t *cell_prev(cell_t* c){
+cell_t *cell_prev(cell_t *c)
+{
     return c->prev;
+}
+
+void *cell_get_value(cell_t *c)
+{
+    return c->value;
 }
 
 cell_t *create_cell(void *val)
@@ -55,19 +62,22 @@ void linked_list_free(linked_list_t *l)
     free(l);
 }
 
-int linked_list_get_length(linked_list_t *l){
+int linked_list_get_length(linked_list_t *l)
+{
     return l->length;
 }
 void *linked_list_get_first(linked_list_t *l)
 {
-    if(l->first == NULL){
+    if (l->first == NULL)
+    {
         return NULL;
     }
     return l->first->value;
 }
 void *linked_list_get_last(linked_list_t *l)
 {
-    if(l->last == NULL){
+    if (l->last == NULL)
+    {
         return NULL;
     }
     return l->last->value;
@@ -112,10 +122,11 @@ bool linked_list_remove_last(linked_list_t *l)
         return false;
     }
 
-    cell_t* new_last = l->last->prev;
+    cell_t *new_last = l->last->prev;
     cell_free(l->last, l);
     l->last = new_last;
-    if(l->last != NULL){
+    if (l->last != NULL)
+    {
         l->last->next = NULL;
     }
     --l->length;
@@ -127,10 +138,11 @@ bool linked_list_remove_first(linked_list_t *l)
     {
         return false;
     }
-    cell_t* new_first = l->first->next;
+    cell_t *new_first = l->first->next;
     cell_free(l->first, l);
     l->first = new_first;
-    if(l->first != NULL){
+    if (l->first != NULL)
+    {
         l->first->prev = NULL;
     }
     --l->length;

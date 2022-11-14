@@ -7,6 +7,7 @@ typedef struct linked_list linked_list_t;
 
 cell_t* cell_next(cell_t *c);
 cell_t* cell_prev(cell_t *c);
+void* cell_get_value(cell_t *c);
 /**
  * Allocates a new linked list on the heap
 */
