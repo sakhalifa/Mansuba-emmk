@@ -19,7 +19,7 @@ test_%.o: $(TESTSDIR)/%.c
 %.o: $(SOURCEDIR)/%.c
 	- $(OBJCMD)
 
-project: geometry.o neighbors.o world.o project.o player.o
+project: geometry.o neighbors.o world.o project.o player.o moves.o position.o tree.o array_list.o
 	gcc $(CFLAGS) $(addprefix $(BUILDDIR)/, $^) -o project
 
 test_project: test_main.o test_array_list.o test_neighbors.o test_moves.o test_tree.o test_player.o tree.o moves.o neighbors.o array_list.o player.o
