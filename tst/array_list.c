@@ -1,14 +1,13 @@
 #include "../src/array_list.h"
 #include "../src/util.h"
+//TODO Refactor
 
 static void free_nothing(void *_)
 {
     _ = _; // Remove warning lol
 }
 
-bool test_array()
-{
-
+void test_stack(){
     array_list_t *l;
     l = array_list_init(20, free_nothing);
     assert(l->len == 20);
@@ -73,6 +72,24 @@ bool test_array()
 
     array_list_free(l);
     array_list_free(zero_array);
+}
+
+void test_no_memory_leak(){
+    array_list_t *zero_array = array_list_init(0, free);
+    for (int i = 0; i < 20; i++)
+    {
+        int *number = malloc(sizeof(int));
+        array_list_push(zero_array, number);
+    }
+
+    array_list_free(zero_array);
+}
+
+bool test_array()
+{
+    test_stack();
+    test_no_memory_leak();
+    
 
     return true;
 }
