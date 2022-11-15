@@ -7,8 +7,13 @@ bool test_get_neighbors();
 bool test_get_neighbor();
 
 //*****ARRAY_LIST*****//
-
 bool test_array();
+
+//*******MOVES*******//
+void test_moves();
+
+//*******TREE******//
+void test_trees();
 
 
 

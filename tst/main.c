@@ -4,10 +4,16 @@
 int main(){
     test_get_neighbors();
     test_get_neighbor();
-    printf("Finished 'test_neighbors.c'\n");
+    printf("Finished testing neighbors.c\n");
 
     test_array();
-    printf("Finished 'test_array_list.c'\n");
+    printf("Finished testing array_list.c\n");
+
+    test_moves();
+    printf("Finished testing moves.c\n");
+
+    test_trees();
+    printf("Finished testing moves.c\n");
 
     return 0;
 }
