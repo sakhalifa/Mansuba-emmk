@@ -16,9 +16,9 @@ typedef struct node{
 
 node_t *tree_create(void *val, void (*free_func)(void*));
 
-void node_add_child(node_t* node, void *val);
+node_t *node_add_child(node_t* node, void *val);
 
-void node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*));
+node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*));
 
 node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*));
 

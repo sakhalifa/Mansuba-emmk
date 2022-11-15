@@ -13,7 +13,13 @@ int main(){
     printf("Finished testing moves.c\n");
 
     test_trees();
-    printf("Finished testing moves.c\n");
+    printf("Finished testing trees.c\n");
+
+    test_player_init();
+    // test_random_player();
+    // test_next_player();
+    printf("Finished testing player.c\n");
+
 
     test_player_init();
     // test_random_player();
