@@ -15,5 +15,11 @@ int main(){
     test_trees();
     printf("Finished testing trees.c\n");
 
+    test_player_init();
+    // test_random_player();
+    // test_next_player();
+    printf("Finished testing player.c\n");
+
+
     return 0;
 }
