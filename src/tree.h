@@ -20,8 +20,10 @@ void node_add_child(node_t* node, void *val);
 
 void node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*));
 
-node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*))
+node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*));
 
-void tree_free(node_t* root);
+bool node_has_parent(node_t *node, void* val, int (*cmp_func)(void*, void*));
+
+void node_free(node_t* root);
 
 #endif
