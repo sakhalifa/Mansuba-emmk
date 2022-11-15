@@ -40,7 +40,8 @@ void add_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *roo
                 position_t *malloc_pos = malloc(sizeof(position_t));
                 position_from_idx(malloc_pos, far_neighbor);
                 node_t *child = node_add_child(root, malloc_pos);
-                add_jumps(world, neighbors, child);
+                struct neighbors_t new_neighbors = get_neighbors(far_neighbor);
+                add_jumps(world, &new_neighbors, child);
             }
         }
     }
