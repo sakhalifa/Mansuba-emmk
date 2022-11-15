@@ -13,7 +13,7 @@ int main(){
     printf("Finished testing moves.c\n");
 
     test_trees();
-    printf("Finished testing moves.c\n");
+    printf("Finished testing trees.c\n");
 
     return 0;
 }
