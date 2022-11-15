@@ -30,9 +30,11 @@ struct neighbors_t get_neighbors(unsigned int idx){
     uint neighs_index = 0;
     for (int dir = 0; dir < MAX_DIR; dir++)
     {
-        new_idx = get_neighbor(idx, dir-4);  // minus 4 due to the fact that the enum dir minimum is equal to -4 
+        int true_dir = dir-4;                        // minus 4 due to the fact that the enum dir minimum is equal to -4
+        if(true_dir % 2 == 0) continue; 
+        new_idx = get_neighbor(idx, true_dir); 
         if (new_idx != UINT_MAX){
-            neighs.n[neighs_index].d = dir-4;
+            neighs.n[neighs_index].d = true_dir;
             neighs.n[neighs_index].i = new_idx;
             neighs_index++;
         }
