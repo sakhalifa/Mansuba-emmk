@@ -3,12 +3,12 @@
 
 typedef struct position
 {
-    int col;
-    int row;
+    unsigned int col;
+    unsigned int row;
 } position_t;
 
-void position_from_idx(position_t *pos, int idx);
-int position_to_idx(position_t *pos);
+void position_from_idx(position_t *pos, unsigned int idx);
+unsigned int position_to_idx(position_t *pos);
 
 int cmp_positions(position_t *pos1, position_t *pos2);
 
