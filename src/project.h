@@ -8,7 +8,7 @@
 #include "geometry.h"
 #include <time.h>
 
-#define MAX_TURN 30
+#define MAX_TURN 2*WORLD_SIZE
 
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player);
 node_t *choose_random_move_for_piece(struct world_t *world, uint piece);
