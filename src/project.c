@@ -28,7 +28,6 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
 
     if (len_children == 0)
     {
-        printf("no moves\n");
         node_free(moves);
         return NULL;
     }
@@ -98,13 +97,24 @@ void world_populate(struct world_t *world)
 
 void display_game(struct world_t *world)
 {
+    for (int j = -2; j < WIDTH*3; j++){
+        printf("-");
+    }
+    printf("\n");
+
+
     for (int i = 0; i < HEIGHT; i++)
     {
+        printf("|");
         for (int j = 0; j < WIDTH; j++)
         {
             printf(" %s", place_to_string(world_get(world, i * WIDTH + j), world_get_sort(world, i * WIDTH + j)));
         }
-        printf("\n");
+        printf("|\n");
+    }
+
+    for (int j = -2; j < WIDTH*3; j++){
+        printf("-");
     }
     printf("\n");
 }
@@ -122,10 +132,10 @@ int main()
     init_players();
     player_t *player = get_random_player();
     uint turn_counter = 0;
-    while (!check_win(world) && turn_counter < MAX_TURN)
+    int winner = -1;
+    while ((winner == -1) && (turn_counter < MAX_TURN))
     {
-        printf("Player: %d, turn : %d\n", player->color, turn_counter);
-        // display_game(world);
+        display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
 
         node_t *move = choose_random_move_for_piece(world, piece);
@@ -134,11 +144,16 @@ int main()
         {
             move_piece(world, move, player);
         }
-        player = next_player(player);
+
+        if (check_win(world)) winner = player->color;
         turn_counter++;
+        player = next_player(player);
     }
 
-    printf("partie terminée après %u turns\n", turn_counter);
     display_game(world);
+
+    if (winner != -1) printf("Partie gagnée par le joueur %d après %u turns\n", winner,  turn_counter);
+    else printf("Ex-aequo en %d\n", turn_counter); ;
+    
     return EXIT_SUCCESS;
 }
