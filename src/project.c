@@ -130,6 +130,7 @@ int main()
         turn_counter++;
     }
 
-    printf("partie terminée avec %u turns\n", turn_counter);
+    printf("partie terminée après %u turns\n", turn_counter);
+    display_game(world);
     return EXIT_SUCCESS;
 }
