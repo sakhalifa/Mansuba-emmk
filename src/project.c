@@ -31,16 +31,20 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
     }
 
     uint selected_child = rand() % (len_children);
-    node_t *move_ending = array_list_get(moves->children, selected_child);;
+    node_t *move_ending = array_list_get(moves->children, selected_child);
+    selected_child = rand() % (len_children+1);
+    len_children = move_ending->children->len;
 
-    do
-    {
+    while (selected_child != len_children){
         len_children = move_ending->children->len;
-        if (len_children == 0)
-            return move_ending;
-        selected_child = rand() % (len_children + 1);
+        
+        if (len_children == 0) return move_ending;
+
         move_ending = array_list_get(moves->children, selected_child);;
-    } while (selected_child == len_children);
+        selected_child = rand() % (len_children + 1);
+    }
+
+
 
     return move_ending;
 }
@@ -54,6 +58,10 @@ void move_piece(struct world_t *world, node_t *move, player_t *player)
     {
         move = move->parent;
     }
+
+    world_set_sort(world, position_to_idx((position_t *)move->value), NO_SORT);
+    world_set(world, position_to_idx((position_t *)move->value), NO_COLOR);
+
     node_free(move);
 
     return;
@@ -87,6 +95,18 @@ void world_populate(struct world_t *world)
     }
 }
 
+void display_game(struct world_t *world){
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        for (int j = 0; j < WIDTH; j++)
+        {
+            printf(" %s", place_to_string(world_get(world, i*WIDTH + j), world_get_sort(world, i*WIDTH + j)));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
 int main()
 {
 
@@ -99,16 +119,17 @@ int main()
     uint turn_counter = 0;
     while (!check_win(world) && turn_counter < MAX_TURN)
     {
+        display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
         node_t *move = choose_random_move_for_piece(world, piece);
         if (move != NULL){
-            // move_piece(world, move, player);
+            move_piece(world, move, player);
 
         }
-        // player = next_player(player);
+        player = next_player(player);
         turn_counter++;
     }
 
-    printf("partie terminée\n");
+    printf("partie terminée avec %u turns\n", turn_counter);
     return EXIT_SUCCESS;
 }
