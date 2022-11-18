@@ -72,6 +72,8 @@ void move_piece(struct world_t *world, node_t *move, player_t *player)
 
 bool check_win(struct world_t *world, enum victory_type victory_type)
 {
+    bool victoryB = true;
+    bool victoryW = true;
     switch (victory_type)
     {
     case SIMPLE:
@@ -88,8 +90,6 @@ bool check_win(struct world_t *world, enum victory_type victory_type)
         }
         return false;
     case COMPLEX:
-        bool victoryB = true;
-        bool victoryW = true;
         for (int i = 0; i < HEIGHT; i++)
         {
             if (world_get(world, (i * WIDTH)) != WHITE) victoryW = false;
