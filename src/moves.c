@@ -3,11 +3,11 @@
 #include "util.h"
 #include <stdio.h>
 
-void add_simple_moves(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
+void add_pawn_simple_moves(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
 {
     for (int i = 0; i < MAX_NEIGHBORS && neighbors->n[i].i != UINT_MAX; i++)
     {
-        
+
         unsigned int cur_neighbor = neighbors->n[i].i;
         if (cur_neighbor != UINT_MAX && world_get_sort(world, cur_neighbor) == NO_SORT)
         {
@@ -23,7 +23,7 @@ int vs_cmp_pos_pos(void *pos1, void *pos2)
     return cmp_positions((position_t *)pos1, (position_t *)pos2);
 }
 
-void add_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
+void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
 {
     for (int i = 0; i < MAX_NEIGHBORS && neighbors->n[i].i != UINT_MAX; i++)
     {
@@ -41,7 +41,7 @@ void add_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *roo
                 position_from_idx(malloc_pos, far_neighbor);
                 node_t *child = node_add_child(root, malloc_pos);
                 struct neighbors_t new_neighbors = get_neighbors(far_neighbor);
-                add_jumps(world, &new_neighbors, child);
+                add_pawn_jumps(world, &new_neighbors, child);
             }
         }
     }
@@ -55,8 +55,12 @@ node_t *get_moves(struct world_t *world, position_t *pos)
     node_t *root = tree_create(malloc_pos, free);
 
     struct neighbors_t neighbors = get_neighbors(position_to_idx(pos));
-    add_simple_moves(world, &neighbors, root);
-    add_jumps(world, &neighbors, root);
+
+    if (world_get_sort(world, position_to_idx(pos)) == PAWN)
+    {
+        add_pawn_simple_moves(world, &neighbors, root);
+        add_pawn_jumps(world, &neighbors, root);
+    }
 
     return root;
 }
