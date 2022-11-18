@@ -42,6 +42,10 @@ void array_list_push(array_list_t *list, void *x)
  */
 void *array_list_get(array_list_t *list, int idx)
 {
+    if (idx < 0 || idx >= list->len)
+    {
+        return NULL;
+    }
     return list->list[idx];
 }
 
@@ -50,7 +54,10 @@ void *array_list_get(array_list_t *list, int idx)
  */
 void array_list_set(array_list_t *list, void *val, int idx)
 {
-    list->list[idx] = val;
+    if (idx >= 0 && idx < list->len)
+    {
+        list->list[idx] = val;
+    }
 }
 
 /**
@@ -71,7 +78,8 @@ int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void *, voi
 {
     for (int i = 0; i < l->len; i++)
     {
-        if(!cmp_func(val, array_list_get(l, i))){
+        if (!cmp_func(val, array_list_get(l, i)))
+        {
             return i;
         }
     }

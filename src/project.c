@@ -40,15 +40,13 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
 
     while (selected_child != len_children)
     {
+        move_ending = array_list_get(move_ending->children, selected_child);
         len_children = move_ending->children->len;
-
         if (len_children == 0)
             break;
-        move_ending = array_list_get(move_ending->children, selected_child);
         selected_child = rand() % (len_children + 1);
-        assert(move_ending != NULL);
     }
-    
+
     return move_ending;
 }
 
@@ -126,12 +124,12 @@ int main()
     uint turn_counter = 0;
     while (!check_win(world) && turn_counter < MAX_TURN)
     {
-        // printf("Player: %d, turn : %d\n", player->color, turn_counter);
+        printf("Player: %d, turn : %d\n", player->color, turn_counter);
         // display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
 
         node_t *move = choose_random_move_for_piece(world, piece);
-        
+
         if (move != NULL)
         {
             move_piece(world, move, player);
