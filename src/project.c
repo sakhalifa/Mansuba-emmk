@@ -87,7 +87,6 @@ bool check_win(struct world_t *world, enum victory_type victory_type)
             }
         }
         return false;
-
     case COMPLEX:
         bool victoryB = true;
         bool victoryW = true;
