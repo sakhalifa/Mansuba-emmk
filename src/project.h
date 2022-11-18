@@ -10,6 +10,11 @@
 
 #define MAX_TURN 2*WORLD_SIZE
 
+enum victory_type{
+    SIMPLE=0,
+    COMPLEX=1
+};
+
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player);
 node_t *choose_random_move_for_piece(struct world_t *world, uint piece);
 void move_piece(struct world_t *world, node_t *move, player_t *player);

@@ -67,20 +67,41 @@ void move_piece(struct world_t *world, node_t *move, player_t *player)
     return;
 }
 
-bool check_win(struct world_t *world)
+bool check_win(struct world_t *world, enum victory_type victory_type)
 {
-    for (int i = 0; i < HEIGHT; i++)
+    switch (victory_type)
     {
-        if (world_get(world, (i * WIDTH)) == WHITE)
+    case SIMPLE:
+        for (int i = 0; i < HEIGHT; i++)
         {
-            return true;
+            if (world_get(world, (i * WIDTH)) == WHITE)
+            {
+                return true;
+            }
+            if (world_get(world, ((i + 1) * WIDTH) - 1) == BLACK)
+            {
+                return true;
+            }
         }
-        if (world_get(world, ((i + 1) * WIDTH) - 1) == BLACK)
+        return false;
+
+    case COMPLEX:
+        for (int i = 0; i < HEIGHT; i++)
         {
-            return true;
+            if (world_get(world, (i * WIDTH)) != WHITE)
+            {
+                return false;
+            }
+            if (world_get(world, ((i + 1) * WIDTH) - 1) != BLACK)
+            {
+                return false;
+            }
         }
+        return true;
+
+    default:
+        return false;
     }
-    return false;
 }
 
 void world_populate(struct world_t *world)
@@ -127,6 +148,8 @@ int main()
     printf("%ld\n", seed);
     srand(seed);
 
+    enum victory_type victory_type = COMPLEX;
+
     struct world_t *world = world_init();
     world_populate(world);
     init_players();
@@ -145,7 +168,7 @@ int main()
             move_piece(world, move, player);
         }
 
-        if (check_win(world)) winner = player->color;
+        if (check_win(world, victory_type)) winner = player->color;
         turn_counter++;
         player = next_player(player);
     }
