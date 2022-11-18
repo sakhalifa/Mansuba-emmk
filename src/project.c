@@ -86,18 +86,14 @@ bool check_win(struct world_t *world, enum victory_type victory_type)
         return false;
 
     case COMPLEX:
+        bool victoryB = true;
+        bool victoryW = true;
         for (int i = 0; i < HEIGHT; i++)
         {
-            if (world_get(world, (i * WIDTH)) != WHITE)
-            {
-                return false;
-            }
-            if (world_get(world, ((i + 1) * WIDTH) - 1) != BLACK)
-            {
-                return false;
-            }
+            if (world_get(world, (i * WIDTH)) != WHITE) victoryW = false;
+            if (world_get(world, ((i + 1) * WIDTH) - 1) != BLACK) victoryB  = false;
         }
-        return true;
+        return victoryB || victoryW;
 
     default:
         return false;
