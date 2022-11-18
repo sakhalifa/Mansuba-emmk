@@ -198,6 +198,11 @@ int main(int argc, char *argv[])
             break;
         case 'm':
             max_turn = atoi(optarg);
+            if(max_turn <= 0){
+                fprintf(stderr, "Error, max turns cannot be 0 or less\n",
+                        argv[0]);
+                exit(EXIT_FAILURE);
+            }
             break;
         case 's':
             seed = atoi(optarg);
