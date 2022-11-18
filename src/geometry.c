@@ -1,38 +1,32 @@
 #include "geometry.h"
 #include <stdlib.h>
 
+char place_buffer[3];
 /**
  * The returned char* needs to be freed
  */
 const char *place_to_string(enum color_t c, enum sort_t s)
 {
-    switch (c)
-    {
-    case BLACK:
-        switch (s)
-        {
-        case PAWN:
-            return "BP";
+    place_buffer[2] = 0;
+    switch(c){
+        case BLACK:
+            place_buffer[0] = 'B';
+            break;
+        case WHITE:
+            place_buffer[0] = 'W';
+            break;
         default:
-            return "B_";
-        }
-    case WHITE:
-        switch (s)
-        {
-        case PAWN:
-            return "WP";
-        default:
-            return "W_";
-        }
-    default:
-        switch (s)
-        {
-        case PAWN:
-            return "_P";
-        default:
-            return "__";
-        }
+            place_buffer[0] = '_';
     }
+    switch(s){
+        case PAWN:
+            place_buffer[1] = 'P';
+            break;
+        default:
+            place_buffer[1] = '_';
+            break;
+    }
+    return place_buffer;
 }
 
 const char *dir_to_string(enum dir_t d)
