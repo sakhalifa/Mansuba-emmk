@@ -1,5 +1,8 @@
-#include "project.h"
 #include <sys/time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "project.h"
 
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
 {
@@ -118,11 +121,11 @@ void world_populate(struct world_t *world)
 
 void display_game(struct world_t *world)
 {
-    for (int j = -2; j < WIDTH*3; j++){
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
         printf("-");
     }
     printf("\n");
-
 
     for (int i = 0; i < HEIGHT; i++)
     {
@@ -134,29 +137,23 @@ void display_game(struct world_t *world)
         printf("|\n");
     }
 
-    for (int j = -2; j < WIDTH*3; j++){
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
         printf("-");
     }
     printf("\n");
 }
 
-int main()
+struct game_result
 {
-    struct timeval tv;
-    gettimeofday(&tv,NULL);
-    long seed = tv.tv_sec * 1000000 + tv.tv_usec;
-    printf("%ld\n", seed);
-    srand(seed);
-
-    enum victory_type victory_type = COMPLEX;
-
-    struct world_t *world = world_init();
-    world_populate(world);
-    init_players();
-    player_t *player = get_random_player();
-    uint turn_counter = 0;
+    int winner;
+    uint turns;
+};
+struct game_result game_loop(struct world_t *world, player_t *player, int max_turns, enum victory_type victory_type)
+{
     int winner = -1;
-    while ((winner == -1) && (turn_counter < MAX_TURN))
+    int turn_counter = 0;
+    while ((winner == -1) && (turn_counter < max_turns))
     {
         display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
@@ -168,15 +165,71 @@ int main()
             move_piece(world, move, player);
         }
 
-        if (check_win(world, victory_type)) winner = player->color;
+        if (check_win(world, victory_type))
+            winner = player->color;
         turn_counter++;
         player = next_player(player);
     }
+    struct game_result res = {winner, turn_counter};
+    return res;
+}
+
+int main(int argc, char *argv[])
+{
+    int max_turn = 2 * WORLD_SIZE;
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    long seed = tv.tv_sec * 1000000 + tv.tv_usec;
+    enum victory_type victory_type = SIMPLE;
+    int opt;
+    while ((opt = getopt(argc, argv, "t:m:s:")) != -1)
+    {
+        switch (opt)
+        {
+        case 't':
+            switch (optarg[0])
+            {
+            case 's':
+                victory_type = SIMPLE;
+                break;
+            case 'c':
+                victory_type = COMPLEX;
+                break;
+            default:
+                fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
+                        argv[0]);
+                exit(EXIT_FAILURE);
+            }
+            break;
+        case 'm':
+            max_turn = atoi(optarg);
+            break;
+        case 's':
+            seed = atoi(optarg);
+            break;
+        default: /* aq?aq */
+            fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
+                    argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    printf("%ld\n", seed);
+    srand(seed);
+
+    struct world_t *world = world_init();
+    world_populate(world);
+    init_players();
+    player_t *player = get_random_player();
+
+    struct game_result game_res = game_loop(world, player, max_turn, victory_type);
 
     display_game(world);
 
-    if (winner != -1) printf("Partie gagnée par le joueur %d après %u turns\n", winner,  turn_counter);
-    else printf("Ex-aequo en %d\n", turn_counter); ;
-    
+    if (game_res.winner != -1)
+        printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
+    else
+        printf("Ex-aequo en %d tours\n", game_res.turns);
+
     return EXIT_SUCCESS;
 }

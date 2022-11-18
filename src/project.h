@@ -8,8 +8,6 @@
 #include "geometry.h"
 #include <time.h>
 
-#define MAX_TURN 2*WORLD_SIZE
-
 enum victory_type{
     SIMPLE=0,
     COMPLEX=1
