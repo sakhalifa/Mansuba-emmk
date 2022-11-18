@@ -22,9 +22,11 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
     position_t position;
     position_from_idx(&position, piece);
     node_t *moves = get_moves(world, &position);
+
     uint len_children = moves->children->len;
 
-    if(len_children == 0){
+    if (len_children == 0)
+    {
         printf("no moves\n");
         node_free(moves);
         return NULL;
@@ -32,20 +34,20 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
 
     uint selected_child = rand() % (len_children);
     node_t *move_ending = array_list_get(moves->children, selected_child);
-    selected_child = rand() % (len_children+1);
     len_children = move_ending->children->len;
+    selected_child = rand() % (len_children + 1);
 
-    while (selected_child != len_children){
+    while (selected_child != len_children)
+    {
         len_children = move_ending->children->len;
-        
-        if (len_children == 0) return move_ending;
 
-        move_ending = array_list_get(moves->children, selected_child);;
+        if (len_children == 0)
+            break;
+        move_ending = array_list_get(move_ending->children, selected_child);
         selected_child = rand() % (len_children + 1);
+        assert(move_ending != NULL);
     }
-
-
-
+    
     return move_ending;
 }
 
@@ -95,12 +97,13 @@ void world_populate(struct world_t *world)
     }
 }
 
-void display_game(struct world_t *world){
+void display_game(struct world_t *world)
+{
     for (int i = 0; i < HEIGHT; i++)
     {
         for (int j = 0; j < WIDTH; j++)
         {
-            printf(" %s", place_to_string(world_get(world, i*WIDTH + j), world_get_sort(world, i*WIDTH + j)));
+            printf(" %s", place_to_string(world_get(world, i * WIDTH + j), world_get_sort(world, i * WIDTH + j)));
         }
         printf("\n");
     }
@@ -109,8 +112,9 @@ void display_game(struct world_t *world){
 
 int main()
 {
-
-    srand(time(NULL));
+    long seed = time(NULL);
+    printf("%ld\n", seed);
+    srand(seed);
 
     struct world_t *world = world_init();
     world_populate(world);
@@ -119,12 +123,15 @@ int main()
     uint turn_counter = 0;
     while (!check_win(world) && turn_counter < MAX_TURN)
     {
-        display_game(world);
+        // printf("Player: %d, turn : %d\n", player->color, turn_counter);
+        // display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
-        node_t *move = choose_random_move_for_piece(world, piece);
-        if (move != NULL){
-            move_piece(world, move, player);
 
+        node_t *move = choose_random_move_for_piece(world, piece);
+        
+        if (move != NULL)
+        {
+            move_piece(world, move, player);
         }
         player = next_player(player);
         turn_counter++;
