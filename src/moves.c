@@ -54,12 +54,11 @@ node_t *get_moves(struct world_t *world, position_t *pos)
     malloc_pos->row = pos->row;
     node_t *root = tree_create(malloc_pos, free);
 
-    struct neighbors_t neighbors = get_neighbors(position_to_idx(pos));
-
     enum sort_t sort = world_get_sort(world, position_to_idx(pos));
     switch (sort)
     {
     case PAWN:
+        struct neighbors_t neighbors = get_neighbors(position_to_idx(pos));
         add_pawn_simple_moves(world, &neighbors, root);
         add_pawn_jumps(world, &neighbors, root);
         break;
