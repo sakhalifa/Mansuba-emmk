@@ -1,4 +1,5 @@
 #include "project.h"
+#include <sys/time.h>
 
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
 {
@@ -112,7 +113,9 @@ void display_game(struct world_t *world)
 
 int main()
 {
-    long seed = time(NULL);
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+    long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     printf("%ld\n", seed);
     srand(seed);
 
