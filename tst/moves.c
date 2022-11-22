@@ -84,6 +84,18 @@ node_t *get_expected_output_test_elephant()
     return root;
 }
 
+node_t * get_expected_output_test_tower(){
+    node_t *root = tree_create(&all_pos[2][1], free_nothing);
+    node_t *current = node_add_child(root, &all_pos[2][2]);
+    node_add_child(current, &all_pos[2][3]);
+    node_add_child(root, &all_pos[1][1]);
+    current = node_add_child(root, &all_pos[3][1]);
+    node_add_child(current, &all_pos[4][1]);
+    node_add_child(root, &all_pos[2][0]);
+
+    return root;
+}
+
 void test_pawn(){
     struct world_t *world = world_init();
     position_t pos[] = {{2, 0}, {2, 2}, {3, 1}, {3, 3}, {4, 2}};
@@ -118,6 +130,29 @@ void test_elephant(){
     node_free(expected_output);
 }
 
+void print_pos(void *p){
+    position_t *pos = p;
+    printf("(%u, %u)", pos->row, pos->col);
+}
+
+void test_tower(){
+    struct world_t *world = world_init();
+
+    world_set_sort(world, position_to_idx(&all_pos[2][1]),  TOWER);
+
+
+    position_t starting_position = all_pos[2][1];
+    world_set_sort(world, 5, PAWN);
+
+    world_set_sort(world, position_to_idx(&starting_position), TOWER);
+    node_t *move_tree = get_moves(world, &starting_position);
+    node_t *expected_tree = get_expected_output_test_tower();
+    assert(are_trees_equal(move_tree, expected_tree));
+    node_free(move_tree);
+    node_free(expected_tree);
+}
+
+
 void test_moves()
 {
     for(int i = 0; i<WIDTH; i++){
@@ -130,4 +165,5 @@ void test_moves()
     
     test_elephant();
     
+    test_tower();
 }

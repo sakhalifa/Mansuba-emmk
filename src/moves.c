@@ -45,8 +45,7 @@ void add_tower_moves(struct world_t *world, node_t *root){
             position_t *malloc_pos = malloc(sizeof(position_t));
             position_from_idx(malloc_pos, index_neighbor);
 
-            node_add_child(current, malloc_pos);
-            current = array_list_get(current->children, 0);
+            current = node_add_child(current, malloc_pos);
 
             index_neighbor = get_neighbor(index_neighbor, dir);
         }
