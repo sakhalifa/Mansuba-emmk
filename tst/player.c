@@ -10,7 +10,7 @@ void test_player_init(){
 
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
-        assert(players[i].color == NO_COLOR + i + 1);
+        assert(players[i].color == (unsigned int)NO_COLOR + i + 1);
     }
 }
 
