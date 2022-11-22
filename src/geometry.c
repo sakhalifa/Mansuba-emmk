@@ -22,12 +22,12 @@ const char *place_to_string(enum color_t c, enum sort_t s)
         case PAWN:
             place_buffer[1] = 'P';
             break;
-        case TOWER:
-            place_buffer[1] = 'T';
-            break;
-        case ELEPHANT:
-            place_buffer[1] = 'E';
-            break;
+        // case TOWER:
+        //     place_buffer[1] = 'T';
+        //     break;
+        // case ELEPHANT:
+        //     place_buffer[1] = 'E';
+        //     break;
         default:
             place_buffer[1] = '_';
             break;
