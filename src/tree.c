@@ -43,6 +43,13 @@ node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*)
     return NULL;
 }
 
+node_t *node_get_root(node_t* node){
+    while(node->parent != NULL){
+        node = node->parent;
+    }
+    return node;
+}
+
 node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*)){
     if(root == NULL){
         return NULL;

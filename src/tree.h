@@ -22,6 +22,11 @@ node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*)
 
 node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*));
 
+/**
+ * Returns the root of the tree that contains the node
+*/
+node_t *node_get_root(node_t* node);
+
 bool node_has_child(node_t *node, void* val, int (*cmp_func)(void*, void*));
 bool node_has_parent(node_t *node, void* val, int (*cmp_func)(void*, void*));
 
