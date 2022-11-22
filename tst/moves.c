@@ -9,31 +9,6 @@ void free_nothing(void *_)
     _ = _;
 }
 
-void display_game(struct world_t *world)
-{
-    for (int j = -2; j < WIDTH * 3; j++)
-    {
-        printf("-");
-    }
-    printf("\n");
-
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        printf("|");
-        for (int j = 0; j < WIDTH; j++)
-        {
-            printf(" %s", place_to_string(world_get(world, i * WIDTH + j), world_get_sort(world, i * WIDTH + j)));
-        }
-        printf("|\n");
-    }
-
-    for (int j = -2; j < WIDTH * 3; j++)
-    {
-        printf("-");
-    }
-    printf("\n");
-}
-
 bool are_trees_equal(node_t *t1, node_t *t2)
 {
     position_t *t1_pos = t1->value;
@@ -123,11 +98,6 @@ void test_pawn(){
     assert(are_trees_equal(expected_output, move_tree));
     node_free(move_tree);
     node_free(expected_output);
-}
-
-void vs_print_pos(void* vp){
-    position_t *p = vp;
-    printf("(%u,%u)", p->col, p->row);
 }
 
 void test_elephant(){
