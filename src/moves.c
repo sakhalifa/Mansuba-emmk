@@ -28,6 +28,36 @@ void add_pawn_simple_moves(struct world_t *world, struct neighbors_t *neighbors,
     }
 }
 
+void add_tower_moves(struct world_t *world, node_t *root){
+    for (enum dir_t dir = -4; dir < MAX_DIR-4; dir++)
+    {
+        if (dir % 2 == 0) continue;
+
+        position_t *position = root->value;
+        uint index_neighbor = get_neighbor(position_to_idx(position), dir);
+
+        if (index_neighbor == UINT_MAX) continue;                       //is inside the grid
+        if (world_get_sort(world, index_neighbor) != NO_SORT ) continue;// is a free space
+
+        node_t *current = root; 
+        while ((index_neighbor != UINT_MAX) && (world_get_sort(world, index_neighbor) == NO_SORT))
+        {
+            position_t *malloc_pos = malloc(sizeof(position_t));
+            position_from_idx(malloc_pos, index_neighbor);
+
+            node_add_child(current, malloc_pos);
+            current = array_list_get(current->children, 0);
+
+            index_neighbor = get_neighbor(index_neighbor, dir);
+        }
+        
+
+
+
+    }
+    
+}
+
 void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
 {
     for (int i = 0; i < MAX_NEIGHBORS && neighbors->n[i].i != UINT_MAX; i++)
@@ -91,6 +121,10 @@ node_t *get_moves(struct world_t *world, position_t *pos)
         break;
     case ELEPHANT:
         add_elephant_moves(world, root);
+        break;
+    case TOWER:
+        add_tower_moves(world, root);
+        break;
     default:
         break;
     }
