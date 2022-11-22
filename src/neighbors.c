@@ -16,7 +16,7 @@ void init_neighbors(uint seed){
 }
 
 uint get_neighbor_square(uint idx, enum dir_t d){
-    if (idx >= WORLD_SIZE) return UINT_MAX;
+    
 
     uint col = idx%WIDTH;
     uint row = idx/WIDTH;
@@ -37,6 +37,7 @@ uint get_neighbor_square(uint idx, enum dir_t d){
 }
 
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
+    if (idx >= WORLD_SIZE) return UINT_MAX;
     switch(current_relation){
         case SQUARE:
             return get_neighbor_square(idx, d);
