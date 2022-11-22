@@ -1,7 +1,21 @@
 #include "neighbors.h"
 #include "util.h"
 
-unsigned int get_neighbor(unsigned int idx, enum dir_t d){
+typedef enum {
+    SQUARE = 0,
+    TRIANGULAR = 1,
+    HEXAGONAL = 2
+} relation_t;
+
+relation_t current_relation = SQUARE;
+
+void init_neighbors(uint seed){
+    if(seed < MAX_RELATIONS){
+        current_relation = seed;
+    }
+}
+
+uint get_neighbor_square(uint idx, enum dir_t d){
     if (idx >= WORLD_SIZE) return UINT_MAX;
 
     uint col = idx%WIDTH;
@@ -20,6 +34,16 @@ unsigned int get_neighbor(unsigned int idx, enum dir_t d){
     if(col > WIDTH-1 || row > HEIGHT-1) return UINT_MAX;
 
     return row*WIDTH + col;
+}
+
+unsigned int get_neighbor(unsigned int idx, enum dir_t d){
+    switch(current_relation){
+        case SQUARE:
+            return get_neighbor_square(idx, d);
+        default:
+            return UINT_MAX;
+    }
+    
 }  
 
 
