@@ -64,7 +64,8 @@ void move_piece(struct world_t *world, node_t *move, player_t *player)
     world_set_sort(world, source_idx, NO_SORT);
     world_set(world, source_idx, NO_COLOR);
 
-    node_free(move);
+
+    node_free(move_tree_root);
 
     return;
 }
