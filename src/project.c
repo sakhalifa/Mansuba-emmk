@@ -54,16 +54,15 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
 
 void move_piece(struct world_t *world, node_t *move, player_t *player)
 {
+    node_t *move_tree_root = node_get_root(move);
+    uint destination_idx = position_to_idx((position_t *)move->value);
+    uint source_idx = position_to_idx((position_t*)move_tree_root->value);
+    enum sort_t source_sort = world_get_sort(world, source_idx);
+    world_set(world, destination_idx, player->color);
+    world_set_sort(world, destination_idx, source_sort);
 
-    world_set(world, position_to_idx((position_t *)move->value), player->color);
-    world_set_sort(world, position_to_idx((position_t *)move->value), PAWN);
-    while (move->parent != NULL)
-    {
-        move = move->parent;
-    }
-
-    world_set_sort(world, position_to_idx((position_t *)move->value), NO_SORT);
-    world_set(world, position_to_idx((position_t *)move->value), NO_COLOR);
+    world_set_sort(world, source_idx, NO_SORT);
+    world_set(world, source_idx, NO_COLOR);
 
     node_free(move);
 
@@ -106,11 +105,12 @@ void world_populate(struct world_t *world)
 {
     for (int i = 0; i < HEIGHT; i++)
     {
+        enum sort_t cur_sort = (i % (MAX_SORT-1))+1;
         world_set(world, (i * WIDTH), BLACK);
-        world_set_sort(world, (i * WIDTH), PAWN);
+        world_set_sort(world, (i * WIDTH), cur_sort);
 
         world_set(world, ((i + 1) * WIDTH) - 1, WHITE);
-        world_set_sort(world, ((i + 1) * WIDTH) - 1, PAWN);
+        world_set_sort(world, ((i + 1) * WIDTH) - 1, cur_sort);
     }
 }
 
