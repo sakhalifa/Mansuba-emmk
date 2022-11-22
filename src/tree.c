@@ -1,4 +1,5 @@
 #include "tree.h"
+#include <stdio.h>
 
 void vs_node_free(void *vn){
     node_free((node_t*)vn);
@@ -21,8 +22,18 @@ node_t *node_add_child(node_t* node, void *val){
     return n;
 }
 
+bool node_has_child(node_t *node, void* val, int (*cmp_func)(void*, void*)){
+    for(int i = 0; i<(int)node->children->len; i++){
+        node_t* child = array_list_get(node->children, i);
+        if(!cmp_func(val, child->value)){
+            return true;
+        }
+    }
+    return false;
+}
+
 node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*)){
-    for(int i = 0; i<node->children->len; i++){
+    for(int i = 0; i<(int)node->children->len; i++){
         node_t* child = array_list_get(node->children, i);
         if(!cmp_func(val, child->value)){
             array_list_remove(node->children, i);
@@ -39,7 +50,7 @@ node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*)){
     if(!cmp_func(val, root->value)){
         return root;
     }
-    for(int i = 0; i<root->children->len; i++){
+    for(int i = 0; i<(int)root->children->len; i++){
         node_t* n = tree_get_node(array_list_get(root->children, i), val, cmp_func);
         if(n != NULL){
             return n;
@@ -65,4 +76,19 @@ void node_free(node_t* root){
     array_list_free(root->children);
     root->free_func(root->value);
     free(root);
+}
+
+void node_print(node_t* node, unsigned int indents, void (*print_value)(void*)){
+    for(int i = 0; i<(int)indents; i++){
+        printf("    ");
+    }
+    print_value(node->value);
+    printf("\n");
+    for(int i = 0; i<(int)node->children->len; i++){
+        node_print(array_list_get(node->children, i), indents+1, print_value);
+    }
+}
+
+void tree_print(node_t* root, void (*print_value)(void*)){
+    node_print(root, 0, print_value);
 }
