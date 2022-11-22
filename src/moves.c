@@ -58,7 +58,7 @@ void add_elephant_moves(struct world_t *world, node_t *root)
     uint init_pos_idx = position_to_idx(init_pos);
     for (int d = 0; d < MAX_DIR; d++)
     {
-        enum dir_t true_dir = d-4;
+        enum dir_t true_dir = d - 4;
         if (d % 2 == 0) // Combined directions
         {
             uint pos_idx = get_neighbor(init_pos_idx, true_dir);
@@ -88,6 +88,10 @@ node_t *get_moves(struct world_t *world, position_t *pos)
     case PAWN:
         add_pawn_simple_moves(world, &neighbors, root);
         add_pawn_jumps(world, &neighbors, root);
+        break;
+    case ELEPHANT:
+        add_elephant_moves(world, root);
+    default:
         break;
     }
 
