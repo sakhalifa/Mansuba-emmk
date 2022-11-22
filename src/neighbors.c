@@ -2,7 +2,7 @@
 #include "util.h"
 
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
-    if (d == NO_DIR || idx >= WORLD_SIZE) return UINT_MAX;
+    if (idx >= WORLD_SIZE) return UINT_MAX;
 
     uint col = idx%WIDTH;
     uint row = idx/WIDTH;
