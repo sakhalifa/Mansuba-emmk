@@ -63,6 +63,8 @@ node_t *get_moves(struct world_t *world, position_t *pos)
         add_pawn_simple_moves(world, &neighbors, root);
         add_pawn_jumps(world, &neighbors, root);
         break;
+    default:
+        break;
     }
 
     return root;
