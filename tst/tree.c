@@ -47,7 +47,7 @@ void test_remove_child(){
     int *b = create_int_malloc(200);
     node_t* root_child_one = node_add_child(root, b);
     int *c = create_int_malloc(10);
-    node_t* root_child_one_child_one = node_add_child(root_child_one, c);
+    node_add_child(root_child_one, c);
     int *d = create_int_malloc(3);
     node_t* root_child_one_child_two = node_add_child(root_child_one, d);
     node_t *cur_node = root_child_one_child_two;
@@ -75,10 +75,10 @@ void test_has_parent(){
     node_t* zero = tree_create(integer_list[0], free);
     node_t* one = node_add_child(zero, integer_list[1]);
     node_t* seven = node_add_child(one, integer_list[7]);
-    node_t* nine = node_add_child(seven, integer_list[9]);
+    node_add_child(seven, integer_list[9]);
     node_t* two = node_add_child(zero, integer_list[2]);
     node_t* three = node_add_child(two, integer_list[3]);
-    node_t* eight = node_add_child(three, integer_list[8]);
+    node_add_child(three, integer_list[8]);
     node_t* four = node_add_child(two, integer_list[4]);
     node_t* five = node_add_child(four, integer_list[5]);
     node_t* six = node_add_child(five, integer_list[6]);

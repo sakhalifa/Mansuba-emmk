@@ -33,8 +33,6 @@ void world_set_sort(struct world_t* b, unsigned int idx, enum sort_t c){
 }
 
 struct world_t* world_init(){
-    if(world_initialized) return &world;
-
     for (int i = 0; i < WORLD_SIZE; i++)
     {
         world.color_array[i] = NO_COLOR;

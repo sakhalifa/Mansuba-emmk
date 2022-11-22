@@ -39,7 +39,7 @@ void test_stack(){
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 20; i < l->len; i++)
+    for (int i = 20; i < (int)l->len; i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }
@@ -51,7 +51,7 @@ void test_stack(){
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 19; i < l->len; i++)
+    for (int i = 19; i < (int)l->len; i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }

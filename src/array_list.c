@@ -42,7 +42,7 @@ void array_list_push(array_list_t *list, void *x)
  */
 void *array_list_get(array_list_t *list, int idx)
 {
-    if (idx < 0 || idx >= list->len)
+    if (idx < 0 || idx >= (int)list->len)
     {
         return NULL;
     }
@@ -54,7 +54,7 @@ void *array_list_get(array_list_t *list, int idx)
  */
 void array_list_set(array_list_t *list, void *val, int idx)
 {
-    if (idx >= 0 && idx < list->len)
+    if (idx >= 0 && idx < (int)list->len)
     {
         list->list[idx] = val;
     }
@@ -76,7 +76,7 @@ void *array_list_remove(array_list_t *list, int idx)
 
 int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
 {
-    for (int i = 0; i < l->len; i++)
+    for (int i = 0; i < (int)l->len; i++)
     {
         if (!cmp_func(val, array_list_get(l, i)))
         {
