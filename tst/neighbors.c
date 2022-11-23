@@ -7,19 +7,19 @@ uint count_neighs(struct neighbors_t n){
     return cpt;
 }
 
-//TODO: remake tests
-bool test_get_neighbors(){
+bool test_get_neighbors_square(){
     
-    // assert(count_neighs(get_neighbors(0)) == 3);
-    // assert(count_neighs(get_neighbors(1)) == 5);
-    // assert(count_neighs(get_neighbors(4)) == 3);
-    // assert(count_neighs(get_neighbors(7)) == 8);
-    // assert(count_neighs(get_neighbors(18)) == 5);
-    // assert(count_neighs(get_neighbors(19)) == 3);
-    // assert(count_neighs(get_neighbors(20)) == 0);
-    // assert(count_neighs(get_neighbors(24)) == 0);
-    // assert(count_neighs(get_neighbors(-1)) == 0);
-    // assert(count_neighs(get_neighbors(100)) == 0);
+    init_neighbors(SQUARE);    
+    assert(count_neighs(get_neighbors(0)) == 2);
+    assert(count_neighs(get_neighbors(1)) == 3);
+    assert(count_neighs(get_neighbors(4)) == 2);
+    assert(count_neighs(get_neighbors(7)) == 4);
+    assert(count_neighs(get_neighbors(18)) == 3);
+    assert(count_neighs(get_neighbors(19)) == 2);
+    assert(count_neighs(get_neighbors(20)) == 0);
+    assert(count_neighs(get_neighbors(24)) == 0);
+    assert(count_neighs(get_neighbors(-1)) == 0);
+    assert(count_neighs(get_neighbors(100)) == 0);
 
 
 

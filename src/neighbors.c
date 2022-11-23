@@ -1,12 +1,6 @@
 #include "neighbors.h"
 #include "util.h"
 
-typedef enum {
-    SQUARE = 0,
-    TRIANGULAR = 1,
-    HEXAGONAL = 2
-} relation_t;
-
 relation_t current_relation = SQUARE;
 
 void init_neighbors(uint seed){
