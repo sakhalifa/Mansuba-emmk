@@ -8,7 +8,7 @@ uint count_neighs(struct neighbors_t n){
 }
 
 bool test_get_neighbors_square(){
-    
+
     init_neighbors(SQUARE);    
     assert(count_neighs(get_neighbors(0)) == 2);
     assert(count_neighs(get_neighbors(1)) == 3);
@@ -26,7 +26,20 @@ bool test_get_neighbors_square(){
     return true;
 }
 
+bool test_get_neighbors_triangle(){
+    init_neighbors(TRIANGULAR);
+
+    assert(count_neighs(get_neighbors(0)) == 2);
+    assert(count_neighs(get_neighbors(1)) == 2);
+    assert(count_neighs(get_neighbors(2)) == 3);
+    assert(count_neighs(get_neighbors(5)) == 2);
+    assert(count_neighs(get_neighbors(6)) == 3);
+
+    return true;
+}
+
 bool test_get_neighbor(){
+    init_neighbors(SQUARE);    
 
     uint n;
     n = get_neighbor(0, NORTH);

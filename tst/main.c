@@ -3,6 +3,7 @@
 
 int main(){
     test_get_neighbors_square();
+    test_get_neighbors_triangle();
     test_get_neighbor();
     printf("Finished testing neighbors.c\n");
 

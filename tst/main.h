@@ -4,6 +4,7 @@
 
 //*****NEIGHBORS*****//
 bool test_get_neighbors_square();
+bool test_get_neighbors_triangle();
 bool test_get_neighbor();
 
 //*****ARRAY_LIST*****//

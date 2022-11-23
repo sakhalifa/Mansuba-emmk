@@ -30,11 +30,42 @@ uint get_neighbor_square(uint idx, enum dir_t d){
     return row*WIDTH + col;
 }
 
+uint get_neighbor_triangle(uint idx, enum dir_t d){
+
+    uint col = idx%WIDTH;
+    uint row = idx/WIDTH;
+
+    if (col%2 == 0){
+        if(d == SOUTH){
+            row += 1;
+            col += 1;
+        } 
+        else if (d == WEST) col -= 1;
+        else if (d == EAST) col += 1;
+        else return UINT_MAX;
+    }else{
+        if(d == NORTH){
+            row -= 1;
+            col -= 1;
+        } 
+        else if (d == WEST) col -= 1;
+        else if (d == EAST) col += 1;
+        else return UINT_MAX;
+    }
+ 
+    if(col > WIDTH-1 || row > HEIGHT-1) return UINT_MAX;
+    
+    return row*WIDTH + col;
+}
+
+
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
     if (idx >= WORLD_SIZE) return UINT_MAX;
     switch(current_relation){
         case SQUARE:
             return get_neighbor_square(idx, d);
+        case TRIANGULAR:
+            return get_neighbor_triangle(idx, d);
         default:
             return UINT_MAX;
     }
