@@ -39,7 +39,7 @@ bool test_get_neighbors_triangle(){
     return true;
 }
 
-bool test_get_neighbor(){
+bool test_get_neighbor_square(){
     init_neighbors(SQUARE);    
 
     uint n;
@@ -70,6 +70,8 @@ bool test_get_neighbor(){
     assert(n == UINT_MAX);
     n = get_neighbor(24, SOUTH);
     assert(n == UINT_MAX);
+
+    return true;
 }
 
 void test_get_neighbor_hexagonal(){
@@ -131,6 +133,10 @@ void test_get_neighbor_hexagonal(){
     assert(n == 14);
     
     
+}
+
+bool test_get_neighbors(){
+    return true;
 }
 
 bool test_get_neighbor(){

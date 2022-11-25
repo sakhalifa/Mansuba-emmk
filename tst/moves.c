@@ -4,7 +4,7 @@
 #include "world.h"
 #include "geometry.h"
 #include "neighbors.h"
-#include "util.h"²
+#include "util.h"
 
 void free_nothing(void *_)
 {
