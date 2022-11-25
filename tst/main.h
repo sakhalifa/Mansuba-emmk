@@ -1,6 +1,6 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
-#include "../src/util.h"
+#include "util.h"
 
 //*****NEIGHBORS*****//
 bool test_get_neighbors_square();
