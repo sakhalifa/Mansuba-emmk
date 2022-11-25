@@ -1,5 +1,6 @@
 #include "neighbors.h"
 #include "util.h"
+#include "position.h"
 
 uint count_neighs(struct neighbors_t n){
     uint cpt =0;
@@ -72,7 +73,64 @@ bool test_get_neighbor(){
 }
 
 void test_get_neighbor_hexagonal(){
-    init_neighbors(2);
+    init_neighbors(HEXAGONAL);
+    uint n;
+    //cas normal gauche/droite
+    n = get_neighbor(1, EAST);
+    assert(n == 2);
+    n = get_neighbor(1, WEST);
+    assert(n == 0);
+    //cas normal ligne paire
+    n = get_neighbor(12, NEAST);
+    assert(n == 7);
+    n = get_neighbor(12, NWEST);
+    assert(n == 6);
+    n = get_neighbor(12, SEAST);
+    assert(n == 17);
+    n = get_neighbor(12, SWEST);
+    assert(n == 16);
+
+    //cas normal ligne impaire
+    n = get_neighbor(7, NEAST);
+    assert(n == 3);
+    n = get_neighbor(7, NWEST);
+    assert(n == 2);
+    n = get_neighbor(7, SEAST);
+    assert(n == 13);
+    n = get_neighbor(7, SWEST);
+    assert(n == 12);
+
+    //cas limite ligne paire
+    n = get_neighbor(0, WEST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(0, SWEST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(0, NWEST);
+    assert(n == UINT_MAX);
+
+    n = get_neighbor(4, EAST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(4, NEAST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(4, SEAST);
+    assert(n == UINT_MAX);
+
+    //cas limite ligne impaire
+    n = get_neighbor(5, WEST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(5, SWEST);
+    assert(n == 10);
+    n = get_neighbor(5, NWEST);
+    assert(n == 0);
+
+    n = get_neighbor(8, EAST);
+    assert(n == UINT_MAX);
+    n = get_neighbor(8, NEAST);
+    assert(n == 4);
+    n = get_neighbor(8, SEAST);
+    assert(n == 14);
+    
+    
 }
 
 bool test_get_neighbor(){
