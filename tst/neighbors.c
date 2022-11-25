@@ -8,7 +8,7 @@ uint count_neighs(struct neighbors_t n){
 }
 
 bool test_get_neighbors_square(){
-
+    
     init_neighbors(SQUARE);    
     assert(count_neighs(get_neighbors(0)) == 2);
     assert(count_neighs(get_neighbors(1)) == 3);
@@ -69,6 +69,16 @@ bool test_get_neighbor(){
     assert(n == UINT_MAX);
     n = get_neighbor(24, SOUTH);
     assert(n == UINT_MAX);
+}
+
+void test_get_neighbor_hexagonal(){
+    init_neighbors(2);
+}
+
+bool test_get_neighbor(){
+
+    test_get_neighbor_square();
+    test_get_neighbor_hexagonal();
 
     return true;
 }

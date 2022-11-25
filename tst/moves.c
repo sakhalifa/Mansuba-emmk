@@ -4,7 +4,7 @@
 #include "world.h"
 #include "geometry.h"
 #include "neighbors.h"
-#include "util.h"
+#include "util.h"²
 
 void free_nothing(void *_)
 {
@@ -156,6 +156,7 @@ void test_tower(){
 
 void test_moves()
 {
+    init_neighbors(SQUARE);
     for(int i = 0; i<WIDTH; i++){
         for(int j = 0; j<HEIGHT; j++){
             all_pos[i][j].col = i;

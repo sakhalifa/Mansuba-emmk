@@ -1,5 +1,6 @@
 #include "neighbors.h"
 #include "util.h"
+#include "position.h"
 
 relation_t current_relation = SQUARE;
 
@@ -52,12 +53,35 @@ uint get_neighbor_triangle(uint idx, enum dir_t d){
     return row*WIDTH + col;
 }
 
+uint get_neighbor_hexagonal(uint idx, enum dir_t d){
+    if(d == NO_DIR || d == EAST || d == WEST) return idx;
+    position_t pos;
+    position_from_idx(&pos, idx);
+    int offset_col = 0;
+    int offset_row = 0;
+    if(d == NORTH || NEAST || NWEST){
+        if(pos.col % 2 == 0) offset_row = -1;
+    }
+    if(d == SOUTH || SEAST || SWEST){
+        if(pos.col % 2 == 1) offset_row = +1;
+    }
+    if(d == EAST || NEAST || SEAST) offset_col = 1;
+    if(d == WEST || NWEST || SWEST) offset_col = -1;
+    pos.col += offset_col;
+    pos.row += offset_row;
+
+    if(pos.col > WIDTH-1 || pos.row > HEIGHT-1) return UINT_MAX;
+
+    return position_to_idx(&pos);
+}
 
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
     if (idx >= WORLD_SIZE) return UINT_MAX;
     switch(current_relation){
         case SQUARE:
             return get_neighbor_square(idx, d);
+        case HEXAGONAL:
+            return get_neighbor_hexagonal(idx, d);
         case TRIANGULAR:
             return get_neighbor_triangle(idx, d);
         default:
