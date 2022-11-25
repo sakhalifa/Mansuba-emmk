@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "project.h"
+#include "neighbors.h"
 
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
 {
@@ -149,8 +150,10 @@ struct game_result game_loop(struct world_t *world, player_t *player, int max_tu
 {
     int winner = -1;
     int turn_counter = 0;
+    uint seed = 0;
     while ((winner == -1) && (turn_counter < max_turns))
     {
+        init_neighbors(seed);
         display_game(world);
         uint piece = choose_random_piece_belonging_to(world, player);
 
@@ -165,6 +168,8 @@ struct game_result game_loop(struct world_t *world, player_t *player, int max_tu
             winner = player->color;
         turn_counter++;
         player = next_player(player);
+        seed = seed + 1;
+        seed %= MAX_RELATIONS;
     }
     struct game_result res = {winner, turn_counter};
     return res;
