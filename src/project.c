@@ -172,6 +172,7 @@ struct game_result game_loop(struct world_t *world, player_t *player, int max_tu
 
 int main(int argc, char *argv[])
 {
+    init_neighbors(SQUARE);   
     int max_turn = 2 * WORLD_SIZE;
     struct timeval tv;
     gettimeofday(&tv, NULL);
