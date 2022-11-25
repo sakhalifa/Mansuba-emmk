@@ -1,5 +1,5 @@
-#include "../src/array_list.h"
-#include "../src/util.h"
+#include "array_list.h"
+#include "util.h"
 //TODO Refactor
 
 static void free_nothing(void *_)

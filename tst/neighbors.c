@@ -1,5 +1,5 @@
-#include "../src/neighbors.h"
-#include "../src/util.h"
+#include "neighbors.h"
+#include "util.h"
 
 uint count_neighs(struct neighbors_t n){
     uint cpt =0;

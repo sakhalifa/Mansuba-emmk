@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <stdio.h>
-#include "../src/moves.h"
-#include "../src/world.h"
-#include "../src/geometry.h"
+#include "moves.h"
+#include "world.h"
+#include "geometry.h"
 
 void free_nothing(void *_)
 {

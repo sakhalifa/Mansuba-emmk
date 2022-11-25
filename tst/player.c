@@ -1,6 +1,6 @@
-#include "../src/player.h"
-#include "../src/util.h"
-#include "../src/geometry.h"
+#include "player.h"
+#include "util.h"
+#include "geometry.h"
 
 extern player_t players[MAX_PLAYERS];
 
