@@ -35,19 +35,13 @@ uint get_neighbor_triangle(uint idx, enum dir_t d){
     uint col = idx%WIDTH;
     uint row = idx/WIDTH;
 
-    if (col%2 == 0){
-        if(d == SOUTH){
-            row += 1;
-            col += 1;
-        } 
+    if ((col+row)%2 == 0){
+        if(d == SOUTH) row += 1;
         else if (d == WEST) col -= 1;
         else if (d == EAST) col += 1;
         else return UINT_MAX;
     }else{
-        if(d == NORTH){
-            row -= 1;
-            col -= 1;
-        } 
+        if(d == NORTH) row -= 1; 
         else if (d == WEST) col -= 1;
         else if (d == EAST) col += 1;
         else return UINT_MAX;
@@ -78,13 +72,12 @@ struct neighbors_t get_neighbors(unsigned int idx){
 
     uint new_idx;
     uint neighs_index = 0;
-    for (int dir = 0; dir < MAX_DIR; dir++)
+    for (int dir = -4; dir < MAX_DIR-4; dir++) // minus 4 due to the fact that the enum dir minimum is equal to -4
     {
-        int true_dir = dir-4;                        // minus 4 due to the fact that the enum dir minimum is equal to -4
-        if(true_dir % 2 == 0) continue; 
-        new_idx = get_neighbor(idx, true_dir); 
+        if(dir % 2 == 0) continue; 
+        new_idx = get_neighbor(idx, dir);
         if (new_idx != UINT_MAX){
-            neighs.n[neighs_index].d = true_dir;
+            neighs.n[neighs_index].d = dir;
             neighs.n[neighs_index].i = new_idx;
             neighs_index++;
         }
