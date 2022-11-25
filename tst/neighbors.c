@@ -134,6 +134,33 @@ void test_get_neighbor_hexagonal(){
     
     
 }
+bool test_get_neighbor_triangle(){
+    
+    init_neighbors(TRIANGULAR);
+
+    assert(get_neighbor(0, NORTH) == UINT_MAX);
+    assert(get_neighbor(0, SEAST) == UINT_MAX);
+    assert(get_neighbor(1, EAST) == 2);
+    assert(get_neighbor(1, SOUTH) == UINT_MAX);
+    assert(get_neighbor(2, NORTH) == UINT_MAX);
+    assert(get_neighbor(2, WEST) == 1);
+    assert(get_neighbor(2, EAST) == 3);
+    assert(get_neighbor(7, SOUTH) == UINT_MAX);
+    assert(get_neighbor(7, NORTH) == 2);
+    assert(get_neighbor(9, NORTH) == 4);
+    assert(get_neighbor(9, EAST) == UINT_MAX);
+    assert(get_neighbor(9, SOUTH) == UINT_MAX);
+    assert(get_neighbor(19, SOUTH) == UINT_MAX);
+    assert(get_neighbor(19, NORTH) == 14);
+    assert(get_neighbor(19, EAST) == UINT_MAX);
+    assert(get_neighbor(19, WEST) == 18);
+    assert(get_neighbor(19, NWEST) == UINT_MAX);
+    assert(get_neighbor(19, NEAST) == UINT_MAX);
+    assert(get_neighbor(19, SEAST) == UINT_MAX);
+
+    
+    return true;
+}
 
 bool test_get_neighbors(){
     return true;
@@ -142,6 +169,7 @@ bool test_get_neighbors(){
 bool test_get_neighbor(){
 
     test_get_neighbor_square();
+    test_get_neighbor_triangle();
     test_get_neighbor_hexagonal();
 
     return true;
