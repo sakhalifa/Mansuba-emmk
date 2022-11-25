@@ -25,7 +25,6 @@ project: geometry.o neighbors.o world.o project.o player.o moves.o position.o tr
 test_project: test_main.o test_array_list.o test_neighbors.o test_moves.o test_player.o test_tree.o tree.o moves.o world.o player.o position.o neighbors.o array_list.o geometry.o
 	- gcc -Wall -Wextra -std=c99 -g3 -DWIDTH=5 -DHEIGHT=4 -Isrc/ $(addprefix $(BUILDDIR)/, $^) -o test_project
 	- valgrind ./test_project
-	- ./test_project
 
 test: test_project
 
