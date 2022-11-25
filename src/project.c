@@ -116,8 +116,30 @@ void world_populate(struct world_t *world)
     }
 }
 
-void display_game(struct world_t *world)
+void display_game(struct world_t *world, uint turn)
 {
+    for (int j = -2; j < WIDTH * 3; j++) printf("-");
+    printf("\n");
+    printf("|turn:%-5d", turn);
+    for (int j = -2; j < (WIDTH * 3) - 13; j++) printf(" ");
+    switch (turn%MAX_RELATIONS)
+    {
+    case SQUARE:
+        printf("▢");
+        break;
+    case TRIANGULAR:
+        printf("△");
+        break;
+    case HEXAGONAL:
+        printf("⬡");
+        break;
+    default:
+        printf("?");
+        break;
+    }
+    
+    printf("|\n");
+
     for (int j = -2; j < WIDTH * 3; j++)
     {
         printf("-");
@@ -154,7 +176,7 @@ struct game_result game_loop(struct world_t *world, player_t *player, int max_tu
     while ((winner == -1) && (turn_counter < max_turns))
     {
         init_neighbors(seed);
-        display_game(world);
+        display_game(world, turn_counter);
         uint piece = choose_random_piece_belonging_to(world, player);
 
         node_t *move = choose_random_move_for_piece(world, piece);
@@ -230,7 +252,7 @@ int main(int argc, char *argv[])
 
     struct game_result game_res = game_loop(world, player, max_turn, victory_type);
 
-    display_game(world);
+    display_game(world, game_res.turns);
 
     if (game_res.winner != -1)
         printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
