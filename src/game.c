@@ -2,7 +2,7 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "project.h"
+#include "game.h"
 #include "neighbors.h"
 
 uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
