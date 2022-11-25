@@ -53,26 +53,54 @@ uint get_neighbor_triangle(uint idx, enum dir_t d){
     return row*WIDTH + col;
 }
 
+int compute_hexagonal_offset(position_t *cur_pos,enum dir_t d){
+    switch(d){
+        case SEAST:
+        case NEAST:
+            if(cur_pos->row % 2 == 0){
+                return 0;
+            }else{
+                return 1;
+            }
+        case SWEST:
+        case NWEST:
+            if(cur_pos->row % 2 == 0){
+                return -1;
+            }else{
+                return 0;
+            }
+    }
+    return 0;
+}
+
 uint get_neighbor_hexagonal(uint idx, enum dir_t d){
     if(d == NO_DIR || d == EAST || d == WEST) return idx;
-    position_t pos;
-    position_from_idx(&pos, idx);
-    int offset_col = 0;
-    int offset_row = 0;
-    if(d == NORTH || NEAST || NWEST){
-        if(pos.col % 2 == 0) offset_row = -1;
+    position_t cur_pos;
+    position_from_idx(&cur_pos, idx);
+    switch (d)
+    {
+    case WEST:
+        cur_pos.col -= 1;
+        break;
+    case EAST:
+        cur_pos.col += 1;
+        break;
+    case NEAST:
+    case NWEST:
+        cur_pos.col += compute_hexagonal_offset(&cur_pos, d);
+        cur_pos.row -= 1;
+        break;
+    case SEAST:
+    case SWEST:
+        cur_pos.col += compute_hexagonal_offset(&cur_pos, d);
+        cur_pos.row += 1;
+        break;
+    default:
+        break;
     }
-    if(d == SOUTH || SEAST || SWEST){
-        if(pos.col % 2 == 1) offset_row = +1;
-    }
-    if(d == EAST || NEAST || SEAST) offset_col = 1;
-    if(d == WEST || NWEST || SWEST) offset_col = -1;
-    pos.col += offset_col;
-    pos.row += offset_row;
 
-    if(pos.col > WIDTH-1 || pos.row > HEIGHT-1) return UINT_MAX;
-
-    return position_to_idx(&pos);
+    if(cur_pos.col >= WIDTH || cur_pos.row >= HEIGHT) return UINT_MAX;
+    return position_to_idx(&cur_pos);
 }
 
 unsigned int get_neighbor(unsigned int idx, enum dir_t d){
