@@ -44,22 +44,28 @@ uint choose_random_piece_belonging_to_current(game_t *game)
         }
     }
 
-    if (index == 0) return UINT_MAX;
+    if (index == 0)
+        return UINT_MAX;
     return positions[rand() % index];
 }
 
-captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game){
+captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
+{
     uint lgt = 0;
-    captured_piece_t *tab = malloc(sizeof(captured_piece_t)*game->captured_pieces_list->len);
-    for(uint i = 0; i<game->captured_pieces_list->len; i++){
+    captured_piece_t *tab = malloc(sizeof(captured_piece_t) * game->captured_pieces_list->len);
+    for (uint i = 0; i < game->captured_pieces_list->len; i++)
+    {
         captured_piece_t *piece = array_list_get(game->captured_pieces_list, i);
-        if(piece->piece.color == game->current_player->color){
+        if (piece->piece.color == game->current_player->color)
+        {
             tab[lgt++] = *piece;
         }
     }
 
-    if(lgt == 0){
-        captured_piece_t res = {.index=UINT_MAX};
+    if (lgt == 0)
+    {
+        free(tab);
+        captured_piece_t res = {.index = UINT_MAX};
         return res;
     }
     uint rand_int = rand() % lgt;
@@ -69,13 +75,29 @@ captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
     return res;
 }
 
-void current_player_try_escape(game_t *game, captured_piece_t piece){
-    if(world_get_sort(game->world, piece.index) == NO_SORT){
+int vs_compare_captured_piece(void *vp1, void *vp2)
+{
+    captured_piece_t *p1 = vp1;
+    captured_piece_t *p2 = vp2;
+
+    return p1->index == p2->index && p1->piece.color == p2->piece.color && p1->piece.sort && p2->piece.sort;
+}
+
+void current_player_try_escape(game_t *game, captured_piece_t piece)
+{
+    if (world_get_sort(game->world, piece.index) == NO_SORT)
+    {
         int choice = rand() % 2;
-        if(choice == 0){
+        if (choice == 0)
+        {
             printf("Piece of color %u of sort %u revived at pos %u\n", piece.piece.color, piece.piece.sort, piece.index);
             world_set_sort(game->world, piece.index, piece.piece.sort);
             world_set(game->world, piece.index, piece.piece.color);
+
+            int idx = array_list_get_index(game->captured_pieces_list, &piece, vs_compare_captured_piece);
+            assert(idx != -1);
+            captured_piece_t *rmv = array_list_remove(game->captured_pieces_list, idx);
+            free(rmv);
         }
     }
 }
@@ -111,12 +133,14 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     return move_ending;
 }
 
-void game_free(game_t *game){
+void game_free(game_t *game)
+{
     array_list_free(game->captured_pieces_list);
     free(game);
 }
 
-void capture_piece_at(game_t *game, uint index){
+void capture_piece_at(game_t *game, uint index)
+{
     captured_piece_t *piece = malloc(sizeof(captured_piece_t));
 
     piece->index = index;
@@ -133,18 +157,17 @@ void current_player_move_piece(game_t *game, node_t *move)
     uint source_index = position_to_idx((position_t *)move_tree_root->value);
     enum sort_t source_sort = world_get_sort(game->world, source_index);
 
-    if(world_get_sort(game->world, destination_index) != NO_SORT && source_index != destination_index){
+    if (world_get_sort(game->world, destination_index) != NO_SORT && source_index != destination_index)
+    {
         printf("captured piece at pos %d\n", destination_index);
         capture_piece_at(game, destination_index);
     }
 
     world_set_sort(game->world, source_index, NO_SORT);
     world_set(game->world, source_index, NO_COLOR);
-        
+
     world_set(game->world, destination_index, game->current_player->color);
     world_set_sort(game->world, destination_index, source_sort);
-
-
 
     node_free(move_tree_root);
 
