@@ -101,7 +101,7 @@ void current_player_move_piece(game_t *game, node_t *move)
     uint source_index = position_to_idx((position_t *)move_tree_root->value);
     enum sort_t source_sort = world_get_sort(game->world, source_index);
 
-    if(world_get_sort(game->world, destination_index) != NO_SORT){
+    if(world_get_sort(game->world, destination_index) != NO_SORT && source_index != destination_index){
         printf("captured piece at pos %d\n", destination_index);
         capture_piece_at(game, destination_index);
     }
