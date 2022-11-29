@@ -1,5 +1,9 @@
 #include "game.h"
 
+void test_choose_random_captured_piece_not_mine(){
+    
+}
+
 void test_choose_random_captured_piece(){
     struct world_t *world = world_init();
     player_t player = {.color=WHITE};
@@ -23,4 +27,5 @@ void test_choose_random_captured_piece(){
 
 void test_game(){
     test_choose_random_captured_piece();
+    test_choose_random_captured_piece_not_mine();
 }
