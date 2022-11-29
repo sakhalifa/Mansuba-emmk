@@ -84,17 +84,33 @@ void game_free(game_t *game){
     free(game);
 }
 
+void capture_piece_at(game_t *game, uint index){
+    captured_piece_t *piece = malloc(sizeof(captured_piece_t));
+
+    piece->index = index;
+    piece->piece.color = world_get(game->world, index);
+    piece->piece.sort = world_get_sort(game->world, index);
+
+    array_list_push(game->captured_pieces_list, piece);
+}
+
 void current_player_move_piece(game_t *game, node_t *move)
 {
     node_t *move_tree_root = node_get_root(move);
-    uint destination_idx = position_to_idx((position_t *)move->value);
-    uint source_idx = position_to_idx((position_t *)move_tree_root->value);
-    enum sort_t source_sort = world_get_sort(game->world, source_idx);
-    world_set(game->world, destination_idx, game->current_player->color);
-    world_set_sort(game->world, destination_idx, source_sort);
+    uint destination_index = position_to_idx((position_t *)move->value);
+    uint source_index = position_to_idx((position_t *)move_tree_root->value);
+    enum sort_t source_sort = world_get_sort(game->world, source_index);
 
-    world_set_sort(game->world, source_idx, NO_SORT);
-    world_set(game->world, source_idx, NO_COLOR);
+    if(world_get_sort(game->world, destination_index) != NO_SORT){
+        printf("captured piece at pos %d\n", destination_index);
+        capture_piece_at(game, destination_index);
+    }
+    
+    world_set(game->world, destination_index, game->current_player->color);
+    world_set_sort(game->world, destination_index, source_sort);
+
+    world_set_sort(game->world, source_index, NO_SORT);
+    world_set(game->world, source_index, NO_COLOR);
 
     node_free(move_tree_root);
 

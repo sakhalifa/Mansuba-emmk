@@ -45,6 +45,7 @@ void display_game(game_t *game);
 
 void game_free(game_t *game);
 
+void capture_piece_at(game_t *game, uint index);
 
 
 #endif // __PROJECT_H__
