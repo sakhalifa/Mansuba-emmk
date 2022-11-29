@@ -80,7 +80,7 @@ int vs_compare_captured_piece(void *vp1, void *vp2)
     captured_piece_t *p1 = vp1;
     captured_piece_t *p2 = vp2;
 
-    return p1->index == p2->index && p1->piece.color == p2->piece.color && p1->piece.sort && p2->piece.sort;
+    return !(p1->index == p2->index && p1->piece.color == p2->piece.color && p1->piece.sort && p2->piece.sort);
 }
 
 void current_player_try_escape(game_t *game, captured_piece_t piece)
