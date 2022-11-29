@@ -16,6 +16,8 @@ void test_choose_random_captured_piece(){
     assert(p->index == res.index);
     assert(p->piece.color == res.piece.color);
     assert(p->piece.sort == res.piece.sort);
+
+    game_free(game);
     
 }
 
