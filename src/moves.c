@@ -8,9 +8,11 @@ int vs_cmp_pos_pos(void *pos1, void *pos2)
     return cmp_positions((position_t *)pos1, (position_t *)pos2);
 }
 
-void add_position_if_free(uint pos_idx, struct world_t *world, node_t *node)
+void add_position_if_free(uint pos_idx, struct world_t *world, node_t *node, uint source_index)
 {
-    if (pos_idx != UINT_MAX)
+    if (pos_idx == UINT_MAX) return;
+    if (world_get_sort(world, pos_idx) != NO_SORT && world_get(world, pos_idx) == world_get(world, source_index)) return;
+
     {
         position_t *pos = malloc(sizeof(position_t));
         position_from_idx(pos, pos_idx);
@@ -18,13 +20,13 @@ void add_position_if_free(uint pos_idx, struct world_t *world, node_t *node)
     }
 }
 
-void add_pawn_simple_moves(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
+void add_pawn_simple_moves(struct world_t *world, struct neighbors_t *neighbors, node_t *root, uint source_index)
 {
     for (int i = 0; i < MAX_NEIGHBORS && neighbors->n[i].i != UINT_MAX; i++)
     {
 
         unsigned int cur_neighbor = neighbors->n[i].i;
-        add_position_if_free(cur_neighbor, world, root);
+        add_position_if_free(cur_neighbor, world, root, source_index);
     }
 }
 
@@ -55,7 +57,7 @@ void add_tower_moves(struct world_t *world, node_t *root){
     
 }
 
-void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *root)
+void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t *root, uint source_index)
 {
     for (int i = 0; i < MAX_NEIGHBORS && neighbors->n[i].i != UINT_MAX; i++)
     {
@@ -78,13 +80,13 @@ void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t
                 }
 
                 struct neighbors_t new_neighbors = get_neighbors(far_neighbor);
-                add_pawn_jumps(world, &new_neighbors, child);
+                add_pawn_jumps(world, &new_neighbors, child, source_index);
             }
         }
     }
 }
 
-void add_elephant_moves(struct world_t *world, node_t *root)
+void add_elephant_moves(struct world_t *world, node_t *root, uint source_index)
 {
     position_t *init_pos = root->value;
     uint init_pos_idx = position_to_idx(init_pos);
@@ -94,14 +96,14 @@ void add_elephant_moves(struct world_t *world, node_t *root)
         if (d % 2 == 0) // Combined directions
         {
             uint pos_idx = get_neighbor(init_pos_idx, true_dir);
-            add_position_if_free(pos_idx, world, root);
+            add_position_if_free(pos_idx, world, root, source_index);
         }
         else // Pure directions
         {
             uint pos_idx = get_neighbor(init_pos_idx, true_dir);
             uint far_pos_idx = get_neighbor(pos_idx, true_dir);
-            add_position_if_free(pos_idx, world, root);
-            add_position_if_free(far_pos_idx, world, root);
+            add_position_if_free(pos_idx, world, root, source_index);
+            add_position_if_free(far_pos_idx, world, root, source_index);
         }
     }
 }
@@ -111,6 +113,7 @@ node_t *get_moves(struct world_t *world, position_t *pos)
     position_t *malloc_pos = malloc(sizeof(position_t));
     malloc_pos->col = pos->col;
     malloc_pos->row = pos->row;
+    uint source_index = position_to_idx(pos);
     node_t *root = tree_create(malloc_pos, free);
 
     enum sort_t sort = world_get_sort(world, position_to_idx(pos));
@@ -118,11 +121,11 @@ node_t *get_moves(struct world_t *world, position_t *pos)
     switch (sort)
     {
     case PAWN:
-        add_pawn_simple_moves(world, &neighbors, root);
-        add_pawn_jumps(world, &neighbors, root);
+        add_pawn_simple_moves(world, &neighbors, root, source_index);
+        add_pawn_jumps(world, &neighbors, root, source_index);
         break;
     case ELEPHANT:
-        add_elephant_moves(world, root);
+        add_elephant_moves(world, root, source_index);
         break;
     case TOWER:
         add_tower_moves(world, root);
