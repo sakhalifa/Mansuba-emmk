@@ -64,7 +64,7 @@ void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t
         if (cur_neighbor != UINT_MAX && world_get_sort(world, cur_neighbor) == PAWN)
         {
             unsigned int far_neighbor = get_neighbor(cur_neighbor, neighbors->n[i].d);
-            if (far_neighbor != UINT_MAX && world_get_sort(world, far_neighbor) == NO_SORT)
+            if (far_neighbor != UINT_MAX)
             {
                 position_t cur_far_neighbor_pos;
                 position_from_idx(&cur_far_neighbor_pos, far_neighbor);
@@ -73,6 +73,11 @@ void add_pawn_jumps(struct world_t *world, struct neighbors_t *neighbors, node_t
                 position_t *malloc_pos = malloc(sizeof(position_t));
                 position_from_idx(malloc_pos, far_neighbor);
                 node_t *child = node_add_child(root, malloc_pos);
+
+                if (world_get_sort(world, far_neighbor) != NO_SORT){
+                    return;
+                }
+
                 struct neighbors_t new_neighbors = get_neighbors(far_neighbor);
                 add_pawn_jumps(world, &new_neighbors, child);
             }
