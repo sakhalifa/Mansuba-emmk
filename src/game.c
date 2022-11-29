@@ -5,13 +5,38 @@
 #include "game.h"
 #include "neighbors.h"
 
-uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
+void world_populate(struct world_t *world)
+{
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        enum sort_t cur_sort = (i % (MAX_SORT-1))+1;
+        world_set(world, (i * WIDTH), BLACK);
+        world_set_sort(world, (i * WIDTH), cur_sort);
+
+        world_set(world, ((i + 1) * WIDTH) - 1, WHITE);
+        world_set_sort(world, ((i + 1) * WIDTH) - 1, cur_sort);
+    }
+}
+
+game_t game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player){
+    game_t game = {
+        .world=world,
+        .current_player=player,
+        .max_turns=max_turn,
+        .turn=0,
+        .victory_type=victory_type
+    };
+    world_populate(game.world);
+    return game;
+}
+
+uint choose_random_piece_belonging_to_current(game_t *game)
 {
     uint positions[WORLD_SIZE];
     uint index = 0;
     for (uint i = 0; i < WORLD_SIZE; i++)
     {
-        if (world_get(world, i) == player->color)
+        if (world_get(game->world, i) == game->current_player->color)
         {
             positions[index] = i;
             index++;
@@ -22,11 +47,11 @@ uint choose_random_piece_belonging_to(struct world_t *world, player_t *player)
     return positions[rand() % index];
 }
 
-node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
+node_t *choose_random_move_for_piece(game_t* game, uint piece)
 {
     position_t position;
     position_from_idx(&position, piece);
-    node_t *moves = get_moves(world, &position);
+    node_t *moves = get_moves(game->world, &position);
 
     uint len_children = moves->children->len;
 
@@ -53,17 +78,17 @@ node_t *choose_random_move_for_piece(struct world_t *world, uint piece)
     return move_ending;
 }
 
-void move_piece(struct world_t *world, node_t *move, player_t *player)
+void current_player_move_piece(game_t *game, node_t *move)
 {
     node_t *move_tree_root = node_get_root(move);
     uint destination_idx = position_to_idx((position_t *)move->value);
     uint source_idx = position_to_idx((position_t*)move_tree_root->value);
-    enum sort_t source_sort = world_get_sort(world, source_idx);
-    world_set(world, destination_idx, player->color);
-    world_set_sort(world, destination_idx, source_sort);
+    enum sort_t source_sort = world_get_sort(game->world, source_idx);
+    world_set(game->world, destination_idx, game->current_player->color);
+    world_set_sort(game->world, destination_idx, source_sort);
 
-    world_set_sort(world, source_idx, NO_SORT);
-    world_set(world, source_idx, NO_COLOR);
+    world_set_sort(game->world, source_idx, NO_SORT);
+    world_set(game->world, source_idx, NO_COLOR);
 
 
     node_free(move_tree_root);
@@ -71,20 +96,20 @@ void move_piece(struct world_t *world, node_t *move, player_t *player)
     return;
 }
 
-bool check_win(struct world_t *world, enum victory_type victory_type)
+bool check_win(game_t *game)
 {
     bool victoryB = true;
     bool victoryW = true;
-    switch (victory_type)
+    switch (game->victory_type)
     {
     case SIMPLE:
         for (int i = 0; i < HEIGHT; i++)
         {
-            if (world_get(world, (i * WIDTH)) == WHITE)
+            if (world_get(game->world, (i * WIDTH)) == WHITE)
             {
                 return true;
             }
-            if (world_get(world, ((i + 1) * WIDTH) - 1) == BLACK)
+            if (world_get(game->world, ((i + 1) * WIDTH) - 1) == BLACK)
             {
                 return true;
             }
@@ -93,8 +118,8 @@ bool check_win(struct world_t *world, enum victory_type victory_type)
     case COMPLEX:
         for (int i = 0; i < HEIGHT; i++)
         {
-            if (world_get(world, (i * WIDTH)) != WHITE) victoryW = false;
-            if (world_get(world, ((i + 1) * WIDTH) - 1) != BLACK) victoryB  = false;
+            if (world_get(game->world, (i * WIDTH)) != WHITE) victoryW = false;
+            if (world_get(game->world, ((i + 1) * WIDTH) - 1) != BLACK) victoryB  = false;
         }
         return victoryB || victoryW;
 
@@ -103,26 +128,13 @@ bool check_win(struct world_t *world, enum victory_type victory_type)
     }
 }
 
-void world_populate(struct world_t *world)
-{
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        enum sort_t cur_sort = (i % (MAX_SORT-1))+1;
-        world_set(world, (i * WIDTH), BLACK);
-        world_set_sort(world, (i * WIDTH), cur_sort);
-
-        world_set(world, ((i + 1) * WIDTH) - 1, WHITE);
-        world_set_sort(world, ((i + 1) * WIDTH) - 1, cur_sort);
-    }
-}
-
-void display_game(struct world_t *world, uint turn)
+void display_game(game_t *game)
 {
     for (int j = -2; j < WIDTH * 3; j++) printf("-");
     printf("\n");
-    printf("|turn:%-5d", turn);
+    printf("|turn:%-5d", game->turn);
     for (int j = -2; j < (WIDTH * 3) - 13; j++) printf(" ");
-    switch (turn%MAX_RELATIONS)
+    switch (get_neighbors_seed())
     {
     case SQUARE:
         printf("▢");
@@ -151,7 +163,7 @@ void display_game(struct world_t *world, uint turn)
         printf("|");
         for (int j = 0; j < WIDTH; j++)
         {
-            printf(" %s", place_to_string(world_get(world, i * WIDTH + j), world_get_sort(world, i * WIDTH + j)));
+            printf(" %s", place_to_string(world_get(game->world, i * WIDTH + j), world_get_sort(game->world, i * WIDTH + j)));
         }
         printf("|\n");
     }
@@ -162,102 +174,6 @@ void display_game(struct world_t *world, uint turn)
     }
     printf("\n");
 }
-
-struct game_result
-{
-    int winner;
-    uint turns;
-};
-struct game_result game_loop(struct world_t *world, player_t *player, int max_turns, enum victory_type victory_type)
-{
-    int winner = -1;
-    int turn_counter = 0;
-    uint seed = 0;
-    while ((winner == -1) && (turn_counter < max_turns))
-    {
-        init_neighbors(seed);
-        display_game(world, turn_counter);
-        uint piece = choose_random_piece_belonging_to(world, player);
-
-        node_t *move = choose_random_move_for_piece(world, piece);
-
-        if (move != NULL)
-        {
-            move_piece(world, move, player);
-        }
-
-        if (check_win(world, victory_type))
-            winner = player->color;
-        turn_counter++;
-        player = next_player(player);
-        seed = seed + 1;
-        seed %= MAX_RELATIONS;
-    }
-    struct game_result res = {winner, turn_counter};
-    return res;
-}
-
-int main(int argc, char *argv[])
-{
-    init_neighbors(SQUARE);   
-    int max_turn = 2 * WORLD_SIZE;
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    long seed = tv.tv_sec * 1000000 + tv.tv_usec;
-    enum victory_type victory_type = SIMPLE;
-    int opt;
-    while ((opt = getopt(argc, argv, "t:m:s:")) != -1)
-    {
-        switch (opt)
-        {
-        case 't':
-            switch (optarg[0])
-            {
-            case 's':
-                victory_type = SIMPLE;
-                break;
-            case 'c':
-                victory_type = COMPLEX;
-                break;
-            default:
-                fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
-                        argv[0]);
-                exit(EXIT_FAILURE);
-            }
-            break;
-        case 'm':
-            max_turn = atoi(optarg);
-            if(max_turn <= 0){
-                fprintf(stderr, "Error, max turns cannot be 0 or less\n");
-                exit(EXIT_FAILURE);
-            }
-            break;
-        case 's':
-            seed = atoi(optarg);
-            break;
-        default: /* aq?aq */
-            fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
-                    argv[0]);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    printf("%ld\n", seed);
-    srand(seed);
-
-    struct world_t *world = world_init();
-    world_populate(world);
-    init_players();
-    player_t *player = get_random_player();
-
-    struct game_result game_res = game_loop(world, player, max_turn, victory_type);
-
-    display_game(world, game_res.turns);
-
-    if (game_res.winner != -1)
-        printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
-    else
-        printf("Ex-aequo en %d tours\n", game_res.turns);
-
-    return EXIT_SUCCESS;
+void change_player(game_t *game, player_t *player){
+    game->current_player = player;
 }
