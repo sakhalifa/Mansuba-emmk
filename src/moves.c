@@ -46,17 +46,12 @@ void add_tower_moves(struct world_t *world, node_t *root){
             position_from_idx(malloc_pos, index_neighbor);
 
             current = node_add_child(current, malloc_pos);
-
-            index_neighbor = get_neighbor(index_neighbor, dir);
-
             if (world_get_sort(world, index_neighbor) != NO_SORT){
                 return;
             }
+
+            index_neighbor = get_neighbor(index_neighbor, dir);
         }
-        
-
-
-
     }
     
 }
