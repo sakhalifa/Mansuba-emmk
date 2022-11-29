@@ -91,7 +91,7 @@ int main(int argc, char *const *argv)
         printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
     else
         printf("Ex-aequo en %d tours\n", game_res.turns);
-
+    game_free(game);
     return EXIT_SUCCESS;
     return 0;
 }
