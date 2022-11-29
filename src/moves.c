@@ -10,7 +10,7 @@ int vs_cmp_pos_pos(void *pos1, void *pos2)
 
 void add_position_if_free(uint pos_idx, struct world_t *world, node_t *node)
 {
-    if (pos_idx != UINT_MAX && world_get_sort(world, pos_idx) == NO_SORT)
+    if (pos_idx != UINT_MAX)
     {
         position_t *pos = malloc(sizeof(position_t));
         position_from_idx(pos, pos_idx);
@@ -40,7 +40,7 @@ void add_tower_moves(struct world_t *world, node_t *root){
         if (world_get_sort(world, index_neighbor) != NO_SORT ) continue;// is a free space
 
         node_t *current = root; 
-        while ((index_neighbor != UINT_MAX) && (world_get_sort(world, index_neighbor) == NO_SORT))
+        while ((index_neighbor != UINT_MAX))
         {
             position_t *malloc_pos = malloc(sizeof(position_t));
             position_from_idx(malloc_pos, index_neighbor);
@@ -48,6 +48,10 @@ void add_tower_moves(struct world_t *world, node_t *root){
             current = node_add_child(current, malloc_pos);
 
             index_neighbor = get_neighbor(index_neighbor, dir);
+
+            if (world_get_sort(world, index_neighbor) != NO_SORT){
+                return;
+            }
         }
         
 
