@@ -50,7 +50,7 @@ uint choose_random_piece_belonging_to_current(game_t *game)
 
 captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game){
     uint lgt = 0;
-    captured_piece_t *tab = malloc(sizeof(uint)*game->captured_pieces_list->len);
+    captured_piece_t *tab = malloc(sizeof(captured_piece_t)*game->captured_pieces_list->len);
     for(uint i = 0; i<game->captured_pieces_list->len; i++){
         captured_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if(piece->piece.color == game->current_player->color){

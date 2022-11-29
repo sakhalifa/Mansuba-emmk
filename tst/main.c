@@ -19,5 +19,8 @@ int main(){
     // test_random_player();
     // test_next_player();
     printf("Finished testing player.c\n");
+
+    test_game();
+    printf("Finished testing game.c\n");
     return 0;
 }
