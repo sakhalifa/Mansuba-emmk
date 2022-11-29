@@ -5,9 +5,8 @@
 struct game_result game_loop(game_t* game)
 {
     int winner = -1;
-    uint turn_counter = 0;
     uint seed = 0;
-    while ((winner == -1) && (turn_counter < game->max_turns))
+    while ((winner == -1) && (game->turn < game->max_turns))
     {
         init_neighbors(seed);
         display_game(game);
@@ -22,12 +21,12 @@ struct game_result game_loop(game_t* game)
 
         if (check_win(game))
             winner = game->current_player->color;
-        turn_counter++;
+        game->turn++;
         change_player(game, next_player(game->current_player));
         seed = seed + 1;
         seed %= MAX_RELATIONS;
     }
-    struct game_result res = {winner, turn_counter};
+    struct game_result res = {winner, game->turn};
     return res;
 }
 
