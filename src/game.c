@@ -44,7 +44,7 @@ uint choose_random_piece_belonging_to_current(game_t *game)
         }
     }
 
-    assert(index != 0);
+    if (index == 0) return UINT_MAX;
     return positions[rand() % index];
 }
 

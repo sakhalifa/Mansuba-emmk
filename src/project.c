@@ -11,12 +11,13 @@ struct game_result game_loop(game_t* game)
         init_neighbors(seed);
         display_game(game);
         uint piece = choose_random_piece_belonging_to_current(game);
-
-        node_t *move = choose_random_move_for_piece(game, piece);
-
-        if (move != NULL)
-        {
-            current_player_move_piece(game, move);
+        
+        if (piece != UINT_MAX){
+            node_t *move = choose_random_move_for_piece(game, piece);
+            if (move != NULL)
+            {
+                current_player_move_piece(game, move);
+            }
         }
 
         if (check_win(game))
