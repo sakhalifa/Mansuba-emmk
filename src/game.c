@@ -105,12 +105,14 @@ void current_player_move_piece(game_t *game, node_t *move)
         printf("captured piece at pos %d\n", destination_index);
         capture_piece_at(game, destination_index);
     }
-    
-    world_set(game->world, destination_index, game->current_player->color);
-    world_set_sort(game->world, destination_index, source_sort);
 
     world_set_sort(game->world, source_index, NO_SORT);
     world_set(game->world, source_index, NO_COLOR);
+        
+    world_set(game->world, destination_index, game->current_player->color);
+    world_set_sort(game->world, destination_index, source_sort);
+
+
 
     node_free(move_tree_root);
 

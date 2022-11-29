@@ -40,16 +40,15 @@ void add_tower_moves(struct world_t *world, node_t *root){
         if (world_get_sort(world, index_neighbor) != NO_SORT ) continue;// is a free space
 
         node_t *current = root; 
-        while ((index_neighbor != UINT_MAX))
+        while ((index_neighbor != UINT_MAX) && ((world_get_sort(world, index_neighbor) == NO_SORT) || world_get(world,index_neighbor) != world_get(world, position_to_idx(position))))
         {
             position_t *malloc_pos = malloc(sizeof(position_t));
             position_from_idx(malloc_pos, index_neighbor);
-
             current = node_add_child(current, malloc_pos);
+
             if (world_get_sort(world, index_neighbor) != NO_SORT){
                 return;
             }
-
             index_neighbor = get_neighbor(index_neighbor, dir);
         }
     }
