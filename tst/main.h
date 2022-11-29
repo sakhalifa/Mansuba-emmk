@@ -20,5 +20,8 @@ void test_player_init();
 void test_random_player();
 void test_next_player();
 
+//*******GAME******//
+void test_game();
+
 
 #endif // __TEST_H__

@@ -2,7 +2,7 @@
 #include <getopt.h>
 #include <sys/time.h>
 
-struct game_result game_loop(game_t* game)
+struct game_result game_loop(game_t *game)
 {
     int winner = -1;
     uint turn_counter = 0;
@@ -11,13 +11,23 @@ struct game_result game_loop(game_t* game)
     {
         init_neighbors(seed);
         display_game(game);
-        uint piece = choose_random_piece_belonging_to_current(game);
-
-        node_t *move = choose_random_move_for_piece(game, piece);
-
-        if (move != NULL)
+        int choice = rand() % 2;
+        if (choice == 0)
         {
-            current_player_move_piece(game, move);
+            uint piece = choose_random_piece_belonging_to_current(game);
+
+            node_t *move = choose_random_move_for_piece(game, piece);
+
+            if (move != NULL)
+            {
+                current_player_move_piece(game, move);
+            }
+        }else{
+            captured_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
+
+            if(piece.index != UINT_MAX){
+                current_player_try_escape(game, piece);
+            }
         }
 
         if (check_win(game))
@@ -33,7 +43,7 @@ struct game_result game_loop(game_t* game)
 
 int main(int argc, char *const *argv)
 {
-    init_neighbors(SQUARE);   
+    init_neighbors(SQUARE);
     int max_turn = 2 * WORLD_SIZE;
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -61,7 +71,8 @@ int main(int argc, char *const *argv)
             break;
         case 'm':
             max_turn = atoi(optarg);
-            if(max_turn <= 0){
+            if (max_turn <= 0)
+            {
                 fprintf(stderr, "Error, max turns cannot be 0 or less\n");
                 exit(EXIT_FAILURE);
             }
