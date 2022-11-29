@@ -5,7 +5,6 @@
 #include "world.h"
 #include "player.h"
 #include "moves.h"
-#include "geometry.h"
 #include "neighbors.h"
 
 enum victory_type{

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <assert.h>
+#include "geometry.h"
 typedef unsigned int uint;
 
 typedef enum {
@@ -13,5 +14,11 @@ typedef enum {
     TRIANGULAR = 1,
     HEXAGONAL = 2
 } relation_t;
+
+typedef struct {
+    enum color_t color;
+    enum sort_t sort;
+} piece_t;
+
 
 #endif

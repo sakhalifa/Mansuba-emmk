@@ -5,10 +5,6 @@
 bool world_initialized = false;
 struct world_t world;
 
-typedef struct {
-    enum color_t color;
-    enum sort_t sort;
-} piece_t;
 
 struct world_t {
     piece_t pieces[WORLD_SIZE];
