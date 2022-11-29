@@ -9,7 +9,7 @@ void world_populate(struct world_t *world)
 {
     for (int i = 0; i < HEIGHT; i++)
     {
-        enum sort_t cur_sort = (i % (MAX_SORT-1))+1;
+        enum sort_t cur_sort = (i % (MAX_SORT - 1)) + 1;
         world_set(world, (i * WIDTH), BLACK);
         world_set_sort(world, (i * WIDTH), cur_sort);
 
@@ -18,15 +18,16 @@ void world_populate(struct world_t *world)
     }
 }
 
-game_t game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player){
-    game_t game = {
-        .world=world,
-        .current_player=player,
-        .max_turns=max_turn,
-        .turn=0,
-        .victory_type=victory_type
-    };
-    world_populate(game.world);
+game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player)
+{
+    game_t *game = malloc(sizeof(game_t));
+    game->world = world;
+    game->current_player = player;
+    game->max_turns = max_turn;
+    game->turn = 0;
+    game->victory_type = victory_type;
+    game->captured_pieces_list = array_list_init(0, free);
+    world_populate(game->world);
     return game;
 }
 
@@ -47,7 +48,7 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     return positions[rand() % index];
 }
 
-node_t *choose_random_move_for_piece(game_t* game, uint piece)
+node_t *choose_random_move_for_piece(game_t *game, uint piece)
 {
     position_t position;
     position_from_idx(&position, piece);
@@ -82,14 +83,13 @@ void current_player_move_piece(game_t *game, node_t *move)
 {
     node_t *move_tree_root = node_get_root(move);
     uint destination_idx = position_to_idx((position_t *)move->value);
-    uint source_idx = position_to_idx((position_t*)move_tree_root->value);
+    uint source_idx = position_to_idx((position_t *)move_tree_root->value);
     enum sort_t source_sort = world_get_sort(game->world, source_idx);
     world_set(game->world, destination_idx, game->current_player->color);
     world_set_sort(game->world, destination_idx, source_sort);
 
     world_set_sort(game->world, source_idx, NO_SORT);
     world_set(game->world, source_idx, NO_COLOR);
-
 
     node_free(move_tree_root);
 
@@ -118,8 +118,10 @@ bool check_win(game_t *game)
     case COMPLEX:
         for (int i = 0; i < HEIGHT; i++)
         {
-            if (world_get(game->world, (i * WIDTH)) != WHITE) victoryW = false;
-            if (world_get(game->world, ((i + 1) * WIDTH) - 1) != BLACK) victoryB  = false;
+            if (world_get(game->world, (i * WIDTH)) != WHITE)
+                victoryW = false;
+            if (world_get(game->world, ((i + 1) * WIDTH) - 1) != BLACK)
+                victoryB = false;
         }
         return victoryB || victoryW;
 
@@ -130,10 +132,12 @@ bool check_win(game_t *game)
 
 void display_game(game_t *game)
 {
-    for (int j = -2; j < WIDTH * 3; j++) printf("-");
+    for (int j = -2; j < WIDTH * 3; j++)
+        printf("-");
     printf("\n");
     printf("|turn:%-5d", game->turn);
-    for (int j = -2; j < (WIDTH * 3) - 13; j++) printf(" ");
+    for (int j = -2; j < (WIDTH * 3) - 13; j++)
+        printf(" ");
     switch (get_neighbors_seed())
     {
     case SQUARE:
@@ -149,7 +153,7 @@ void display_game(game_t *game)
         printf("?");
         break;
     }
-    
+
     printf("|\n");
 
     for (int j = -2; j < WIDTH * 3; j++)
@@ -174,6 +178,7 @@ void display_game(game_t *game)
     }
     printf("\n");
 }
-void change_player(game_t *game, player_t *player){
+void change_player(game_t *game, player_t *player)
+{
     game->current_player = player;
 }

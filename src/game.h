@@ -13,11 +13,17 @@ enum victory_type{
 };
 
 typedef struct {
+    uint index;
+    piece_t piece;
+} captured_piece_t;
+
+typedef struct {
     uint turn;
     uint max_turns;
     player_t *current_player;
     enum victory_type victory_type;
     struct world_t *world;
+    array_list_t *captured_pieces_list;
 } game_t;
 
 struct game_result
@@ -26,7 +32,7 @@ struct game_result
     uint turns;
 };
 
-game_t game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player);
+game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player);
 
 void change_player(game_t *game, player_t *player);
 

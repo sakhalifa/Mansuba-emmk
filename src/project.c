@@ -82,10 +82,10 @@ int main(int argc, char *const *argv)
     struct world_t *world = world_init();
     init_players();
     player_t *player = get_random_player();
-    game_t game = game_init(world, max_turn, victory_type, player);
-    struct game_result game_res = game_loop(&game);
+    game_t *game = game_init(world, max_turn, victory_type, player);
+    struct game_result game_res = game_loop(game);
 
-    display_game(&game);
+    display_game(game);
 
     if (game_res.winner != -1)
         printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
