@@ -37,4 +37,7 @@ unsigned int get_neighbor(unsigned int idx, enum dir_t d);
     by UINT_MAX.  */
 struct neighbors_t get_neighbors(unsigned int idx);
 
+/** Returns the seed set by the latest call to `init_neighbors`. */
+unsigned int get_neighbors_seed();
+
 #endif // __NEIGHBORS_H__

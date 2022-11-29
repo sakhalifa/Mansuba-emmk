@@ -41,6 +41,10 @@ uint get_neighbor_square(uint idx, enum dir_t d)
     return row*WIDTH + col;
 }
 
+unsigned int get_neighbors_seed(){
+    return current_relation;
+}
+
 uint get_neighbor_triangle(uint idx, enum dir_t d){
 
     uint col = idx%WIDTH;
