@@ -73,6 +73,7 @@ void current_player_try_escape(game_t *game, captured_piece_t piece){
     if(world_get_sort(game->world, piece.index) == NO_SORT){
         int choice = rand() % 2;
         if(choice == 0){
+            printf("Piece of color %u of sort %u revived at pos %u\n", piece.piece.color, piece.piece.sort, piece.index);
             world_set_sort(game->world, piece.index, piece.piece.sort);
             world_set(game->world, piece.index, piece.piece.color);
         }
