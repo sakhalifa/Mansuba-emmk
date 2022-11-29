@@ -110,6 +110,11 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     return move_ending;
 }
 
+void game_free(game_t *game){
+    array_list_free(game->captured_pieces_list);
+    free(game);
+}
+
 void current_player_move_piece(game_t *game, node_t *move)
 {
     node_t *move_tree_root = node_get_root(move);

@@ -48,6 +48,8 @@ bool check_win(game_t *game);
 
 void display_game(game_t *game);
 
+void game_free(game_t *game);
+
 
 
 #endif // __PROJECT_H__
