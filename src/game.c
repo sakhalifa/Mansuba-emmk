@@ -48,6 +48,37 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     return positions[rand() % index];
 }
 
+captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game){
+    uint lgt = 0;
+    captured_piece_t *tab = malloc(sizeof(captured_piece_t)*game->captured_pieces_list->len);
+    for(uint i = 0; i<game->captured_pieces_list->len; i++){
+        captured_piece_t *piece = array_list_get(game->captured_pieces_list, i);
+        if(piece->piece.color == game->current_player->color){
+            tab[lgt++] = *piece;
+        }
+    }
+
+    if(lgt == 0){
+        captured_piece_t res = {.index=UINT_MAX};
+        return res;
+    }
+    uint rand_int = rand() % lgt;
+    captured_piece_t res = tab[rand_int];
+
+    free(tab);
+    return res;
+}
+
+void current_player_try_escape(game_t *game, captured_piece_t piece){
+    if(world_get_sort(game->world, piece.index) == NO_SORT){
+        int choice = rand() % 2;
+        if(choice == 0){
+            world_set_sort(game->world, piece.index, piece.piece.sort);
+            world_set(game->world, piece.index, piece.piece.color);
+        }
+    }
+}
+
 node_t *choose_random_move_for_piece(game_t *game, uint piece)
 {
     position_t position;

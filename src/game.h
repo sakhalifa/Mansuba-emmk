@@ -36,9 +36,14 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
 
 void change_player(game_t *game, player_t *player);
 
-uint choose_random_piece_belonging_to_current(game_t *game);    
+uint choose_random_piece_belonging_to_current(game_t *game);
+captured_piece_t choose_random_captured_piece_belonging_to_current(game_t* game);
+
 node_t *choose_random_move_for_piece(game_t* game, uint piece);
+
 void current_player_move_piece(game_t *game, node_t *move);
+void current_player_try_escape(game_t *game, captured_piece_t piece);
+
 bool check_win(game_t *game);
 
 void display_game(game_t *game);
