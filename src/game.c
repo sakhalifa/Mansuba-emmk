@@ -6,12 +6,28 @@
 #include "neighbors.h"
 
 void load_starting_position(game_t *game){
-    return;
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        game_piece_t *game_piece = malloc(sizeof(game_piece_t));
+        game_piece_t *game_piece_bis = malloc(sizeof(game_piece_t));
+        enum sort_t current_sort = (i % (MAX_SORT - 1)) + 1;
+        
+        game_piece->index = (i * WIDTH);
+        game_piece->piece.color = BLACK;
+        game_piece->piece.sort = current_sort;
+
+        game_piece_bis->index = ((i + 1) * WIDTH) - 1;
+        game_piece_bis->piece.color = WHITE;
+        game_piece_bis->piece.sort = current_sort;
+
+        array_list_push(game->starting_position, game_piece);
+        array_list_push(game->starting_position, game_piece_bis);
+    }
 }
 
 void world_populate(game_t *game)
 {
-    for (int i = 0; i < game->starting_position->len; i++)
+    for (size_t i = 0; i < game->starting_position->len; i++)
     {
         game_piece_t *game_piece = array_list_get(game->starting_position, i);
         world_set(game->world, game_piece->index, game_piece->piece.color);
