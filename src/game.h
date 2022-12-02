@@ -1,5 +1,5 @@
-#ifndef __PROJECT_H__
-#define __PROJECT_H__
+#ifndef __GAME_H__
+#define __GAME_H__
 
 #include "util.h"
 #include "world.h"

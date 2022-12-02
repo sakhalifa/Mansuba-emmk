@@ -1,5 +1,5 @@
-#ifndef __LINKED_LIST_H__
-#define __LINKED_LIST_H__
+#ifndef __TREE_H__
+#define __TREE_H__
 #include <stdbool.h>
 #include "array_list.h"
 
