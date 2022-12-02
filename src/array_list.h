@@ -29,12 +29,12 @@ void *array_list_remove(array_list_t *list, int idx);
 /**
  * Gets an element from the array_list
 */
-void *array_list_get(array_list_t *list, int idx);
+void *array_list_get(array_list_t *list, unsigned int idx);
 
 /**
  * Sets the element to index idx in array_list to val
 */
-void array_list_set(array_list_t *list, void *val, int idx);
+void array_list_set(array_list_t *list, void *val, unsigned int idx);
 
 /**
  * Returns true iif the array_list contains the value within the interval [0,l->len[

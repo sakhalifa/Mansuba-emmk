@@ -40,9 +40,9 @@ void array_list_push(array_list_t *list, void *x)
 /**
  * Gets an element from the array_list
  */
-void *array_list_get(array_list_t *list, int idx)
+void *array_list_get(array_list_t *list, unsigned int idx)
 {
-    if (idx < 0 || idx >= (int)list->len)
+    if (idx >= list->len)
     {
         return NULL;
     }
@@ -52,9 +52,9 @@ void *array_list_get(array_list_t *list, int idx)
 /**
  * Sets the element to index idx in array_list to val
  */
-void array_list_set(array_list_t *list, void *val, int idx)
+void array_list_set(array_list_t *list, void *val, unsigned int idx)
 {
-    if (idx >= 0 && idx < (int)list->len)
+    if (idx < list->len)
     {
         list->list[idx] = val;
     }
