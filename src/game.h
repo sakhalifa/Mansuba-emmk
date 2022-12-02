@@ -7,6 +7,8 @@
 #include "moves.h"
 #include "neighbors.h"
 
+extern int verbose;
+
 enum victory_type{
     SIMPLE=0,
     COMPLEX=1

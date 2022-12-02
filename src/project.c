@@ -2,14 +2,17 @@
 #include <getopt.h>
 #include <sys/time.h>
 
-struct game_result game_loop(game_t *game)
+int verbose = 1;
+
+struct game_result game_loop(game_t *game, int verbose)
 {
     int winner = -1;
     uint seed = 0;
     while ((winner == -1) && (game->turn < game->max_turns))
     {
         init_neighbors(seed);
-        display_game(game);
+        if (verbose >= 1)
+            display_game(game);
         int choice = rand() % 2;
         if (game->captured_pieces_list->len == 0 || choice == 0)
         {
@@ -54,7 +57,7 @@ int main(int argc, char *const *argv)
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     enum victory_type victory_type = SIMPLE;
     int opt;
-    while ((opt = getopt(argc, argv, "t:m:s:")) != -1)
+    while ((opt = getopt(argc, argv, "t:m:s:v:")) != -1)
     {
         switch (opt)
         {
@@ -84,14 +87,17 @@ int main(int argc, char *const *argv)
         case 's':
             seed = atoi(optarg);
             break;
-        default: /* aq?aq */
-            fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
+        case 'v':
+            verbose = atoi(optarg);
+            break;
+        default:
+            fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level]\n",
                     argv[0]);
             exit(EXIT_FAILURE);
         }
     }
-
-    printf("%ld\n", seed);
+    if (verbose >= 0)
+        printf("%ld\n", seed);
     srand(seed);
 
     struct world_t *world = world_init();
@@ -100,15 +106,18 @@ int main(int argc, char *const *argv)
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);
     world_populate(game);
-    struct game_result game_res = game_loop(game);
+    struct game_result game_res = game_loop(game, verbose);
 
-    display_game(game);
+    if (verbose >= 1)
+        display_game(game);
 
-    if (game_res.winner != -1)
-        printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
-    else
-        printf("Ex-aequo en %d tours\n", game_res.turns);
+    if (verbose >= 1)
+    {
+        if (game_res.winner != -1)
+            printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
+        else
+            printf("Ex-aequo en %d tours\n", game_res.turns);
+    }
     game_free(game);
     return EXIT_SUCCESS;
-    return 0;
 }

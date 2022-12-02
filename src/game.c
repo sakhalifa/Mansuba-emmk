@@ -5,13 +5,14 @@
 #include "game.h"
 #include "neighbors.h"
 
-void load_starting_position(game_t *game){
+void load_starting_position(game_t *game)
+{
     for (int i = 0; i < HEIGHT; i++)
     {
         game_piece_t *game_piece = malloc(sizeof(game_piece_t));
         game_piece_t *game_piece_bis = malloc(sizeof(game_piece_t));
         enum sort_t current_sort = (i % (MAX_SORT - 1)) + 1;
-        
+
         game_piece->index = (i * WIDTH);
         game_piece->piece.color = BLACK;
         game_piece->piece.sort = current_sort;
@@ -107,7 +108,8 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
         int choice = rand() % 2;
         if (choice == 0)
         {
-            printf("Piece of color %u of sort %u revived at pos %u\n", piece.piece.color, piece.piece.sort, piece.index);
+            if (verbose >= 2)
+                printf("Piece of color %u of sort %u revived at pos %u\n", piece.piece.color, piece.piece.sort, piece.index);
             world_set_sort(game->world, piece.index, piece.piece.sort);
             world_set(game->world, piece.index, piece.piece.color);
 
@@ -119,7 +121,8 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
     }
 }
 
-void print_position(void *vpos){
+void print_position(void *vpos)
+{
     position_t *pos = vpos;
     printf("{%u, %u}\n", pos->col, pos->row);
 }
@@ -131,7 +134,8 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     node_t *moves = get_moves(game->world, &position, game->starting_position);
     position_t pos;
     position_from_idx(&pos, piece);
-    tree_print(moves, print_position);
+    if (verbose >= 2)
+        tree_print(moves, print_position);
 
     uint len_children = moves->children->len;
 
@@ -185,7 +189,8 @@ void current_player_move_piece(game_t *game, node_t *move)
 
     if (world_get_sort(game->world, destination_index) != NO_SORT && source_index != destination_index)
     {
-        printf("captured piece at pos %d\n", destination_index);
+        if (verbose >= 2)
+            printf("captured piece at pos %d\n", destination_index);
         capture_piece_at(game, destination_index);
     }
 

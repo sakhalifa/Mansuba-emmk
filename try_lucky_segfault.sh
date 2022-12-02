@@ -2,7 +2,7 @@
 
 for i in {1..10000}
 do
-    ./project
+    ./project -v 0
     if [ $? != 0 ]
     then
         echo "FAIL AT $i!"
