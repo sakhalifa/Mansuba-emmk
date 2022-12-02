@@ -26,7 +26,7 @@ struct game_result game_loop(game_t *game)
         }
         else
         {
-            captured_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
+            game_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
 
             if (piece.index != UINT_MAX)
             {

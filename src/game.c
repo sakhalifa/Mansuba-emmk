@@ -75,7 +75,7 @@ game_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
     return res;
 }
 
-int vs_compare_captured_piece(void *vp1, void *vp2)
+int vs_compare_game_piece(void *vp1, void *vp2)
 {
     game_piece_t *p1 = vp1;
     game_piece_t *p2 = vp2;
@@ -94,7 +94,7 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
             world_set_sort(game->world, piece.index, piece.piece.sort);
             world_set(game->world, piece.index, piece.piece.color);
 
-            int idx = array_list_get_index(game->captured_pieces_list, &piece, vs_compare_captured_piece);
+            int idx = array_list_get_index(game->captured_pieces_list, &piece, vs_compare_game_piece);
             assert(idx != -1);
             game_piece_t *rmv = array_list_remove(game->captured_pieces_list, idx);
             free(rmv);
