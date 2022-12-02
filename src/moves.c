@@ -19,7 +19,7 @@ void add_position_if_not_start_pos(uint pos_idx, struct world_t *world, node_t *
         return;
     if(pos_idx == source_index)
         return;
-    if (world_get_sort(world, pos_idx) != NO_SORT && array_list_contains(starting_pos, &pos_idx, vs_cmp_index_game_piece))
+    if (world_get_sort(world, pos_idx) != NO_SORT && (array_list_contains(starting_pos, &pos_idx, vs_cmp_index_game_piece) || world_get(world, pos_idx) == world_get(world, source_index)))
         return;
 
     position_t *pos = malloc(sizeof(position_t));
@@ -39,6 +39,7 @@ void add_pawn_simple_moves(struct world_t *world, node_t *root, uint source_inde
 
 void add_tower_moves(struct world_t *world, node_t *root, array_list_t *starting_pos)
 {
+    uint source_idx = position_to_idx((position_t*)root->value);
     for (enum dir_t dir = -4; dir < MAX_DIR - 4; dir++)
     {
         if (dir % 2 == 0)
@@ -51,7 +52,7 @@ void add_tower_moves(struct world_t *world, node_t *root, array_list_t *starting
             continue; // is inside the grid
 
         node_t *current = root;
-        while ((index_neighbor != UINT_MAX) && !(world_get_sort(world, index_neighbor) != NO_SORT && array_list_contains(starting_pos, &index_neighbor, vs_cmp_index_game_piece)))
+        while ((index_neighbor != UINT_MAX) && !(world_get_sort(world, index_neighbor) != NO_SORT && (array_list_contains(starting_pos, &index_neighbor, vs_cmp_index_game_piece) || world_get(world, index_neighbor) == world_get(world, source_idx))))
         {
             position_t *malloc_pos = malloc(sizeof(position_t));
             position_from_idx(malloc_pos, index_neighbor);

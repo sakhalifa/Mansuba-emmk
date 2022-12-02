@@ -99,7 +99,7 @@ int compute_hexagonal_offset(position_t *cur_pos, enum dir_t d)
 uint get_neighbor_hexagonal(uint idx, enum dir_t d)
 {
     if (d == NO_DIR || d == NORTH || d == SOUTH)
-        return idx;
+        return UINT_MAX;
     position_t cur_pos;
     position_from_idx(&cur_pos, idx);
     switch (d)
