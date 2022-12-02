@@ -11,7 +11,7 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
         ;
     array_list_t *ret = malloc(sizeof(array_list_t));
     ret->list = malloc(i * sizeof(void *));
-    ret->len = len;
+    ret->len = 0;
     ret->allocated_len = i;
     ret->free_func = free_func;
     return ret;
