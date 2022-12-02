@@ -53,5 +53,8 @@ void game_free(game_t *game);
 
 void capture_piece_at(game_t *game, uint index);
 
+void world_populate(game_t *game);
+
+void load_starting_position(game_t *game);
 
 #endif // __PROJECT_H__

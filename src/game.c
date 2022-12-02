@@ -5,16 +5,17 @@
 #include "game.h"
 #include "neighbors.h"
 
-void world_populate(struct world_t *world)
-{
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        enum sort_t cur_sort = (i % (MAX_SORT - 1)) + 1;
-        world_set(world, (i * WIDTH), BLACK);
-        world_set_sort(world, (i * WIDTH), cur_sort);
+void load_starting_position(game_t *game){
+    return;
+}
 
-        world_set(world, ((i + 1) * WIDTH) - 1, WHITE);
-        world_set_sort(world, ((i + 1) * WIDTH) - 1, cur_sort);
+void world_populate(game_t *game)
+{
+    for (int i = 0; i < game->starting_position->len; i++)
+    {
+        game_piece_t *game_piece = array_list_get(game->starting_position, i);
+        world_set(game->world, game_piece->index, game_piece->piece.color);
+        world_set_sort(game->world, game_piece->index, game_piece->piece.sort);
     }
 }
 
@@ -28,7 +29,6 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
     game->victory_type = victory_type;
     game->captured_pieces_list = array_list_init(0, free);
     game->starting_position = array_list_init(WORLD_SIZE, free);
-    world_populate(game->world);
     return game;
 }
 

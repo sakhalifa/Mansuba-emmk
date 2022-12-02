@@ -98,6 +98,8 @@ int main(int argc, char *const *argv)
     init_players();
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
+    load_starting_position(game);
+    world_populate(game->world);
     struct game_result game_res = game_loop(game);
 
     display_game(game);
