@@ -205,10 +205,38 @@ void current_player_move_piece(game_t *game, node_t *move)
     return;
 }
 
+bool check_complex_win(game_t *game)
+{
+    bool victories[MAX_COLOR];
+
+    for (enum color_t c = 1; c < MAX_COLOR; c++)
+    {
+        bool victory = true;
+        for (uint i = 0; i < game->starting_position->len; i++)
+        {
+            game_piece_t *piece = array_list_get(game->starting_position, i);
+            if (piece->piece.color == c)
+            {
+                if (world_get_sort(game->world, piece->index) == NO_SORT
+                || world_get(game->world, piece->index) == NO_COLOR || world_get(game->world, piece->index) == c)
+                {
+                    victory = false;
+                    break;
+                }
+            }
+        }
+        victories[c] = victory;
+    }
+    for (enum color_t c = 1; c < MAX_COLOR; c++)
+    {
+        if (victories[c])
+            return true;
+    }
+    return false;
+}
+
 bool check_win(game_t *game)
 {
-    bool victoryB = true;
-    bool victoryW = true;
     switch (game->victory_type)
     {
     case SIMPLE:
@@ -225,15 +253,7 @@ bool check_win(game_t *game)
         }
         return false;
     case COMPLEX:
-        for (int i = 0; i < HEIGHT; i++)
-        {
-            if (world_get(game->world, (i * WIDTH)) != WHITE)
-                victoryW = false;
-            if (world_get(game->world, ((i + 1) * WIDTH) - 1) != BLACK)
-                victoryB = false;
-        }
-        return victoryB || victoryW;
-
+        return check_complex_win(game);
     default:
         return false;
     }
