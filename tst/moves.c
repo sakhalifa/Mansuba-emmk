@@ -99,6 +99,7 @@ node_t * get_expected_output_test_tower(){
 
 void test_pawn(){
     struct world_t *world = world_init();
+    array_list_t *dummy_list = array_list_init(0, free);
     position_t pos[] = {{2, 0}, {2, 2}, {3, 1}, {3, 3}, {4, 2}};
     for (int i = 0; i < 5; i++)
     {
@@ -106,16 +107,17 @@ void test_pawn(){
     }
     position_t starting_position = {2, 1};
     world_set_sort(world, position_to_idx(&starting_position), PAWN);
-    node_t *move_tree = get_moves(world, &starting_position);
+    node_t *move_tree = get_moves(world, &starting_position, dummy_list);
     node_t *expected_output = get_expected_output_test_pawn();
     assert(are_trees_equal(expected_output, move_tree));
     node_free(move_tree);
     node_free(expected_output);
+    array_list_free(dummy_list);
 }
 
 void test_elephant(){
     struct world_t *world = world_init();
-    
+    array_list_t *dummy_list = array_list_init(0, free);
     position_t pos[] = {{2,1}, {3,3}};
     for (int i = 0; i < 2; i++)
     {
@@ -124,11 +126,13 @@ void test_elephant(){
 
     position_t starting_position = {2, 2};
     world_set_sort(world, position_to_idx(&starting_position), ELEPHANT);
-    node_t *move_tree = get_moves(world, &starting_position);
+    node_t *move_tree = get_moves(world, &starting_position, dummy_list);
     node_t *expected_output = get_expected_output_test_elephant();
     assert(are_trees_equal(expected_output, move_tree));
     node_free(move_tree);
     node_free(expected_output);
+    array_list_free(dummy_list);
+
 }
 
 void print_pos(void *p){
@@ -138,6 +142,7 @@ void print_pos(void *p){
 
 void test_tower(){
     struct world_t *world = world_init();
+    array_list_t *dummy_list = array_list_init(0, free);
     
     init_neighbors(TRIANGULAR);
     world_set_sort(world, position_to_idx(&all_pos[2][1]),  TOWER);
@@ -147,11 +152,13 @@ void test_tower(){
     // world_set_sort(world, 5, PAWN);
 
     world_set_sort(world, position_to_idx(&starting_position), TOWER);
-    node_t *move_tree = get_moves(world, &starting_position);
+    node_t *move_tree = get_moves(world, &starting_position, dummy_list);
     node_t *expected_tree = get_expected_output_test_tower();
     assert(are_trees_equal(move_tree, expected_tree));
     node_free(move_tree);
     node_free(expected_tree);
+    array_list_free(dummy_list);
+
 }
 
 void test_moves()

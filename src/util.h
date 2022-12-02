@@ -20,5 +20,10 @@ typedef struct {
     enum sort_t sort;
 } piece_t;
 
+typedef struct {
+    uint index;
+    piece_t piece;
+} game_piece_t;
+
 
 #endif

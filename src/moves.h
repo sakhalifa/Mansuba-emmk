@@ -4,6 +4,6 @@
 #include "world.h"
 #include "position.h"
 
-node_t *get_moves(struct world_t* world, position_t* pos);
+node_t *get_moves(struct world_t* world, position_t* pos, array_list_t *starting_pos);
 
 #endif

@@ -123,7 +123,7 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
 {
     position_t position;
     position_from_idx(&position, piece);
-    node_t *moves = get_moves(game->world, &position);
+    node_t *moves = get_moves(game->world, &position, game->starting_position);
 
     uint len_children = moves->children->len;
 

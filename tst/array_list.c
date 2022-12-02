@@ -10,13 +10,14 @@ static void free_nothing(void *_)
 void test_stack(){
     array_list_t *l;
     l = array_list_init(20, free_nothing);
-    assert(l->len == 20);
+    assert(l->len == 0);
     assert(l->allocated_len == 32);
     int tab[1][20];
+    l->len = 20;
     for (int i = 0; i < 20; i++)
     {
         *tab[i] = i;
-        array_list_set(l, tab[i], i);
+        array_list_set(l, tab[i], (uint)i);
     }
     for (int i = 0; i < 20; i++)
     {
