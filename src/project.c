@@ -11,7 +11,7 @@ struct game_result game_loop(game_t *game)
         init_neighbors(seed);
         display_game(game);
         int choice = rand() % 2;
-        if (choice == 0)
+        if (game->captured_pieces_list->len == 0 || choice == 0)
         {
             uint piece_idx = choose_random_piece_belonging_to_current(game);
             if (piece_idx != UINT_MAX)

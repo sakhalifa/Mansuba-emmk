@@ -119,11 +119,19 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
     }
 }
 
+void print_position(void *vpos){
+    position_t *pos = vpos;
+    printf("{%u, %u}\n", pos->col, pos->row);
+}
+
 node_t *choose_random_move_for_piece(game_t *game, uint piece)
 {
     position_t position;
     position_from_idx(&position, piece);
     node_t *moves = get_moves(game->world, &position, game->starting_position);
+    position_t pos;
+    position_from_idx(&pos, piece);
+    tree_print(moves, print_position);
 
     uint len_children = moves->children->len;
 
