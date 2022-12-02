@@ -148,9 +148,9 @@ struct neighbors_t get_neighbors(unsigned int idx)
 
     uint new_idx;
     uint neighs_index = 0;
-    for (int dir = -4; dir < MAX_DIR-4; dir++) // minus 4 due to the fact that the enum dir minimum is equal to -4
+    for (int dir = 0; dir < MAX_DIR; dir++)
     {
-        int true_dir = dir - 4; // minus 4 due to the fact that the enum dir minimum is equal to -4
+        enum dir_t true_dir = dir - 4; // minus 4 due to the fact that the enum dir minimum is equal to -4
         if (true_dir % 2 == 0)
             continue;
         new_idx = get_neighbor(idx, true_dir);
