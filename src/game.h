@@ -13,18 +13,13 @@ enum victory_type{
 };
 
 typedef struct {
-    uint index;
-    piece_t piece;
-} game_piece_t;
-
-typedef struct {
     uint turn;
     uint max_turns;
     player_t *current_player;
     enum victory_type victory_type;
     struct world_t *world;
     array_list_t *captured_pieces_list;
-    game_piece_t *starting_position;
+    array_list_t *starting_position;
 } game_t;
 
 struct game_result
