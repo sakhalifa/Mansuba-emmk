@@ -27,6 +27,7 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
     game->turn = 0;
     game->victory_type = victory_type;
     game->captured_pieces_list = array_list_init(0, free);
+    game->starting_position = array_list_init(WORLD_SIZE, free);
     world_populate(game->world);
     return game;
 }
@@ -136,6 +137,7 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
 void game_free(game_t *game)
 {
     array_list_free(game->captured_pieces_list);
+    array_list_free(game->starting_position);
     free(game);
 }
 
