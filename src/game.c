@@ -49,13 +49,13 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     return positions[rand() % index];
 }
 
-captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
+game_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
 {
     uint lgt = 0;
-    captured_piece_t *tab = malloc(sizeof(captured_piece_t) * game->captured_pieces_list->len);
+    game_piece_t *tab = malloc(sizeof(game_piece_t) * game->captured_pieces_list->len);
     for (uint i = 0; i < game->captured_pieces_list->len; i++)
     {
-        captured_piece_t *piece = array_list_get(game->captured_pieces_list, i);
+        game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if (piece->piece.color == game->current_player->color)
         {
             tab[lgt++] = *piece;
@@ -65,11 +65,11 @@ captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
     if (lgt == 0)
     {
         free(tab);
-        captured_piece_t res = {.index = UINT_MAX};
+        game_piece_t res = {.index = UINT_MAX};
         return res;
     }
     uint rand_int = rand() % lgt;
-    captured_piece_t res = tab[rand_int];
+    game_piece_t res = tab[rand_int];
 
     free(tab);
     return res;
@@ -77,13 +77,13 @@ captured_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
 
 int vs_compare_captured_piece(void *vp1, void *vp2)
 {
-    captured_piece_t *p1 = vp1;
-    captured_piece_t *p2 = vp2;
+    game_piece_t *p1 = vp1;
+    game_piece_t *p2 = vp2;
 
     return !(p1->index == p2->index && p1->piece.color == p2->piece.color && p1->piece.sort && p2->piece.sort);
 }
 
-void current_player_try_escape(game_t *game, captured_piece_t piece)
+void current_player_try_escape(game_t *game, game_piece_t piece)
 {
     if (world_get_sort(game->world, piece.index) == NO_SORT)
     {
@@ -96,7 +96,7 @@ void current_player_try_escape(game_t *game, captured_piece_t piece)
 
             int idx = array_list_get_index(game->captured_pieces_list, &piece, vs_compare_captured_piece);
             assert(idx != -1);
-            captured_piece_t *rmv = array_list_remove(game->captured_pieces_list, idx);
+            game_piece_t *rmv = array_list_remove(game->captured_pieces_list, idx);
             free(rmv);
         }
     }
@@ -141,7 +141,7 @@ void game_free(game_t *game)
 
 void capture_piece_at(game_t *game, uint index)
 {
-    captured_piece_t *piece = malloc(sizeof(captured_piece_t));
+    game_piece_t *piece = malloc(sizeof(game_piece_t));
 
     piece->index = index;
     piece->piece.color = world_get(game->world, index);
