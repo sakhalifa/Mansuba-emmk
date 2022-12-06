@@ -23,6 +23,7 @@ void add_position_if_not_start_pos(uint pos_idx, struct world_t *world, node_t *
         return;
 
     position_t *pos = malloc(sizeof(position_t));
+    assert(pos);
     position_from_idx(pos, pos_idx);
     node_add_child(node, pos);
 }
@@ -55,6 +56,7 @@ void add_tower_moves(struct world_t *world, node_t *root, array_list_t *starting
         while ((index_neighbor != UINT_MAX) && !(world_get_sort(world, index_neighbor) != NO_SORT && (array_list_contains(starting_pos, &index_neighbor, vs_cmp_index_game_piece) || world_get(world, index_neighbor) == world_get(world, source_idx))))
         {
             position_t *malloc_pos = malloc(sizeof(position_t));
+            assert(malloc_pos);
             position_from_idx(malloc_pos, index_neighbor);
             current = node_add_child(current, malloc_pos);
 
@@ -83,6 +85,7 @@ void add_pawn_jumps(struct world_t *world, node_t *root, uint source_index, arra
                 if (node_has_parent(root, &cur_far_neighbor_pos, vs_cmp_pos_pos))
                     continue;
                 position_t *malloc_pos = malloc(sizeof(position_t));
+                assert(malloc_pos);
                 position_from_idx(malloc_pos, far_neighbor);
                 node_t *child = node_add_child(root, malloc_pos);
 
@@ -117,6 +120,7 @@ void add_elephant_moves(struct world_t *world, node_t *root, uint source_index, 
 node_t *get_moves(struct world_t *world, position_t *pos, array_list_t *starting_pos)
 {
     position_t *malloc_pos = malloc(sizeof(position_t));
+    assert(malloc_pos);
     malloc_pos->col = pos->col;
     malloc_pos->row = pos->row;
     uint source_index = position_to_idx(pos);

@@ -7,6 +7,7 @@ void vs_node_free(void *vn){
 
 node_t *tree_create(void *val, void (*free_func)(void*)){
     node_t *n = malloc(sizeof(node_t));
+    assert(n);
     n->children = array_list_init(0, vs_node_free);
     n->parent = NULL;
     n->value = val;
