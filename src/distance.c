@@ -11,6 +11,7 @@ void init_distance_lookup_table(array_list_t *starting_pos)
     if (distance_lookup_table != NULL)
         free(distance_lookup_table);
     distance_lookup_table = malloc(sizeof(unsigned short int) * WORLD_SIZE * starting_pos->len * MAX_RELATIONS);    
+    assert(distance_lookup_table);
 }
 
 void compute_distance_lookup_table(array_list_t *starting_pos){
