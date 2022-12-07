@@ -1,5 +1,6 @@
 #include "tree.h"
 #include <stdio.h>
+#include <assert.h>
 
 void vs_node_free(void *vn){
     node_free((node_t*)vn);
