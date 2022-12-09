@@ -18,3 +18,7 @@ void _check_error( void * pointer, enum error_type error_type, uint line , const
         break;
     }
 }
+
+void free_nothing(void *_){
+    _ = _; // remove warning
+}

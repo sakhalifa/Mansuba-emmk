@@ -19,7 +19,6 @@ void _check_error(void * pointer, enum error_type error_type, uint line , const 
 
 #define CHECK_MALLOC(ptr) _check_error((ptr), MALLOC_ERR, (__LINE__ - (1)) , __FILE__)
 
-
 typedef enum {
     SQUARE = 0,
     TRIANGULAR = 1,
@@ -35,6 +34,8 @@ typedef struct {
     uint index;
     piece_t piece;
 } game_piece_t;
+
+void free_nothing(void *_);
 
 
 #endif
