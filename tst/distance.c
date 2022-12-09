@@ -8,7 +8,6 @@
 
 bool test_distance()
 {
-    const uint lookup_size = WORLD_SIZE * (MAX_COLOR - 1);
     init_neighbors(SQUARE);
     init_distance_lookup_table();
     for (uint i = 0; i < WORLD_SIZE; i++)
