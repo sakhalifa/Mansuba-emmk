@@ -50,6 +50,9 @@ struct game_result game_loop(game_t *game, int verbose)
 
 int main(int argc, char *const *argv)
 {
+    if(WORLD_SIZE > 50000){
+        fprintf(stderr, "Game board too big!");
+    }
     init_neighbors(SQUARE);
     int max_turn = 2 * WORLD_SIZE;
     struct timeval tv;
