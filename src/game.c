@@ -328,8 +328,13 @@ node_t * get_best_move(node_t * node, enum color_t player_color){
         node_t * child = array_list_get(node->children, i);
         node_t * child_move = get_best_move(child, player_color);
 
-        if (get_distance(get_neighbors_seed(), player_color, child_move->value) < get_distance(get_neighbors_seed(), player_color, best_node->value)){
-            best_node = child_move;
+        for (enum color_t c = 1; c < MAX_COLOR; c++)
+        {
+            if (c != player_color){
+                if (get_distance(get_neighbors_seed(), c, child_move->value) < get_distance(get_neighbors_seed(), c, best_node->value)){
+                    best_node = child_move;
+                }
+            }    
         }
     }
     return best_node;

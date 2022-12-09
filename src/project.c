@@ -107,6 +107,7 @@ int main(int argc, char *const *argv)
 
     struct world_t *world = world_init();
     init_players();
+    init_distance_lookup_table();
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);
@@ -127,5 +128,6 @@ int main(int argc, char *const *argv)
             printf("Ex-aequo en %d tours\n", game_res.turns);
     }
     game_free(game);
+    free_distance_lookup_table();
     return EXIT_SUCCESS;
 }
