@@ -1,4 +1,5 @@
 #include "game.h"
+#include "distance.h"
 #include <getopt.h>
 #include <sys/time.h>
 
@@ -19,7 +20,7 @@ struct game_result game_loop(game_t *game, int verbose)
             uint piece_idx = choose_random_piece_belonging_to_current(game);
             if (piece_idx != UINT_MAX)
             {
-                node_t *move = choose_random_move_for_piece(game, piece_idx);
+                node_t *move = choose_best_move_for_piece(game, piece_idx);
 
                 if (move != NULL)
                 {
@@ -54,6 +55,7 @@ int main(int argc, char *const *argv)
         fprintf(stderr, "Game board too big!");
     }
     init_neighbors(SQUARE);
+    
     int max_turn = 2 * WORLD_SIZE;
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -108,6 +110,9 @@ int main(int argc, char *const *argv)
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);
+    compute_distance_lookup_table(game->starting_position, SQUARE);
+    compute_distance_lookup_table(game->starting_position, TRIANGULAR);
+    compute_distance_lookup_table(game->starting_position, HEXAGONAL);
     world_populate(game);
     struct game_result game_res = game_loop(game, verbose);
 

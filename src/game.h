@@ -38,6 +38,7 @@ uint choose_random_piece_belonging_to_current(game_t *game);
 game_piece_t choose_random_captured_piece_belonging_to_current(game_t* game);
 
 node_t *choose_random_move_for_piece(game_t* game, uint piece);
+node_t *choose_best_move_for_piece(game_t *game, uint piece);
 
 void current_player_move_piece(game_t *game, node_t *move);
 void current_player_try_escape(game_t *game, game_piece_t piece);

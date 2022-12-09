@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "game.h"
 #include "neighbors.h"
+#include "distance.h"
 
 void load_starting_position(game_t *game)
 {
@@ -316,3 +317,50 @@ void change_player(game_t *game, player_t *player)
 {
     game->current_player = player;
 }
+
+
+node_t * get_best_move(node_t * node, enum color_t player_color){
+    if (node->children->len == 0) return node; 
+    
+    node_t *best_node = node;
+    for (size_t i = 0; i < node->children->len; i++)
+    {
+        node_t * child = array_list_get(node->children, i);
+        node_t * child_move = get_best_move(child, player_color);
+
+        if (get_distance(get_neighbors_seed(), player_color, child_move->value) < get_distance(get_neighbors_seed(), player_color, best_node->value)){
+            best_node = child_move;
+        }
+    }
+    return best_node;
+}
+
+node_t *choose_best_move_for_piece(game_t *game, uint piece){
+
+    position_t position;
+    position_from_idx(&position, piece);
+    node_t *moves = get_moves(game->world, &position, game->starting_position);
+    
+    
+    position_t pos;
+    position_from_idx(&pos, piece);
+    if (verbose >= 2)
+        tree_print(moves, print_position);
+
+    uint len_children = moves->children->len;
+
+    if (len_children == 0)
+    {
+        node_free(moves);
+        return NULL;
+    }
+
+    node_t *best_move = get_best_move(moves, game->current_player->color);
+
+
+
+    return best_move;
+
+
+}
+

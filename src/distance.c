@@ -12,7 +12,7 @@ void init_distance_lookup_table()
 {
     if (distance_lookup_table != NULL)
         free(distance_lookup_table);
-    distance_lookup_table = malloc(_LOOKUP_TABLE_SIZE);
+    distance_lookup_table = malloc(sizeof(unsigned short) * _LOOKUP_TABLE_SIZE);
     CHECK_MALLOC(distance_lookup_table);
     memset(distance_lookup_table, UCHAR_MAX, sizeof(unsigned short) * _LOOKUP_TABLE_SIZE);
 }
@@ -20,12 +20,12 @@ void init_distance_lookup_table()
 unsigned short get_distance(relation_t relation, enum color_t color, position_t *from)
 {
     // CHECK_OOB
-    return *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + color * WORLD_SIZE + position_to_idx(from)));
+    return *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color-1) * WORLD_SIZE + position_to_idx(from)));
 }
 
 void set_distance(unsigned short int value, relation_t relation, enum color_t color, uint index)
 {
-    *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + color * WORLD_SIZE + index)) = value;
+    *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color-1) * WORLD_SIZE + index)) = value;
 }
 
 void compute_distance_lookup_table(array_list_t *starting_pos, relation_t relation)
