@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "array_list.h"
+#include "util.h"
 
 /**
  * Inits an array_list with an initial length and a function to free elements.
@@ -11,9 +12,9 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
     for (i = 1; i < len; i *= 2)
         ;
     array_list_t *ret = malloc(sizeof(array_list_t));
-    assert(ret);
+    CHECK_MALLOC(ret);    
     ret->list = malloc(i * sizeof(void *));
-    assert(ret->list);
+    CHECK_MALLOC(ret->list);
     ret->len = 0;
     ret->allocated_len = i;
     ret->free_func = free_func;
@@ -25,7 +26,7 @@ void realloc_list(array_list_t *list)
 
     list->allocated_len *= 2;
     list->list = realloc(list->list, list->allocated_len * sizeof(void *));
-    assert(list->list);
+    CHECK_MALLOC(list->list);
 }
 
 /**

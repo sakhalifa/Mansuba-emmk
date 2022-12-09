@@ -1,5 +1,6 @@
 #include "main.h"
 
+int verbose = 2;
 
 int main(){
     test_get_neighbor();

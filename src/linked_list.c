@@ -1,3 +1,4 @@
+#include "util.h"
 #include "linked_list.h"
 #include <stdlib.h>
 #include <assert.h>
@@ -34,7 +35,7 @@ void *cell_get_value(cell_t *c)
 cell_t *create_cell(void *val)
 {
     cell_t *cell = malloc(sizeof(cell_t));
-    assert(cell);
+    CHECK_MALLOC(cell);
     cell->value = val;
     cell->next = NULL;
     cell->prev = NULL;
@@ -50,7 +51,7 @@ void cell_free(cell_t *c, linked_list_t *l)
 linked_list_t *linked_list_create(void (*free_func)(void *))
 {
     linked_list_t *l = malloc(sizeof(linked_list_t));
-    assert(l);
+    CHECK_MALLOC(l);
     l->first = NULL;
     l->last = NULL;
     l->length = 0;

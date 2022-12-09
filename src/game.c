@@ -10,9 +10,9 @@ void load_starting_position(game_t *game)
     for (int i = 0; i < HEIGHT; i++)
     {
         game_piece_t *game_piece = malloc(sizeof(game_piece_t));
-        assert(game_piece);
+        CHECK_MALLOC(game_piece);
         game_piece_t *game_piece_bis = malloc(sizeof(game_piece_t));
-        assert(game_piece_bis);
+        CHECK_MALLOC(game_piece_bis);
         enum sort_t current_sort = (i % (MAX_SORT - 1)) + 1;
 
         game_piece->index = (i * WIDTH);
@@ -41,7 +41,7 @@ void world_populate(game_t *game)
 game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victory_type, player_t *player)
 {
     game_t *game = malloc(sizeof(game_t));
-    assert(game);
+    CHECK_MALLOC(game);
     game->world = world;
     game->current_player = player;
     game->max_turns = max_turn;
@@ -74,7 +74,7 @@ game_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
 {
     uint lgt = 0;
     game_piece_t *tab = malloc(sizeof(game_piece_t) * game->captured_pieces_list->len);
-    assert(malloc);
+    CHECK_MALLOC(malloc);
     for (uint i = 0; i < game->captured_pieces_list->len; i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
@@ -176,7 +176,7 @@ void game_free(game_t *game)
 void capture_piece_at(game_t *game, uint index)
 {
     game_piece_t *piece = malloc(sizeof(game_piece_t));
-    assert(piece);
+    CHECK_MALLOC(piece);
 
     piece->index = index;
     piece->piece.color = world_get(game->world, index);
