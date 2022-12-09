@@ -6,11 +6,6 @@
 #include "neighbors.h"
 #include "util.h"
 
-void free_nothing(void *_)
-{
-    _ = _;
-}
-
 bool are_trees_equal(node_t *t1, node_t *t2)
 {
     position_t *t1_pos = t1->value;

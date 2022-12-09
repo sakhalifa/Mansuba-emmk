@@ -6,6 +6,9 @@
 bool test_get_neighbors();
 bool test_get_neighbor();
 
+//*****DISTANCE******//
+bool test_distance();
+
 //*****ARRAY_LIST*****//
 bool test_array();
 

@@ -2,11 +2,6 @@
 #include "util.h"
 //TODO Refactor
 
-static void free_nothing(void *_)
-{
-    _ = _; // Remove warning lol
-}
-
 void test_stack(){
     array_list_t *l;
     l = array_list_init(20, free_nothing);

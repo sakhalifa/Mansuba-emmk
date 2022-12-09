@@ -23,5 +23,8 @@ int main(){
 
     test_game();
     printf("Finished testing game.c\n");
+
+    test_distance();
+    printf("Finished testing distance.c\n");
     return 0;
 }

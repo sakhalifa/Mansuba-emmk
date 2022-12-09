@@ -25,7 +25,9 @@ project: geometry.o neighbors.o world.o game.o player.o moves.o position.o tree.
 test_single: project
 	./project -s 1670002204108862 -t c
 
-test_project: test_main.o test_array_list.o test_neighbors.o test_moves.o test_player.o test_game.o test_tree.o tree.o moves.o world.o player.o position.o neighbors.o array_list.o geometry.o game.o util.o
+test_project: tree.o moves.o world.o player.o position.o neighbors.o array_list.o geometry.o game.o distance.o util.o linked_list.o
+test_project: test_distance.o test_main.o test_array_list.o test_neighbors.o test_moves.o test_player.o test_game.o test_tree.o
+test_project:
 	- gcc -Wall -Wextra -std=c99 -g3 -DWIDTH=5 -DHEIGHT=4 -Isrc/ $(addprefix $(BUILDDIR)/, $^) -o test_project
 	- valgrind ./test_project
 
