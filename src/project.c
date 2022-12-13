@@ -14,17 +14,32 @@ struct game_result game_loop(game_t *game, int verbose)
         // init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
+        if(verbose >= 2)
+            printf("Playing as player n°%u\n", game->current_player->color);
         int choice = rand() % 2;
         if (game->captured_pieces_list->len == 0 || choice == 0)
         {
             uint piece_idx = choose_random_piece_belonging_to_current(game);
+            if(verbose >= 2){
+                position_t pos_deb;
+                position_from_idx(&pos_deb, piece_idx);
+                printf("Chose piece at ");
+                position_print(&pos_deb);
+                printf("\n");
+            }
             if (piece_idx != UINT_MAX)
             {
                 node_t *move = choose_best_move_for_piece(game, piece_idx);
-
                 if (move != NULL)
                 {
+                    if(verbose >= 2){
+                        printf("Chose move to ");
+                        position_print((position_t *)move->value);
+                        printf("\n");
+                    }
                     current_player_move_piece(game, move);
+                }else if(verbose >= 2){
+                    printf("Couldn't chose move!\n");
                 }
             }
         }
@@ -107,10 +122,10 @@ int main(int argc, char *const *argv)
 
     struct world_t *world = world_init();
     init_players();
-    init_distance_lookup_table();
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);
+    init_distance_lookup_table();
     compute_distance_lookup_table(game->starting_position, SQUARE);
     compute_distance_lookup_table(game->starting_position, TRIANGULAR);
     compute_distance_lookup_table(game->starting_position, HEXAGONAL);
