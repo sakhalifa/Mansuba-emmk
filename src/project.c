@@ -135,7 +135,7 @@ int main(int argc, char *const *argv)
     if (verbose >= 1)
         display_game(game);
 
-    if (verbose >= 1)
+    if (verbose >= 0)
     {
         if (game_res.winner != -1)
             printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
