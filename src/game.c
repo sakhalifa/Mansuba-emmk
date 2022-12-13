@@ -29,6 +29,19 @@ void load_starting_position(game_t *game)
     }
 }
 
+bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *starting_position){
+
+    for (size_t i = 0; i < starting_position->len; i++)
+    {
+        game_piece_t *start_piece = (game_piece_t *)array_list_get(starting_position, i); 
+        if (index == start_piece->index && color != start_piece->piece.color){
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 void world_populate(game_t *game)
 {
     for (size_t i = 0; i < game->starting_position->len; i++)
@@ -59,7 +72,8 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     uint index = 0;
     for (uint i = 0; i < WORLD_SIZE; i++)
     {
-        if (world_get(game->world, i) == game->current_player->color)
+        if (world_get(game->world, i) == game->current_player->color
+            && !piece_is_in_final_position(i, game->current_player->color, game->starting_position))
         {
             positions[index] = i;
             index++;
@@ -362,10 +376,5 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece){
 
     node_t *best_move = get_best_move(moves, game->current_player->color);
 
-
-
     return best_move;
-
-
 }
-
