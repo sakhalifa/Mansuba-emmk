@@ -25,5 +25,3 @@ player_t *next_player(player_t *p){
     if (p->color + 1 == MAX_COLOR) return players;
     return players + p->color; 
 }
-
-

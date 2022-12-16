@@ -10,5 +10,4 @@ player_t *get_random_player();
 void init_players();
 player_t *next_player(player_t *);
 
-
 #endif // __PLAYER_H__
