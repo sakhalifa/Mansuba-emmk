@@ -1,4 +1,5 @@
 #include "input.h"
+#include "util.h"
 
 void flush_stdin(){
     int c;

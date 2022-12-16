@@ -1,6 +1,5 @@
 #ifndef __INPUT_H__
 #define __INPUT_H__
-#include "util.h"
 
 enum actions{
     MOVE,
@@ -9,8 +8,8 @@ enum actions{
     MAX_ACTION
 };
 
-uint read_user_position();
+unsigned int read_user_position();
 enum actions read_user_action();
-uint read_user_number();
+unsigned int read_user_number();
 
 #endif // __INPUT_H__
