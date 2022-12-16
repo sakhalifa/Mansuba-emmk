@@ -89,12 +89,11 @@ struct game_result game_loop(game_t *game, int verbose)
         if (verbose >= 1)
             display_game(game);
         if(verbose >= 2)
-            printf("Playing as player n°%u\n", game->current_player->color);
+            printf("Playing as player n°%u, is a bot = %d\n", game->current_player->color, game->current_player->automated);
         int choice = rand() % 2;
         if (game->captured_pieces_list->len == 0 || choice == 0)
         {
-            // uint piece_idx = game->current_player->playing ? read_player_piece(game) : (choose_random_piece_belonging_to_current(game));
-            uint piece_idx = read_player_piece(game);
+            uint piece_idx = game->current_player->automated ? choose_random_piece_belonging_to_current(game) : read_player_piece(game);
             if(verbose >= 2){
                 position_t pos_deb;
                 position_from_idx(&pos_deb, piece_idx);
@@ -104,8 +103,7 @@ struct game_result game_loop(game_t *game, int verbose)
             }
             if (piece_idx != UINT_MAX)
             {
-                // node_t *move = playing ? read_player_move(game): choose_best_move_for_piece(game, piece_idx);
-                node_t *move = read_player_move(game, piece_idx);
+                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx): read_player_move(game, piece_idx);
                 if (move != NULL)
                 {
                     if(verbose >= 2){
@@ -153,7 +151,7 @@ int main(int argc, char *const *argv)
     gettimeofday(&tv, NULL);
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     enum victory_type victory_type = SIMPLE;
-    uint players_number;
+    uint players_number = 0;
     int opt;
     while ((opt = getopt(argc, argv, "t:m:s:v:p:")) != -1)
     {

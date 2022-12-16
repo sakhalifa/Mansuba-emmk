@@ -21,9 +21,10 @@ void init_players(uint real_players){
         idx++;
     }
 
-    for (uint i = 0; i < real_players; i++)
+    for (uint i = 0; i < MAX_PLAYERS; i++)
     {
-        players[i].automated = false;
+        if (i < real_players) players[i].automated = false;
+        else players[i].automated = true;
     }
 }
 
