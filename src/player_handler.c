@@ -76,8 +76,8 @@ node_t * get_player_move(game_t *game, uint piece_index){
 void display_available_action(game_t *game){
     printf(":w\tWAIT\n");
     printf(":m\tMOVE\n");
-    printf(":e\tESCAPE\n");
-    game = game;
+    if (has_piece_captured(game, game->current_player)) printf(":e\tESCAPE\n");
+    
 }
 
 enum actions get_player_action(game_t * game){
@@ -85,5 +85,6 @@ enum actions get_player_action(game_t * game){
     uint action = read_user_action();
     if (action == MAX_ACTION) return get_player_action(game);
 
+    if(!has_piece_captured(game, game->current_player) && action == ESCAPE) return get_player_action(game);
     return action;
 }
