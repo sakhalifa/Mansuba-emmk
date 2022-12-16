@@ -6,6 +6,7 @@
 
 # Unignore all dirs
 !*/
+!Doxyfile
 /build
 project
 .vscode/
