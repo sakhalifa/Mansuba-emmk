@@ -55,4 +55,4 @@ void world_populate(game_t *game);
 
 void load_starting_position(game_t *game);
 
-#endif // __PROJECT_H__
+#endif // __GAME_H__
