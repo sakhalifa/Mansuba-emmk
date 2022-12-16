@@ -1,5 +1,6 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
+#include <stdbool.h> 
 #include "geometry.h" 
 
 typedef struct player{

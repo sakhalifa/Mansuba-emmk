@@ -11,7 +11,6 @@ int verbose = 1;
 struct game_result game_loop(game_t *game, int verbose)
 {
     int winner = -1;
-    uint seed = 0;
     while ((winner == -1) && (game->turn < game->max_turns))
     {
         // init_neighbors(seed);
