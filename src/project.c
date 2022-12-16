@@ -70,8 +70,6 @@ struct game_result game_loop(game_t *game, int verbose)
             winner = game->current_player->color;
         game->turn++;
         change_player(game, next_player(game->current_player));
-        seed = seed + 1;
-        seed %= MAX_RELATIONS;
     }
     struct game_result res = {winner, game->turn};
     return res;
