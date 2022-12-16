@@ -3,6 +3,7 @@
 #include "position.h"
 #include "linked_list.h"
 #include "array_list.h"
+#include "distance.h"
 #include <string.h>
 #define _LOOKUP_TABLE_SIZE (WORLD_SIZE * (MAX_COLOR - 1) * MAX_RELATIONS)
 

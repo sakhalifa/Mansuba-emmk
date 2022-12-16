@@ -21,8 +21,9 @@ void add_position_if_not_start_pos(uint pos_idx, struct world_t *world, node_t *
     if (pos_idx == source_index)
         return;
     if (world_get_sort(world, pos_idx) != NO_SORT 
-        && !is_capture_allowed()
-        && (array_list_contains(starting_pos, &pos_idx, vs_cmp_index_game_piece) || world_get(world, pos_idx) == world_get(world, source_index)))
+        && (array_list_contains(starting_pos, &pos_idx, vs_cmp_index_game_piece) 
+            || world_get(world, pos_idx) == world_get(world, source_index)
+            || !is_capture_allowed()))
         return;
 
     position_t *pos = malloc(sizeof(position_t));
@@ -41,7 +42,7 @@ void add_pawn_simple_moves(struct world_t *world, node_t *root, uint source_inde
     }
 }
 
-void add_tower_moves(struct world_t *world, node_t *root, array_list_t *starting_pos)
+void add_tower_moves(struct world_t *world, node_t *root, uint source_index, array_list_t *starting_pos)
 {
     uint source_idx = position_to_idx((position_t *)root->value);
     for (enum dir_t dir = -4; dir < MAX_DIR - 4; dir++)
@@ -57,10 +58,11 @@ void add_tower_moves(struct world_t *world, node_t *root, array_list_t *starting
 
         node_t *current = root;
         while ((index_neighbor != UINT_MAX) 
-        && !(world_get_sort(world, index_neighbor) != NO_SORT 
-            && !is_capture_allowed()
+        && !(world_get_sort(world, index_neighbor) != NO_SORT
             && (array_list_contains(starting_pos, &index_neighbor, vs_cmp_index_game_piece) 
-                || world_get(world, index_neighbor) == world_get(world, source_idx))
+                || world_get(world, index_neighbor) == world_get(world, source_idx
+                || !is_capture_allowed())
+                )
             )
         )
         {
@@ -93,7 +95,8 @@ void add_pawn_jumps(struct world_t *world, node_t *root, uint source_index, arra
             {
                 position_t cur_far_neighbor_pos;
                 position_from_idx(&cur_far_neighbor_pos, far_neighbor);
-                if (node_has_parent(root, &cur_far_neighbor_pos, vs_cmp_pos_pos))
+                if (node_has_parent(root, &cur_far_neighbor_pos, vs_cmp_pos_pos)
+                    || node_has_child(root, &cur_far_neighbor_pos, vs_cmp_pos_pos))
                     continue;
                 position_t *malloc_pos = malloc(sizeof(position_t));
                 CHECK_MALLOC(malloc_pos);
@@ -154,4 +157,22 @@ node_t *get_moves(struct world_t *world, position_t *pos, array_list_t *starting
     }
 
     return root;
+}
+
+void enable_move_type(move_type_t move_type){
+    switch(move_type){
+        case SIMPLE_MOVE:
+            add_allowed_move_for_sort(add_pawn_simple_moves, PAWN);
+            add_allowed_move_for_sort(add_tower_moves, TOWER);
+            add_allowed_move_for_sort(add_elephant_moves, ELEPHANT);
+            break;
+        case SIMPLE_JUMP:
+            add_allowed_move_for_sort(add_pawn_simple_jumps, PAWN);
+            break;
+        case MULTIPLE_JUMP:
+            add_allowed_move_for_sort(add_pawn_multiple_jumps, PAWN);
+            break;
+        default:
+            break;
+    }
 }

@@ -4,17 +4,24 @@
 #include <stdio.h>
 #include "game.h"
 #include "neighbors.h"
+#include "configuration.h"
 #include "distance.h"
 
 void load_starting_position(game_t *game)
 {
+    enum sort_t current_sort = NO_SORT + 1;
     for (int i = 0; i < HEIGHT; i++)
     {
         game_piece_t *game_piece = malloc(sizeof(game_piece_t));
         CHECK_MALLOC(game_piece);
         game_piece_t *game_piece_bis = malloc(sizeof(game_piece_t));
         CHECK_MALLOC(game_piece_bis);
-        enum sort_t current_sort = (i % (MAX_SORT - 1)) + 1;
+        int j = 0;
+        while (!is_sort_allowed(current_sort))
+        {
+            current_sort = (current_sort % (MAX_SORT-1)) + 1;
+            ++j;
+        }
 
         game_piece->index = (i * WIDTH);
         game_piece->piece.color = BLACK;
@@ -26,19 +33,23 @@ void load_starting_position(game_t *game)
 
         array_list_push(game->starting_position, game_piece);
         array_list_push(game->starting_position, game_piece_bis);
+
+        ++current_sort;
     }
 }
 
-bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *starting_position){
+bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *starting_position)
+{
 
     for (size_t i = 0; i < starting_position->len; i++)
     {
-        game_piece_t *start_piece = (game_piece_t *)array_list_get(starting_position, i); 
-        if (index == start_piece->index && color != start_piece->piece.color){
+        game_piece_t *start_piece = (game_piece_t *)array_list_get(starting_position, i);
+        if (index == start_piece->index && color != start_piece->piece.color)
+        {
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -72,8 +83,7 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     uint index = 0;
     for (uint i = 0; i < WORLD_SIZE; i++)
     {
-        if (world_get(game->world, i) == game->current_player->color
-            && !piece_is_in_final_position(i, game->current_player->color, game->starting_position))
+        if (world_get(game->world, i) == game->current_player->color && !piece_is_in_final_position(i, game->current_player->color, game->starting_position))
         {
             positions[index] = i;
             index++;
@@ -237,8 +247,7 @@ bool check_complex_win(game_t *game)
             game_piece_t *piece = array_list_get(game->starting_position, i);
             if (piece->piece.color == c)
             {
-                if (world_get_sort(game->world, piece->index) == NO_SORT
-                || world_get(game->world, piece->index) == NO_COLOR || world_get(game->world, piece->index) == c)
+                if (world_get_sort(game->world, piece->index) == NO_SORT || world_get(game->world, piece->index) == NO_COLOR || world_get(game->world, piece->index) == c)
                 {
                     victory = false;
                     break;
@@ -332,35 +341,38 @@ void change_player(game_t *game, player_t *player)
     game->current_player = player;
 }
 
+node_t *get_best_move(node_t *node, enum color_t player_color)
+{
+    if (node->children->len == 0)
+        return node;
 
-node_t * get_best_move(node_t * node, enum color_t player_color){
-    if (node->children->len == 0) return node; 
-    
     node_t *best_node = node;
     for (size_t i = 0; i < node->children->len; i++)
     {
-        node_t * child = array_list_get(node->children, i);
-        node_t * child_move = get_best_move(child, player_color);
+        node_t *child = array_list_get(node->children, i);
+        node_t *child_move = get_best_move(child, player_color);
 
         for (enum color_t c = 1; c < MAX_COLOR; c++)
         {
-            if (c != player_color){
-                if (get_distance(get_neighbors_seed(), c, child_move->value) <= get_distance(get_neighbors_seed(), c, best_node->value)){
+            if (c != player_color)
+            {
+                if (get_distance(get_neighbors_seed(), c, child_move->value) <= get_distance(get_neighbors_seed(), c, best_node->value))
+                {
                     best_node = child_move;
                 }
-            }    
+            }
         }
     }
     return best_node;
 }
 
-node_t *choose_best_move_for_piece(game_t *game, uint piece){
+node_t *choose_best_move_for_piece(game_t *game, uint piece)
+{
 
     position_t position;
     position_from_idx(&position, piece);
     node_t *moves = get_moves(game->world, &position, game->starting_position);
-    
-    
+
     position_t pos;
     position_from_idx(&pos, piece);
     if (verbose >= 2)

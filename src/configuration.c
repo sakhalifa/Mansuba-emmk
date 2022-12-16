@@ -35,6 +35,7 @@ void init_config()
 
 void add_allowed_sort(enum sort_t sort)
 {
+    panic_if_locked();
     init_config();
     GLOBAL_CONFIG.allowed_sorts[sort-1] = true;
 }
@@ -45,6 +46,8 @@ int cmp_move(move_t m1, move_t m2){
 
 void add_allowed_move_for_sort(move_t move, enum sort_t sort)
 {
+    panic_if_locked();
+
     init_config();
     if(!array_list_contains(GLOBAL_CONFIG.moves_for_sort[sort-1], move, (void*)cmp_move)){
         array_list_push(GLOBAL_CONFIG.moves_for_sort[sort-1], move);
@@ -53,11 +56,15 @@ void add_allowed_move_for_sort(move_t move, enum sort_t sort)
 
 void set_capture_allowed(bool yes_no)
 {
+    panic_if_locked();
+
     GLOBAL_CONFIG.capture_allowed = yes_no;
 }
 
 void set_relation(relation_t relation)
 {
+    panic_if_locked();
+
     GLOBAL_CONFIG.relation = relation;
 }
 

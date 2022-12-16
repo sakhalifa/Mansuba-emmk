@@ -1,5 +1,7 @@
 #include "game.h"
 #include "distance.h"
+#include "configuration.h"
+#include <string.h>
 #include <getopt.h>
 #include <sys/time.h>
 
@@ -64,6 +66,19 @@ struct game_result game_loop(game_t *game, int verbose)
     return res;
 }
 
+void init_default_config(){
+    enable_move_type(SIMPLE_MOVE);
+    enable_move_type(SIMPLE_JUMP);
+    enable_move_type(MULTIPLE_JUMP);
+
+    add_allowed_sort(PAWN);
+    add_allowed_sort(TOWER);
+    add_allowed_sort(ELEPHANT);
+
+    set_capture_allowed(true);
+    set_relation(SQUARE);
+}
+
 int main(int argc, char *const *argv)
 {
     if(WORLD_SIZE > 50000){
@@ -77,7 +92,8 @@ int main(int argc, char *const *argv)
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     enum victory_type victory_type = SIMPLE;
     int opt;
-    while ((opt = getopt(argc, argv, "t:m:s:v:")) != -1)
+    bool do_init_config = true;
+    while ((opt = getopt(argc, argv, "t:m:s:v:c:")) != -1)
     {
         switch (opt)
         {
@@ -110,6 +126,17 @@ int main(int argc, char *const *argv)
         case 'v':
             verbose = atoi(optarg);
             break;
+        case 'c':
+            if(!strcmp(optarg, "dame-chinoises")){
+                do_init_config = false;
+                add_allowed_sort(PAWN);
+                enable_move_type(SIMPLE_MOVE);
+                enable_move_type(SIMPLE_JUMP);
+                enable_move_type(MULTIPLE_JUMP);
+                set_relation(HEXAGONAL);
+                set_capture_allowed(false);
+            }
+            break;
         default:
             fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level]\n",
                     argv[0]);
@@ -120,6 +147,10 @@ int main(int argc, char *const *argv)
         printf("%ld\n", seed);
     srand(seed);
 
+    if(do_init_config){
+        init_default_config();
+    }
+    lock_config();
     struct world_t *world = world_init();
     init_players();
     player_t *player = get_random_player();
@@ -130,6 +161,7 @@ int main(int argc, char *const *argv)
     compute_distance_lookup_table(game->starting_position, TRIANGULAR);
     compute_distance_lookup_table(game->starting_position, HEXAGONAL);
     world_populate(game);
+    init_neighbors(get_relation());
     struct game_result game_res = game_loop(game, verbose);
 
     if (verbose >= 1)
