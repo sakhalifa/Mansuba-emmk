@@ -2,9 +2,9 @@
 #define __GAME_H__
 
 #include "util.h"
+#include "moves.h"
 #include "world.h"
 #include "player.h"
-#include "moves.h"
 #include "neighbors.h"
 
 extern int verbose;
