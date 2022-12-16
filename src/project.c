@@ -49,7 +49,7 @@ struct game_result game_loop(game_t *game, int verbose)
         }
         else if (choice == ESCAPE)
         {
-            game_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
+            game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_belonging_to_current(game) : get_player_captured_piece(game, game->current_player);
 
             if (piece.index != UINT_MAX)
             {
@@ -58,7 +58,9 @@ struct game_result game_loop(game_t *game, int verbose)
                     position_t escaped_pos;
                     position_from_idx(&escaped_pos, piece.index);
                     printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);  
-                } 
+                }else{
+                    printf("Escape failed\n");
+                }
             }
         }
 

@@ -39,3 +39,16 @@ enum actions read_user_action(){
     if (action == 'e') return ESCAPE;
     return MAX_ACTION; 
 }
+
+uint read_user_number(){
+    uint number;
+    int matches = scanf("%d", &number);
+    flush_stdin();
+
+    if (matches != 1) {
+        printf("Invalid action given !\n");
+        return MAX_ACTION;
+    }
+
+    return number;
+}

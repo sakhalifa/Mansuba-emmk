@@ -88,3 +88,41 @@ enum actions get_player_action(game_t * game){
     if(!has_piece_captured(game, game->current_player) && action == ESCAPE) return get_player_action(game);
     return action;
 }
+
+
+game_piece_t get_player_captured_piece(game_t *game, player_t * player){
+    printf("Captured pieces :\n");
+    uint player_piece_counter = 0;
+    
+    for (size_t i = 0; i < game->captured_pieces_list->len; i++)
+    {
+        game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
+        if(piece->piece.color == player->color){
+            position_t piece_position;
+            position_from_idx(&piece_position, piece->index);
+            printf("%u : %s at %d,%d\n", player_piece_counter+1, place_to_string(piece->piece.color, piece->piece.sort), piece_position.row, piece_position.col);
+            player_piece_counter++;
+        }
+    }
+    
+    uint choice = read_user_number() - 1;
+    if (choice >= player_piece_counter) return get_player_captured_piece(game, player);
+    game_piece_t final_piece;
+    final_piece.index = UINT_MAX;
+
+    for (size_t i = 0; i < game->captured_pieces_list->len; i++)
+    {
+        game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
+        if(piece->piece.color == player->color){
+            player_piece_counter--;
+            if (player_piece_counter == 0){
+                final_piece.index = piece->index;
+                final_piece.piece.color = piece->piece.color;
+                final_piece.piece.sort = piece->piece.sort;
+                return final_piece;
+            }
+        }
+    }
+    
+    return final_piece;
+}
