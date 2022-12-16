@@ -44,6 +44,7 @@ void add_pawn_simple_moves(struct world_t *world, node_t *root, uint source_inde
 
 void add_tower_moves(struct world_t *world, node_t *root, uint source_index, array_list_t *starting_pos)
 {
+    source_index = source_index;
     uint source_idx = position_to_idx((position_t *)root->value);
     for (enum dir_t dir = -4; dir < MAX_DIR - 4; dir++)
     {
