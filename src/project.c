@@ -153,8 +153,9 @@ int main(int argc, char *const *argv)
     gettimeofday(&tv, NULL);
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     enum victory_type victory_type = SIMPLE;
+    uint players_number;
     int opt;
-    while ((opt = getopt(argc, argv, "t:m:s:v:")) != -1)
+    while ((opt = getopt(argc, argv, "t:m:s:v:p:")) != -1)
     {
         switch (opt)
         {
@@ -187,6 +188,15 @@ int main(int argc, char *const *argv)
         case 'v':
             verbose = atoi(optarg);
             break;
+
+        case 'p':
+            players_number = atoi(optarg);
+            if (players_number > MAX_PLAYERS)
+            {
+                fprintf(stderr, "Error, you cannot have more than %d players\n", MAX_PLAYERS);
+                exit(EXIT_FAILURE);
+            }
+            break;
         default:
             fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level]\n",
                     argv[0]);
@@ -198,7 +208,7 @@ int main(int argc, char *const *argv)
     srand(seed);
 
     struct world_t *world = world_init();
-    init_players();
+    init_players(players_number);
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);

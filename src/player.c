@@ -8,8 +8,9 @@ player_t *get_random_player(){
     return players + rand()%MAX_PLAYERS;
 }
 
-void init_players(){
+void init_players(uint real_players){
 
+    assert(real_players <= MAX_PLAYERS);
     enum color_t c = NO_COLOR + 1; //taking the first color 
     int idx = 0;
     while ( c < MAX_COLOR)
@@ -18,6 +19,11 @@ void init_players(){
         players[idx].color = c;
         c++;
         idx++;
+    }
+
+    for (uint i = 0; i < real_players; i++)
+    {
+        players[i].automated = false;
     }
 }
 

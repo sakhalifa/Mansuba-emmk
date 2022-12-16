@@ -4,6 +4,7 @@
 
 typedef struct player{
     enum color_t color;
+    bool automated;
 } player_t;
 
 player_t *get_random_player();
