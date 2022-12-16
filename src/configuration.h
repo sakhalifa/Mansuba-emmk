@@ -25,4 +25,6 @@ relation_t get_relation();
 
 bool is_capture_allowed();
 
+void config_free();
+
 #endif

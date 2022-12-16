@@ -21,6 +21,13 @@ void panic_if_locked()
     }
 }
 
+void config_free(){
+    for (int i = 0; i < MAX_SORT - 1; i++)
+    {
+        array_list_free(GLOBAL_CONFIG.moves_for_sort[i]);
+    }
+}
+
 void init_config()
 {
     if (GLOBAL_CONFIG.initialized)

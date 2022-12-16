@@ -197,5 +197,6 @@ int main(int argc, char *const *argv)
     }
     game_free(game);
     free_distance_lookup_table();
+    config_free();
     return EXIT_SUCCESS;
 }
