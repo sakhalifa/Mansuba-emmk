@@ -36,7 +36,5 @@ typedef struct {
 } game_piece_t;
 
 void free_nothing(void *_);
-uint read_player_position();
-
 
 #endif

@@ -1,5 +1,6 @@
 #include "game.h"
 #include "distance.h"
+#include "input.h"
 #include <getopt.h>
 #include <sys/time.h>
 
