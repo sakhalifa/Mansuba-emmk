@@ -3,7 +3,7 @@
 uint read_player_piece(game_t *game){
     printf("Choose your piece\n");
 
-    uint index = read_player_position();
+    uint index = read_user_position();
     if (index == UINT_MAX) return read_player_piece(game);
     
     position_t position;
@@ -53,7 +53,7 @@ void display_game_with_moves(game_t *game, node_t *moves){
     printf("\n");
 }
 
-node_t * read_player_move(game_t *game, uint piece_index){
+node_t * get_player_move(game_t *game, uint piece_index){
     position_t position;
     position_from_idx(&position, piece_index);
     node_t *moves = get_moves(game->world, &position, game->starting_position);
@@ -61,14 +61,29 @@ node_t * read_player_move(game_t *game, uint piece_index){
     display_game_with_moves(game, moves);
     printf("Chose your move : \n");
 
-    uint index = read_player_position();
-    if (index == UINT_MAX) return read_player_move(game, piece_index);
+    uint index = read_user_position();
+    if (index == UINT_MAX) return get_player_move(game, piece_index);
     position_t chosen_position;
     position_from_idx(&chosen_position, index);
 
     //TODO switch tree print to display row col instead of col row 
     node_t *player_move = tree_get_node(moves, &chosen_position, (void*)cmp_positions);
-    if (player_move == NULL) return read_player_move(game, piece_index);
+    if (player_move == NULL) return get_player_move(game, piece_index);
 
     return player_move;
+}
+
+void display_available_action(game_t *game){
+    printf(":w\tWAIT\n");
+    printf(":m\tMOVE\n");
+    printf(":e\tESCAPE\n");
+    game = game;
+}
+
+enum actions get_player_action(game_t * game){
+    display_available_action(game);
+    uint action = read_user_action();
+    if (action == MAX_ACTION) return get_player_action(game);
+
+    return action;
 }

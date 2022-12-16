@@ -17,8 +17,8 @@ struct game_result game_loop(game_t *game, int verbose)
             display_game(game);
         if(verbose >= 2)
             printf("Playing as player n°%u, is a bot = %d\n", game->current_player->color, game->current_player->automated);
-        int choice = rand() % 2;
-        if (game->captured_pieces_list->len == 0 || choice == 0)
+        enum actions choice = game->current_player->automated ? (enum actions)(rand() % MAX_ACTION) : get_player_action(game);
+        if (choice == MOVE)
         {
             uint piece_idx = game->current_player->automated ? choose_random_piece_belonging_to_current(game) : read_player_piece(game);
             if(verbose >= 2){
@@ -30,7 +30,7 @@ struct game_result game_loop(game_t *game, int verbose)
             }
             if (piece_idx != UINT_MAX)
             {
-                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx): read_player_move(game, piece_idx);
+                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx): get_player_move(game, piece_idx);
                 if (move != NULL)
                 {
                     if(verbose >= 2){
@@ -44,7 +44,7 @@ struct game_result game_loop(game_t *game, int verbose)
                 }
             }
         }
-        else
+        else if (choice == ESCAPE)
         {
             game_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
             printf("trying to free piece\n");
