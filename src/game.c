@@ -140,12 +140,6 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
     }
 }
 
-void print_position(void *vpos)
-{
-    position_t *pos = vpos;
-    printf("{%u, %u}\n", pos->col, pos->row);
-}
-
 node_t *choose_random_move_for_piece(game_t *game, uint piece)
 {
     position_t position;
@@ -154,7 +148,7 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     position_t pos;
     position_from_idx(&pos, piece);
     if (verbose >= 2)
-        tree_print(moves, print_position);
+        tree_print(moves, (void*) position_print);
 
     uint len_children = moves->children->len;
 
@@ -364,7 +358,7 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece){
     position_t pos;
     position_from_idx(&pos, piece);
     if (verbose >= 2)
-        tree_print(moves, print_position);
+        tree_print(moves, (void*) position_print);
 
     uint len_children = moves->children->len;
 
