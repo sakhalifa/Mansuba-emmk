@@ -130,7 +130,7 @@ int vs_compare_game_piece(void *vp1, void *vp2)
     return !(p1->index == p2->index && p1->piece.color == p2->piece.color && p1->piece.sort && p2->piece.sort);
 }
 
-void current_player_try_escape(game_t *game, game_piece_t piece)
+bool current_player_try_escape(game_t *game, game_piece_t piece)
 {
     if (world_get_sort(game->world, piece.index) == NO_SORT)
     {
@@ -146,14 +146,10 @@ void current_player_try_escape(game_t *game, game_piece_t piece)
             assert(idx != -1);
             game_piece_t *rmv = array_list_remove(game->captured_pieces_list, idx);
             free(rmv);
+            return true;
         }
     }
-}
-
-void print_position(void *vpos)
-{
-    position_t *pos = vpos;
-    printf("{%u, %u}\n", pos->col, pos->row);
+    return false;
 }
 
 node_t *choose_random_move_for_piece(game_t *game, uint piece)
@@ -164,7 +160,7 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     position_t pos;
     position_from_idx(&pos, piece);
     if (verbose >= 2)
-        tree_print(moves, print_position);
+        tree_print(moves, (void*) position_print);
 
     uint len_children = moves->children->len;
 
@@ -376,7 +372,7 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece)
     position_t pos;
     position_from_idx(&pos, piece);
     if (verbose >= 2)
-        tree_print(moves, print_position);
+        tree_print(moves, (void*) position_print);
 
     uint len_children = moves->children->len;
 
@@ -389,4 +385,14 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece)
     node_t *best_move = get_best_move(moves, game->current_player->color);
 
     return best_move;
+}
+
+bool has_piece_captured(game_t *game, player_t *player){
+    for (size_t i = 0; i < game->captured_pieces_list->len; i++)
+    {
+        game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
+        if(piece->piece.color == player->color) return true;
+    }
+
+    return false;
 }

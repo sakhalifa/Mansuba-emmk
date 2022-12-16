@@ -2,6 +2,7 @@
 #include "distance.h"
 #include "configuration.h"
 #include <string.h>
+#include "player_handler.h"
 #include <getopt.h>
 #include <sys/time.h>
 
@@ -13,15 +14,18 @@ struct game_result game_loop(game_t *game, int verbose)
     uint seed = 0;
     while ((winner == -1) && (game->turn < game->max_turns))
     {
-        // init_neighbors(seed);
+        init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
         if(verbose >= 2)
-            printf("Playing as player n°%u\n", game->current_player->color);
-        int choice = rand() % 2;
-        if (game->captured_pieces_list->len == 0 || choice == 0)
+            printf("Playing as player n°%u, is a bot = %d\n", game->current_player->color, game->current_player->automated);
+        enum actions choice = game->current_player->automated ? (enum actions)(rand() % MAX_ACTION) : get_player_action(game);
+        if(choice == WAIT){
+            choice = choice;
+        }
+        else if (!has_piece_captured(game, game->current_player) || choice == MOVE)
         {
-            uint piece_idx = choose_random_piece_belonging_to_current(game);
+            uint piece_idx = game->current_player->automated ? choose_random_piece_belonging_to_current(game) : read_player_piece(game);
             if(verbose >= 2){
                 position_t pos_deb;
                 position_from_idx(&pos_deb, piece_idx);
@@ -31,7 +35,7 @@ struct game_result game_loop(game_t *game, int verbose)
             }
             if (piece_idx != UINT_MAX)
             {
-                node_t *move = choose_best_move_for_piece(game, piece_idx);
+                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx): get_player_move(game, piece_idx);
                 if (move != NULL)
                 {
                     if(verbose >= 2){
@@ -45,13 +49,20 @@ struct game_result game_loop(game_t *game, int verbose)
                 }
             }
         }
-        else
+        else if (choice == ESCAPE)
         {
-            game_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
+            game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_belonging_to_current(game) : get_player_captured_piece(game, game->current_player);
 
             if (piece.index != UINT_MAX)
             {
-                current_player_try_escape(game, piece);
+                bool success = current_player_try_escape(game, piece);
+                if ( success && verbose >= 1){
+                    position_t escaped_pos;
+                    position_from_idx(&escaped_pos, piece.index);
+                    printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);  
+                }else{
+                    printf("Escape failed\n");
+                }
             }
         }
 
@@ -91,9 +102,10 @@ int main(int argc, char *const *argv)
     gettimeofday(&tv, NULL);
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
     enum victory_type victory_type = SIMPLE;
+    uint players_number = 0;
     int opt;
     bool do_init_config = true;
-    while ((opt = getopt(argc, argv, "t:m:s:v:c:")) != -1)
+    while ((opt = getopt(argc, argv, "t:m:s:v:c:p:")) != -1)
     {
         switch (opt)
         {
@@ -137,6 +149,15 @@ int main(int argc, char *const *argv)
                 set_capture_allowed(false);
             }
             break;
+
+        case 'p':
+            players_number = atoi(optarg);
+            if (players_number > MAX_PLAYERS)
+            {
+                fprintf(stderr, "Error, you cannot have more than %d players\n", MAX_PLAYERS);
+                exit(EXIT_FAILURE);
+            }
+            break;
         default:
             fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level]\n",
                     argv[0]);
@@ -152,7 +173,7 @@ int main(int argc, char *const *argv)
     }
     lock_config();
     struct world_t *world = world_init();
-    init_players();
+    init_players(players_number);
     player_t *player = get_random_player();
     game_t *game = game_init(world, max_turn, victory_type, player);
     load_starting_position(game);

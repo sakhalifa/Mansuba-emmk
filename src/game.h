@@ -41,7 +41,9 @@ node_t *choose_random_move_for_piece(game_t* game, uint piece);
 node_t *choose_best_move_for_piece(game_t *game, uint piece);
 
 void current_player_move_piece(game_t *game, node_t *move);
-void current_player_try_escape(game_t *game, game_piece_t piece);
+
+//return if the escape was successful or not
+bool current_player_try_escape(game_t *game, game_piece_t piece);
 
 bool check_win(game_t *game);
 
@@ -55,4 +57,5 @@ void world_populate(game_t *game);
 
 void load_starting_position(game_t *game);
 
+bool has_piece_captured(game_t *game, player_t *player);
 #endif // __GAME_H__
