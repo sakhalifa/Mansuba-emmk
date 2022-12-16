@@ -10,6 +10,11 @@ TESTSDIR = tst
 
 all: create project
 
+doc:
+	mkdir -p doc
+	bash generate_overview_c.sh
+	doxygen
+
 create:
 	mkdir -p build
 
@@ -37,4 +42,4 @@ clean:
 	rm -f $(BUILDDIR)/*.o *~
 	rm -f project
 	rm -f test_project
-	- 
+	rm -rf doc

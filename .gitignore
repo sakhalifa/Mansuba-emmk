@@ -10,3 +10,4 @@
 project
 .vscode/
 doc/
+*/overview.c
