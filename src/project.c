@@ -5,13 +5,87 @@
 
 int verbose = 1;
 
+uint read_player_piece(game_t *game){
+    printf("Choose your piece\n");
+
+    uint index = read_player_position();
+    if (index == UINT_MAX) return read_player_piece(game);
+    
+    position_t position;
+    position_from_idx(&position, index);
+
+    if(world_get_sort(game->world, index) == NO_SORT){
+        printf("There is no piece at the position %u,%u !\n", position.row, position.col);
+        return read_player_piece(game);
+    }
+
+    if(world_get(game->world, index) != game->current_player->color){
+        printf("The piece at %u,%u isn't yours !\n", position.row, position.col);
+        return read_player_piece(game);
+    }
+
+    return index;
+}
+
+void display_game_with_moves(game_t *game, node_t *moves){
+
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
+        printf("-");
+    }
+    printf("\n");
+
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        printf("|");
+        for (int j = 0; j < WIDTH; j++)
+        {
+            position_t position;
+            position_from_idx(&position, i*WIDTH+j);
+            if(tree_get_node(moves, (void*) &position, (void*) cmp_positions) != NULL){
+                printf("\x1B[31m");
+            }
+            printf(" %s", place_to_string(world_get(game->world, i * WIDTH + j), world_get_sort(game->world, i * WIDTH + j)));
+            printf("\x1B[0m");
+        }
+        printf("|\n");
+    }
+
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
+        printf("-");
+    }
+    printf("\n");
+}
+
+node_t * read_player_move(game_t *game, uint piece_index){
+    position_t position;
+    position_from_idx(&position, piece_index);
+    node_t *moves = get_moves(game->world, &position, game->starting_position);
+    
+    display_game_with_moves(game, moves);
+    printf("Chose your move : \n");
+
+    uint index = read_player_position();
+    if (index == UINT_MAX) return read_player_move(game, piece_index);
+    position_t chosen_position;
+    position_from_idx(&chosen_position, index);
+
+    //TODO switch tree print to display row col instead of col row 
+    node_t *player_move = tree_get_node(moves, &chosen_position, (void*)cmp_positions);
+    if (player_move == NULL) return read_player_move(game, piece_index);
+
+    return player_move;
+}
+
+
 struct game_result game_loop(game_t *game, int verbose)
 {
     int winner = -1;
     uint seed = 0;
     while ((winner == -1) && (game->turn < game->max_turns))
     {
-        // init_neighbors(seed);
+        init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
         if(verbose >= 2)
@@ -19,7 +93,8 @@ struct game_result game_loop(game_t *game, int verbose)
         int choice = rand() % 2;
         if (game->captured_pieces_list->len == 0 || choice == 0)
         {
-            uint piece_idx = choose_random_piece_belonging_to_current(game);
+            // uint piece_idx = game->current_player->playing ? read_player_piece(game) : (choose_random_piece_belonging_to_current(game));
+            uint piece_idx = read_player_piece(game);
             if(verbose >= 2){
                 position_t pos_deb;
                 position_from_idx(&pos_deb, piece_idx);
@@ -29,7 +104,8 @@ struct game_result game_loop(game_t *game, int verbose)
             }
             if (piece_idx != UINT_MAX)
             {
-                node_t *move = choose_best_move_for_piece(game, piece_idx);
+                // node_t *move = playing ? read_player_move(game): choose_best_move_for_piece(game, piece_idx);
+                node_t *move = read_player_move(game, piece_idx);
                 if (move != NULL)
                 {
                     if(verbose >= 2){
@@ -46,6 +122,7 @@ struct game_result game_loop(game_t *game, int verbose)
         else
         {
             game_piece_t piece = choose_random_captured_piece_belonging_to_current(game);
+            printf("trying to free piece\n");
 
             if (piece.index != UINT_MAX)
             {
