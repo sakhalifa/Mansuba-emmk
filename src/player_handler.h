@@ -14,7 +14,7 @@ uint read_player_piece(const game_t *game);
 /// @return the chosen node of the move tree 
 node_t * get_player_move(const game_t *game, uint piece_index);
 
-/// @brief displays the game world on the standard output with highlighted cells matching the cells inside the move tree
+/// @brief displays the game world on the standard output with highlighted cells matching the cells inside the \p moves tree
 /// @param game the game structure
 /// @param moves the move tree
 void display_game_with_moves(const game_t *game, const node_t *moves);
@@ -24,7 +24,7 @@ void display_game_with_moves(const game_t *game, const node_t *moves);
 /// @return the chosen action
 enum actions get_player_action(const game_t * game);
 
-/// @brief displays the current captured pieces for the given player on the standard output and returns the piece chosen by the player  
+/// @brief displays the current captured pieces for \p player on the standard output and returns the piece chosen by the player  
 /// @param game the game structure
 /// @param player the player for which we are getting the captured pieces
 /// @return the game_piece chosen by the player 
