@@ -87,6 +87,7 @@ void init_default_config(){
     set_relation(SQUARE);
 }
 
+
 int main(int argc, char *const *argv)
 {
     if(WORLD_SIZE > 50000){

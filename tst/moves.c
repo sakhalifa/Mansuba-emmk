@@ -118,16 +118,18 @@ void test_elephant(){
     {
         world_set_sort(world, position_to_idx(pos + i), PAWN);
     }
-
     position_t starting_position = {2, 2};
     world_set_sort(world, position_to_idx(&starting_position), ELEPHANT);
+
+
     node_t *move_tree = get_moves(world, &starting_position, dummy_list);
+
     node_t *expected_output = get_expected_output_test_elephant();
     assert(are_trees_equal(expected_output, move_tree));
+
     node_free(move_tree);
     node_free(expected_output);
     array_list_free(dummy_list);
-
 }
 
 void print_pos(void *p){
@@ -165,9 +167,9 @@ void test_moves()
             all_pos[i][j].row = j;
         }
     }
-    // test_pawn();
+    test_pawn();
     
-    // test_elephant();
+    test_elephant();
     
     test_tower();
 }

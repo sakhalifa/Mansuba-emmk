@@ -20,13 +20,23 @@ void init_distance_lookup_table()
 
 unsigned short get_distance(relation_t relation, enum color_t color, position_t *from)
 {
-    // CHECK_OOB
-    return *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color-1) * WORLD_SIZE + position_to_idx(from)));
+    uint index = position_to_idx(from);
+    if (relation > MAX_RELATIONS || color > MAX_COLOR || index > WORLD_SIZE)
+    {
+        fprintf(stderr, "Warning, OOB access at %s:%u\n", __FILE__, __LINE__);
+        return USHRT_MAX;
+    }
+    return *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color - 1) * WORLD_SIZE + position_to_idx(from)));
 }
 
 void set_distance(unsigned short int value, relation_t relation, enum color_t color, uint index)
 {
-    *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color-1) * WORLD_SIZE + index)) = value;
+    if (relation > MAX_RELATIONS || color > MAX_COLOR || index > WORLD_SIZE)
+    {
+        fprintf(stderr, "Warning, OOB access at %s:%u\n", __FILE__, __LINE__);
+        return USHRT_MAX;
+    }
+    *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color - 1) * WORLD_SIZE + index)) = value;
 }
 
 void compute_distance_lookup_table(array_list_t *starting_pos, relation_t relation)
