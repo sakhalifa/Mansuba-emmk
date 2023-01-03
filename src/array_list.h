@@ -3,12 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct array_list{
-    void **list;
-    size_t len;
-    size_t allocated_len;
-    void (*free_func)(void *);
-} array_list_t;
+typedef struct array_list array_list_t;
 
 /**
  * Inits an array_list with an initial length and a function to free elements.

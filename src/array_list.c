@@ -3,6 +3,13 @@
 #include "array_list.h"
 #include "util.h"
 
+
+struct array_list {
+    void **list;
+    size_t len;
+    size_t allocated_len;
+    void (*free_func)(void *);
+};
 /**
  * Inits an array_list with an initial length and a function to free elements.
  */
