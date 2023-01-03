@@ -34,18 +34,18 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
 
 void change_player(game_t *game, player_t *player);
 
-uint choose_random_piece_for_player(game_t *game, player_t *player);
-game_piece_t choose_random_captured_piece_for_player(game_t* game, player_t *player);
+uint choose_random_piece_for_player(const game_t *game, const player_t *player);
+game_piece_t choose_random_captured_piece_for_player(const game_t* game, const player_t *player);
 
-node_t *choose_random_move_for_piece(game_t* game, uint piece);
-node_t *choose_best_move_for_piece(game_t *game, uint piece);
+node_t *choose_random_move_for_piece(const game_t* game, uint piece);
+node_t *choose_best_move_for_piece(const game_t *game, uint piece);
 
-void current_player_move_piece(game_t *game, node_t *move);
+void current_player_move_piece(game_t *game, const node_t *move);
 
 //return if the escape was successful or not
 bool current_player_try_escape(game_t *game, game_piece_t piece);
 
-bool check_win(game_t *game);
+bool check_win(const game_t *game);
 
 
 /// @brief displays the game board on the standard output

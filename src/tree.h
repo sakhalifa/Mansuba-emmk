@@ -39,7 +39,7 @@ node_t *tree_get_node(const node_t *root, void* val, int (*cmp_func)(void*, void
 /**
  * Returns the root of the tree that contains the node
 */
-node_t *node_get_root(node_t* node);
+node_t *node_get_root(const node_t* node);
 
 /**
  * If a node has a child with a certain value

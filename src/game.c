@@ -77,7 +77,7 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
     return game;
 }
 
-uint choose_random_piece_for_player(game_t *game, player_t *player)
+uint choose_random_piece_for_player(const game_t *game, const player_t *player)
 {
     uint positions[WORLD_SIZE];
     uint index = 0;
@@ -95,7 +95,7 @@ uint choose_random_piece_for_player(game_t *game, player_t *player)
     return positions[rand() % index];
 }
 
-game_piece_t choose_random_captured_piece_for_player(game_t *game, player_t *player)
+game_piece_t choose_random_captured_piece_for_player(const game_t *game, const player_t *player)
 {
     uint lgt = 0;
     game_piece_t *tab = malloc(sizeof(game_piece_t) * array_list_len(game->captured_pieces_list));
@@ -152,7 +152,7 @@ bool current_player_try_escape(game_t *game, game_piece_t piece)
     return false;
 }
 
-node_t *choose_random_move_for_piece(game_t *game, uint piece)
+node_t *choose_random_move_for_piece(const game_t *game, uint piece)
 {
     position_t position;
     position_from_idx(&position, piece);
@@ -206,7 +206,7 @@ void capture_piece_at(game_t *game, uint index)
     array_list_push(game->captured_pieces_list, piece);
 }
 
-void current_player_move_piece(game_t *game, node_t *move)
+void current_player_move_piece(game_t *game, const node_t *move)
 {
     node_t *move_tree_root = node_get_root(move);
     uint destination_index = position_to_idx((position_t *)move->value);
@@ -231,7 +231,7 @@ void current_player_move_piece(game_t *game, node_t *move)
     return;
 }
 
-bool check_complex_win(game_t *game)
+bool check_complex_win(const game_t *game)
 {
     bool victories[MAX_COLOR];
 
@@ -260,7 +260,7 @@ bool check_complex_win(game_t *game)
     return false;
 }
 
-bool check_win(game_t *game)
+bool check_win(const game_t *game)
 {
     switch (game->victory_type)
     {
@@ -362,7 +362,7 @@ node_t *get_best_move(node_t *node, enum color_t player_color)
     return best_node;
 }
 
-node_t *choose_best_move_for_piece(game_t *game, uint piece)
+node_t *choose_best_move_for_piece(const game_t *game, uint piece)
 {
 
     position_t position;

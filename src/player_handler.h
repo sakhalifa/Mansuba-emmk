@@ -28,6 +28,6 @@ enum actions get_player_action(const game_t * game);
 /// @param game the game structure
 /// @param player the player for which we are getting the captured pieces
 /// @return the game_piece chosen by the player 
-game_piece_t get_player_captured_piece(game_t *game, player_t * player);
+game_piece_t get_player_captured_piece(const game_t *game, const player_t * player);
 
 #endif // __PLAYER_HANDLER_H__

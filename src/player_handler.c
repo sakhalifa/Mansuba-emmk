@@ -90,7 +90,7 @@ enum actions get_player_action(const game_t * game){
 }
 
 
-game_piece_t get_player_captured_piece(game_t *game, player_t * player){
+game_piece_t get_player_captured_piece(const game_t *game, const player_t * player){
     printf("Captured pieces :\n");
     uint player_piece_counter = 0;
     
