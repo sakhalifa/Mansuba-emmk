@@ -1,7 +1,7 @@
 #include "player_handler.h"
 
 uint read_player_piece(const game_t *game){
-    printf("Choose your piece\n");
+    printf("Choose your piece (format is 'row col')\n");
 
     uint index = read_user_position();
     if (index == UINT_MAX) return read_player_piece(game);
@@ -66,7 +66,6 @@ node_t * get_player_move(const game_t *game, uint piece_index){
     position_t chosen_position;
     position_from_idx(&chosen_position, index);
 
-    //TODO switch tree print to display row col instead of col row 
     node_t *player_move = tree_get_node(moves, &chosen_position, (void*)cmp_positions);
     if (player_move == NULL) return get_player_move(game, piece_index);
 

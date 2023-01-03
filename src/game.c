@@ -286,6 +286,7 @@ bool check_win(const game_t *game)
 
 void display_game(const game_t *game)
 {
+    printf("Current Player: %c\n", color_to_char(game->current_player->color));
     for (int j = -2; j < WIDTH * 3; j++)
         printf("-");
     printf("\n");

@@ -10,8 +10,8 @@ int verbose = 1;
 
 struct game_result game_loop(game_t *game, int verbose)
 {
-    int winner = -1;
-    while ((winner == -1) && (game->turn < game->max_turns))
+    enum color_t winner = NO_COLOR;
+    while ((winner == NO_COLOR) && (game->turn < game->max_turns))
     {
         // init_neighbors(seed);
         if (verbose >= 1)
@@ -189,8 +189,8 @@ int main(int argc, char *const *argv)
 
     if (verbose >= 0)
     {
-        if (game_res.winner != -1)
-            printf("Partie gagnée par le joueur %d après %u turns\n", game_res.winner, game_res.turns);
+        if (game_res.winner != NO_COLOR)
+            printf("Partie gagnée par le joueur %c après %u turns\n", color_to_char(game_res.winner), game_res.turns);
         else
             printf("Ex-aequo en %d tours\n", game_res.turns);
     }

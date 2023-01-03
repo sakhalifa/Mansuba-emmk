@@ -13,7 +13,7 @@ void position_from_idx(position_t *pos, unsigned int idx){
 }
 
 void position_print(position_t *p){
-    printf("{%u,%u}", p->col, p->row);
+    printf("{%u,%u}", p->row, p->col);
 }
 
 unsigned int position_to_idx(position_t *pos){

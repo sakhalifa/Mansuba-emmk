@@ -37,4 +37,8 @@ typedef struct {
 
 void free_nothing(void *_);
 
+char color_to_char(enum color_t c);
+
+char sort_to_char(enum sort_t s);
+
 #endif

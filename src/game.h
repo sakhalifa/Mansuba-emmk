@@ -26,7 +26,7 @@ typedef struct {
 
 struct game_result
 {
-    int winner;
+    enum color_t winner;
     uint turns;
 };
 
