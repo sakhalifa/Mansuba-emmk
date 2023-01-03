@@ -24,7 +24,7 @@ struct game_result game_loop(game_t *game, int verbose)
         }
         else if (!has_piece_captured(game, game->current_player) || choice == MOVE)
         {
-            uint piece_idx = game->current_player->automated ? choose_random_piece_belonging_to_current(game) : read_player_piece(game);
+            uint piece_idx = game->current_player->automated ? choose_random_piece_for_player(game, game->current_player) : read_player_piece(game);
             if(verbose >= 2){
                 position_t pos_deb;
                 position_from_idx(&pos_deb, piece_idx);
@@ -50,7 +50,7 @@ struct game_result game_loop(game_t *game, int verbose)
         }
         else if (choice == ESCAPE)
         {
-            game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_belonging_to_current(game) : get_player_captured_piece(game, game->current_player);
+            game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_for_player(game, game->current_player) : get_player_captured_piece(game, game->current_player);
 
             if (piece.index != UINT_MAX)
             {

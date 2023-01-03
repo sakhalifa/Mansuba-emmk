@@ -16,7 +16,7 @@ void test_choose_random_captured_piece(){
     p->piece.color = WHITE;
     array_list_push(game->captured_pieces_list, p);
 
-    game_piece_t res = choose_random_captured_piece_belonging_to_current(game);
+    game_piece_t res = choose_random_captured_piece_for_player(game);
     assert(p->index == res.index);
     assert(p->piece.color == res.piece.color);
     assert(p->piece.sort == res.piece.sort);

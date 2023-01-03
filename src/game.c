@@ -77,13 +77,13 @@ game_t *game_init(struct world_t *world, uint max_turn, enum victory_type victor
     return game;
 }
 
-uint choose_random_piece_belonging_to_current(game_t *game)
+uint choose_random_piece_for_player(game_t *game, player_t *player)
 {
     uint positions[WORLD_SIZE];
     uint index = 0;
     for (uint i = 0; i < WORLD_SIZE; i++)
     {
-        if (world_get(game->world, i) == game->current_player->color && !piece_is_in_final_position(i, game->current_player->color, game->starting_position))
+        if (world_get(game->world, i) == player->color && !piece_is_in_final_position(i, player->color, game->starting_position))
         {
             positions[index] = i;
             index++;
@@ -95,7 +95,7 @@ uint choose_random_piece_belonging_to_current(game_t *game)
     return positions[rand() % index];
 }
 
-game_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
+game_piece_t choose_random_captured_piece_for_player(game_t *game, player_t *player)
 {
     uint lgt = 0;
     game_piece_t *tab = malloc(sizeof(game_piece_t) * game->captured_pieces_list->len);
@@ -103,7 +103,7 @@ game_piece_t choose_random_captured_piece_belonging_to_current(game_t *game)
     for (uint i = 0; i < game->captured_pieces_list->len; i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
-        if (piece->piece.color == game->current_player->color)
+        if (piece->piece.color == player->color)
         {
             tab[lgt++] = *piece;
         }
