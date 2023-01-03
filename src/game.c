@@ -41,7 +41,7 @@ void load_starting_position(game_t *game)
 bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *starting_position)
 {
 
-    for (size_t i = 0; i < starting_position->len; i++)
+    for (size_t i = 0; i < array_list_len(starting_position); i++)
     {
         game_piece_t *start_piece = (game_piece_t *)array_list_get(starting_position, i);
         if (index == start_piece->index && color != start_piece->piece.color)
@@ -55,7 +55,7 @@ bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *st
 
 void world_populate(game_t *game)
 {
-    for (size_t i = 0; i < game->starting_position->len; i++)
+    for (size_t i = 0; i < array_list_len(game->starting_position); i++)
     {
         game_piece_t *game_piece = array_list_get(game->starting_position, i);
         world_set(game->world, game_piece->index, game_piece->piece.color);
@@ -98,9 +98,9 @@ uint choose_random_piece_for_player(game_t *game, player_t *player)
 game_piece_t choose_random_captured_piece_for_player(game_t *game, player_t *player)
 {
     uint lgt = 0;
-    game_piece_t *tab = malloc(sizeof(game_piece_t) * game->captured_pieces_list->len);
+    game_piece_t *tab = malloc(sizeof(game_piece_t) * array_list_len(game->captured_pieces_list));
     CHECK_MALLOC(malloc);
-    for (uint i = 0; i < game->captured_pieces_list->len; i++)
+    for (uint i = 0; i < array_list_len(game->captured_pieces_list); i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if (piece->piece.color == player->color)
@@ -162,7 +162,7 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
     if (verbose >= 2)
         tree_print(moves, (void*) position_print);
 
-    uint len_children = moves->children->len;
+    uint len_children = array_list_len(moves->children);
 
     if (len_children == 0)
     {
@@ -172,13 +172,13 @@ node_t *choose_random_move_for_piece(game_t *game, uint piece)
 
     uint selected_child = rand() % (len_children);
     node_t *move_ending = array_list_get(moves->children, selected_child);
-    len_children = move_ending->children->len;
+    len_children = array_list_len(move_ending->children);
     selected_child = rand() % (len_children + 1);
 
     while (selected_child != len_children)
     {
         move_ending = array_list_get(move_ending->children, selected_child);
-        len_children = move_ending->children->len;
+        len_children = array_list_len(move_ending->children);
         if (len_children == 0)
             break;
         selected_child = rand() % (len_children + 1);
@@ -238,7 +238,7 @@ bool check_complex_win(game_t *game)
     for (enum color_t c = 1; c < MAX_COLOR; c++)
     {
         bool victory = true;
-        for (uint i = 0; i < game->starting_position->len; i++)
+        for (uint i = 0; i < array_list_len(game->starting_position); i++)
         {
             game_piece_t *piece = array_list_get(game->starting_position, i);
             if (piece->piece.color == c)
@@ -339,11 +339,11 @@ void change_player(game_t *game, player_t *player)
 
 node_t *get_best_move(node_t *node, enum color_t player_color)
 {
-    if (node->children->len == 0)
+    if (array_list_len(node->children) == 0)
         return node;
 
     node_t *best_node = node;
-    for (size_t i = 0; i < node->children->len; i++)
+    for (size_t i = 0; i < array_list_len(node->children); i++)
     {
         node_t *child = array_list_get(node->children, i);
         node_t *child_move = get_best_move(child, player_color);
@@ -374,7 +374,7 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece)
     if (verbose >= 2)
         tree_print(moves, (void*) position_print);
 
-    uint len_children = moves->children->len;
+    uint len_children = array_list_len(moves->children);
 
     if (len_children == 0)
     {
@@ -388,7 +388,7 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece)
 }
 
 bool has_piece_captured(game_t *game, player_t *player){
-    for (size_t i = 0; i < game->captured_pieces_list->len; i++)
+    for (size_t i = 0; i < array_list_len(game->captured_pieces_list); i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if(piece->piece.color == player->color) return true;

@@ -16,6 +16,10 @@ typedef struct array_list{
 */
 struct array_list *array_list_init(size_t len, void (*free_func)(void *));
 
+/// @brief Gets the length of an array list
+/// @param list the array list
+/// @return the length of the array list
+size_t array_list_len(array_list_t *list);
 /**
  * Push an element onto the array_list at list->len
 */

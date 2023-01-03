@@ -41,7 +41,7 @@ void set_distance(unsigned short int value, relation_t relation, enum color_t co
 
 void init_queue(linked_list_t *queue, array_list_t *starting_pos, relation_t relation, enum color_t color)
 {
-    for (uint i = 0; i < starting_pos->len; i++)
+    for (uint i = 0; i < array_list_len(starting_pos); i++)
     {
         game_piece_t *game_piece = array_list_get(starting_pos, i);
         if (game_piece->piece.color == color)

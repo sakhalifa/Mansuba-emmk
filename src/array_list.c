@@ -21,9 +21,12 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
     return ret;
 }
 
+size_t array_list_len(array_list_t *list){
+    return list->len;
+}
+
 void realloc_list(array_list_t *list)
 {
-
     list->allocated_len *= 2;
     list->list = realloc(list->list, list->allocated_len * sizeof(void *));
     CHECK_MALLOC(list->list);
