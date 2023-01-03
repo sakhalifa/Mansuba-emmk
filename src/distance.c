@@ -34,7 +34,7 @@ void set_distance(unsigned short int value, relation_t relation, enum color_t co
     if (relation > MAX_RELATIONS || color > MAX_COLOR || index > WORLD_SIZE)
     {
         fprintf(stderr, "Warning, OOB access at %s:%u\n", __FILE__, __LINE__);
-        return USHRT_MAX;
+        return;
     }
     *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color - 1) * WORLD_SIZE + index)) = value;
 }
