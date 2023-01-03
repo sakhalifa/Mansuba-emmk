@@ -34,7 +34,7 @@ node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*)
  * Gets a child with a certain value from a tree and returns it. If it is not found,
  * returns NULL.
 */
-node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*));
+node_t *tree_get_node(const node_t *root, void* val, int (*cmp_func)(void*, void*));
 
 /**
  * Returns the root of the tree that contains the node

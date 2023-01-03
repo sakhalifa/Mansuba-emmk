@@ -28,7 +28,7 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
     return ret;
 }
 
-size_t array_list_len(array_list_t *list){
+size_t array_list_len(const array_list_t *list){
     return list->len;
 }
 
@@ -55,7 +55,7 @@ void array_list_push(array_list_t *list, void *x)
 /**
  * Gets an element from the array_list
  */
-void *array_list_get(array_list_t *list, unsigned int idx)
+void *array_list_get(const array_list_t *list, unsigned int idx)
 {
     if (idx >= list->len)
     {
@@ -89,7 +89,7 @@ void *array_list_remove(array_list_t *list, int idx)
     return element;
 }
 
-int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
+int array_list_get_index(const array_list_t *l, void *val, int (*cmp_func)(void *, void *))
 {
     for (int i = 0; i < (int)l->len; i++)
     {
@@ -101,7 +101,7 @@ int array_list_get_index(array_list_t *l, void *val, int (*cmp_func)(void *, voi
     return -1;
 }
 
-bool array_list_contains(array_list_t *l, void *val, int (*cmp_func)(void *, void *))
+bool array_list_contains(const array_list_t *l, void *val, int (*cmp_func)(void *, void *))
 {
     return array_list_get_index(l, val, cmp_func) != -1;
 }

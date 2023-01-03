@@ -87,7 +87,6 @@ void init_default_config(){
     set_relation(SQUARE);
 }
 
-
 int main(int argc, char *const *argv)
 {
     if(WORLD_SIZE > 50000){
@@ -96,9 +95,11 @@ int main(int argc, char *const *argv)
     init_neighbors(SQUARE);
     
     int max_turn = 2 * WORLD_SIZE;
+    
     struct timeval tv;
     gettimeofday(&tv, NULL);
     long seed = tv.tv_sec * 1000000 + tv.tv_usec;
+
     enum victory_type victory_type = SIMPLE;
     uint players_number = 0;
     int opt;

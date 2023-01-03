@@ -47,15 +47,23 @@ bool current_player_try_escape(game_t *game, game_piece_t piece);
 
 bool check_win(game_t *game);
 
-void display_game(game_t *game);
+
+/// @brief displays the game board on the standard output
+/// @param game pointer on the game stucture
+void display_game(const game_t *game);
 
 void game_free(game_t *game);
 
 void capture_piece_at(game_t *game, uint index);
 
-void world_populate(game_t *game);
+/// @brief places all the pieces stored in the starting_pos list into the world
+/// @param game the game structure containing the world and the starting_pos
+void world_populate(const game_t *game);
 
+/// @brief initialize the starting_pos field with default placement
+/// @details the default starting_pos are the first and last column of the game world, alternating between all the pieces sorts starting with a pawn.
+/// @param game the game structure  
 void load_starting_position(game_t *game);
 
-bool has_piece_captured(game_t *game, player_t *player);
+bool has_piece_captured(const game_t *game, const player_t *player);
 #endif // __GAME_H__

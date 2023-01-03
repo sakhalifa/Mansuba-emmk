@@ -53,12 +53,12 @@ node_t *node_get_root(node_t* node){
     return node;
 }
 
-node_t *tree_get_node(node_t *root, void* val, int (*cmp_func)(void*, void*)){
+node_t *tree_get_node(const node_t *root, void* val, int (*cmp_func)(void*, void*)){
     if(root == NULL){
         return NULL;
     }
     if(!cmp_func(val, root->value)){
-        return root;
+        return (node_t *) root;
     }
     for(uint i = 0; i<array_list_len(root->children); i++){
         node_t* n = tree_get_node(array_list_get(root->children, i), val, cmp_func);

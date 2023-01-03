@@ -53,7 +53,7 @@ bool piece_is_in_final_position(uint index, enum color_t color, array_list_t *st
     return false;
 }
 
-void world_populate(game_t *game)
+void world_populate(const game_t *game)
 {
     for (size_t i = 0; i < array_list_len(game->starting_position); i++)
     {
@@ -284,7 +284,7 @@ bool check_win(game_t *game)
     }
 }
 
-void display_game(game_t *game)
+void display_game(const game_t *game)
 {
     for (int j = -2; j < WIDTH * 3; j++)
         printf("-");
@@ -387,7 +387,7 @@ node_t *choose_best_move_for_piece(game_t *game, uint piece)
     return best_move;
 }
 
-bool has_piece_captured(game_t *game, player_t *player){
+bool has_piece_captured(const game_t *game, const player_t *player){
     for (size_t i = 0; i < array_list_len(game->captured_pieces_list); i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);

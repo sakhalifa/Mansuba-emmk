@@ -39,7 +39,7 @@ void set_distance(unsigned short int value, relation_t relation, enum color_t co
     *(((distance_lookup_table + relation * WORLD_SIZE * (MAX_COLOR - 1)) + (color - 1) * WORLD_SIZE + index)) = value;
 }
 
-void init_queue(linked_list_t *queue, array_list_t *starting_pos, relation_t relation, enum color_t color)
+void init_queue(linked_list_t *queue, const array_list_t *starting_pos, relation_t relation, enum color_t color)
 {
     for (uint i = 0; i < array_list_len(starting_pos); i++)
     {
@@ -84,7 +84,7 @@ void do_bfs(linked_list_t *queue, relation_t relation, enum color_t color)
     }
 }
 
-void compute_distance_lookup_table(array_list_t *starting_pos, relation_t relation)
+void compute_distance_lookup_table(const array_list_t *starting_pos, relation_t relation)
 {
     relation_t old_rel = get_neighbors_seed();
     init_neighbors(relation);

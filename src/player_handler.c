@@ -1,6 +1,6 @@
 #include "player_handler.h"
 
-uint read_player_piece(game_t *game){
+uint read_player_piece(const game_t *game){
     printf("Choose your piece\n");
 
     uint index = read_user_position();
@@ -22,7 +22,7 @@ uint read_player_piece(game_t *game){
     return index;
 }
 
-void display_game_with_moves(game_t *game, node_t *moves){
+void display_game_with_moves(const game_t *game, const node_t *moves){
 
     for (int j = -2; j < WIDTH * 3; j++)
     {
@@ -53,7 +53,7 @@ void display_game_with_moves(game_t *game, node_t *moves){
     printf("\n");
 }
 
-node_t * get_player_move(game_t *game, uint piece_index){
+node_t * get_player_move(const game_t *game, uint piece_index){
     position_t position;
     position_from_idx(&position, piece_index);
     node_t *moves = get_moves(game->world, &position, game->starting_position);
@@ -73,14 +73,14 @@ node_t * get_player_move(game_t *game, uint piece_index){
     return player_move;
 }
 
-void display_available_action(game_t *game){
+void display_available_action(const game_t *game){
     printf(":w\tWAIT\n");
     printf(":m\tMOVE\n");
     if (has_piece_captured(game, game->current_player)) printf(":e\tESCAPE\n");
     
 }
 
-enum actions get_player_action(game_t * game){
+enum actions get_player_action(const game_t * game){
     display_available_action(game);
     uint action = read_user_action();
     if (action == MAX_ACTION) return get_player_action(game);
