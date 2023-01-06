@@ -5,6 +5,7 @@
 #include "player_handler.h"
 #include <getopt.h>
 #include <sys/time.h>
+#define MAX_WORLD_SIZE (500 * 100)
 
 int verbose = 1;
 
@@ -16,16 +17,18 @@ struct game_result game_loop(game_t *game, int verbose)
         // init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
-        if(verbose >= 2)
+        if (verbose >= 2)
             printf("Playing as player n°%u, is a bot = %d\n", game->current_player->color, game->current_player->automated);
         enum actions choice = game->current_player->automated ? (enum actions)(rand() % MAX_ACTION) : get_player_action(game);
-        if(choice == WAIT){
+        if (choice == WAIT)
+        {
             choice = choice;
         }
         else if (!has_piece_captured(game, game->current_player) || choice == MOVE)
         {
             uint piece_idx = game->current_player->automated ? choose_random_piece_for_player(game, game->current_player) : read_player_piece(game);
-            if(verbose >= 2){
+            if (verbose >= 2)
+            {
                 position_t pos_deb;
                 position_from_idx(&pos_deb, piece_idx);
                 printf("Chose piece at ");
@@ -34,16 +37,19 @@ struct game_result game_loop(game_t *game, int verbose)
             }
             if (piece_idx != UINT_MAX)
             {
-                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx): get_player_move(game, piece_idx);
+                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx) : get_player_move(game, piece_idx);
                 if (move != NULL)
                 {
-                    if(verbose >= 2){
+                    if (verbose >= 2)
+                    {
                         printf("Chose move to ");
                         position_print((position_t *)move->value);
                         printf("\n");
                     }
                     current_player_move_piece(game, move);
-                }else if(verbose >= 2){
+                }
+                else if (verbose >= 2)
+                {
                     printf("Couldn't chose move!\n");
                 }
             }
@@ -55,16 +61,15 @@ struct game_result game_loop(game_t *game, int verbose)
             if (piece.index != UINT_MAX)
             {
                 bool success = current_player_try_escape(game, piece);
-                if ( success && verbose >= 1){
+                if (success && verbose >= 1)
+                {
                     position_t escaped_pos;
                     position_from_idx(&escaped_pos, piece.index);
-                    if (verbose >= 1){
-                        printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);
-                    }
-                }else{
-                    if (verbose >= 1){
-                        printf("Escape failed\n");
-                    }
+                    printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);
+                }
+                else if(verbose >= 1)
+                {
+                    printf("Escape failed\n");
                 }
             }
         }
@@ -78,7 +83,8 @@ struct game_result game_loop(game_t *game, int verbose)
     return res;
 }
 
-void init_default_config(){
+void init_default_config()
+{
     enable_move_type(SIMPLE_MOVE);
     enable_move_type(SIMPLE_JUMP);
     enable_move_type(MULTIPLE_JUMP);
@@ -91,23 +97,43 @@ void init_default_config(){
     set_relation(SQUARE);
 }
 
-int main(int argc, char *const *argv)
+void init_dame_chinoises_config()
 {
-    if(WORLD_SIZE > 50000){
-        fprintf(stderr, "Game board too big!");
-    }
-    init_neighbors(SQUARE);
-    
-    int max_turn = 2 * WORLD_SIZE;
-    
+    add_allowed_sort(PAWN);
+    enable_move_type(SIMPLE_MOVE);
+    enable_move_type(SIMPLE_JUMP);
+    enable_move_type(MULTIPLE_JUMP);
+    set_relation(HEXAGONAL);
+    set_capture_allowed(false);
+}
+
+long get_current_time_microseconds()
+{
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    long seed = tv.tv_sec * 1000000 + tv.tv_usec;
+    long time = tv.tv_sec * 1000000 + tv.tv_usec;
+    return time;
+}
 
-    enum victory_type victory_type = SIMPLE;
-    uint players_number = 0;
+struct args_config
+{
+    long seed;
+    enum victory_type victory_type;
+    uint player_number;
+    int max_turn;
+    void (*init_config)();
+};
+
+struct args_config get_args(int argc, char *const *argv)
+{
+    struct args_config args = {
+        .max_turn = 2 * WORLD_SIZE,
+        .seed = get_current_time_microseconds(),
+        .victory_type = SIMPLE,
+        .player_number = 0,
+        .init_config = init_default_config,
+    };
     int opt;
-    bool do_init_config = true;
     while ((opt = getopt(argc, argv, "t:m:s:v:c:p:")) != -1)
     {
         switch (opt)
@@ -116,10 +142,10 @@ int main(int argc, char *const *argv)
             switch (optarg[0])
             {
             case 's':
-                victory_type = SIMPLE;
+                args.victory_type = SIMPLE;
                 break;
             case 'c':
-                victory_type = COMPLEX;
+                args.victory_type = COMPLEX;
                 break;
             default:
                 fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
@@ -128,34 +154,29 @@ int main(int argc, char *const *argv)
             }
             break;
         case 'm':
-            max_turn = atoi(optarg);
-            if (max_turn <= 0)
+            args.max_turn = atoi(optarg);
+            if (args.max_turn <= 0)
             {
                 fprintf(stderr, "Error, max turns cannot be 0 or less\n");
                 exit(EXIT_FAILURE);
             }
             break;
         case 's':
-            seed = atoi(optarg);
+            args.seed = atoi(optarg);
             break;
         case 'v':
             verbose = atoi(optarg);
             break;
         case 'c':
-            if(!strcmp(optarg, "dame-chinoises")){
-                do_init_config = false;
-                add_allowed_sort(PAWN);
-                enable_move_type(SIMPLE_MOVE);
-                enable_move_type(SIMPLE_JUMP);
-                enable_move_type(MULTIPLE_JUMP);
-                set_relation(HEXAGONAL);
-                set_capture_allowed(false);
+            if (!strcmp(optarg, "dame-chinoises"))
+            {
+                args.init_config = init_dame_chinoises_config;
             }
             break;
 
         case 'p':
-            players_number = atoi(optarg);
-            if (players_number > MAX_PLAYERS)
+            args.player_number = atoi(optarg);
+            if (args.player_number > MAX_PLAYERS)
             {
                 fprintf(stderr, "Error, you cannot have more than %d players\n", MAX_PLAYERS);
                 exit(EXIT_FAILURE);
@@ -167,18 +188,29 @@ int main(int argc, char *const *argv)
             exit(EXIT_FAILURE);
         }
     }
-    if (verbose >= 0)
-        printf("%ld\n", seed);
-    srand(seed);
+    return args;
+}
 
-    if(do_init_config){
-        init_default_config();
+int main(int argc, char *const *argv)
+{
+    if (WORLD_SIZE > MAX_WORLD_SIZE)
+    {
+        fprintf(stderr, "Game board too big!");
     }
+    init_neighbors(SQUARE);
+
+    struct args_config args = get_args(argc, argv);
+
+    if (verbose >= 0)
+        printf("%ld\n", args.seed);
+    srand(args.seed);
+
+    args.init_config();
     lock_config();
     struct world_t *world = world_init();
-    init_players(players_number);
+    init_players(args.player_number);
     player_t *player = get_random_player();
-    game_t *game = game_init(world, max_turn, victory_type, player);
+    game_t *game = game_init(world, args.max_turn, args.victory_type, player);
     load_starting_position(game);
     init_distance_lookup_table();
     compute_distance_lookup_table(game->starting_position, SQUARE);
