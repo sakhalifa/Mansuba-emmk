@@ -28,7 +28,7 @@ void init_players(uint real_players){
     }
 }
 
-player_t *next_player(player_t *p){
-    if (p->color + 1 == MAX_COLOR) return players;
-    return players + p->color; 
+player_t *next_player(player_t *player){
+    if (player->color + 1 == MAX_COLOR) return players;
+    return players + player->color; 
 }

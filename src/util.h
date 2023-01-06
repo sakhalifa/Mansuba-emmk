@@ -16,7 +16,9 @@ enum error_type{
 
 void _check_error(void * pointer, enum error_type error_type, uint line , const char * file);
 
-
+/*
+Checks the given pointer to see if the allocation didn't failed. If the pointer is NULL the program will stop with an error.
+*/
 #define CHECK_MALLOC(ptr) _check_error((ptr), MALLOC_ERR, (__LINE__ - (1)) , __FILE__)
 
 typedef enum {
