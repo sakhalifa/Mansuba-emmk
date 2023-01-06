@@ -96,7 +96,6 @@ struct game_result game_loop(game_t *game, int verbose)
     enum color_t winner = NO_COLOR;
     while ((winner == NO_COLOR) && (game->turn < game->max_turns))
     {
-        // init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
         if (verbose >= 2)
