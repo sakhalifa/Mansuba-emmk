@@ -58,9 +58,13 @@ struct game_result game_loop(game_t *game, int verbose)
                 if ( success && verbose >= 1){
                     position_t escaped_pos;
                     position_from_idx(&escaped_pos, piece.index);
-                    printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);  
+                    if (verbose >= 1){
+                        printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);
+                    }
                 }else{
-                    printf("Escape failed\n");
+                    if (verbose >= 1){
+                        printf("Escape failed\n");
+                    }
                 }
             }
         }
