@@ -4,7 +4,7 @@
 player_t players[MAX_PLAYERS];
 
 
-player_t *get_random_player(){
+player_t *get_random_player(void){
     return players + rand()%MAX_PLAYERS;
 }
 

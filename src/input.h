@@ -8,8 +8,8 @@ enum actions{
     MAX_ACTION
 };
 
-unsigned int read_user_position();
-enum actions read_user_action();
-unsigned int read_user_number();
+unsigned int read_user_position(void);
+enum actions read_user_action(void);
+unsigned int read_user_number(void);
 
 #endif // __INPUT_H__

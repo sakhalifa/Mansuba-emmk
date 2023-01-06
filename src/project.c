@@ -114,7 +114,7 @@ struct game_result game_loop(game_t *game, int verbose)
     return res;
 }
 
-void init_default_config()
+void init_default_config(void)
 {
     enable_move_type(SIMPLE_MOVE);
     enable_move_type(SIMPLE_JUMP);
@@ -128,7 +128,7 @@ void init_default_config()
     set_relation(SQUARE);
 }
 
-void init_dame_chinoises_config()
+void init_dame_chinoises_config(void)
 {
     add_allowed_sort(PAWN);
     enable_move_type(SIMPLE_MOVE);
@@ -138,7 +138,7 @@ void init_dame_chinoises_config()
     set_capture_allowed(false);
 }
 
-long get_current_time_microseconds()
+long get_current_time_microseconds(void)
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -157,7 +157,7 @@ struct args_config
     enum victory_type victory_type;
     uint player_number;
     int max_turn;
-    void (*init_config)();
+    void (*init_config)(void);
 };
 
 struct args_config get_args(int argc, char *const *argv)

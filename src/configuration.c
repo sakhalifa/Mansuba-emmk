@@ -12,7 +12,7 @@ typedef struct
 
 config_t GLOBAL_CONFIG;
 
-void panic_if_locked()
+void panic_if_locked(void)
 {
     if (GLOBAL_CONFIG.is_locked)
     {
@@ -21,14 +21,14 @@ void panic_if_locked()
     }
 }
 
-void config_free(){
+void config_free(void){
     for (int i = 0; i < MAX_SORT - 1; i++)
     {
         array_list_free(GLOBAL_CONFIG.moves_for_sort[i]);
     }
 }
 
-void init_config()
+void init_config(void)
 {
     if (GLOBAL_CONFIG.initialized)
         return;
@@ -75,7 +75,7 @@ void set_relation(relation_t relation)
     GLOBAL_CONFIG.relation = relation;
 }
 
-void lock_config()
+void lock_config(void)
 {
     GLOBAL_CONFIG.is_locked = true;
 }
@@ -90,12 +90,12 @@ array_list_t *get_allowed_moves_for_sort(enum sort_t sort)
     return GLOBAL_CONFIG.moves_for_sort[sort-1];
 }
 
-relation_t get_relation()
+relation_t get_relation(void)
 {
     return GLOBAL_CONFIG.relation;
 }
 
-bool is_capture_allowed()
+bool is_capture_allowed(void)
 {
     return GLOBAL_CONFIG.capture_allowed;
 }

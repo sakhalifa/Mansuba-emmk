@@ -15,16 +15,16 @@ void set_capture_allowed(bool yes_no);
 
 void set_relation(relation_t relation);
 
-void lock_config();
+void lock_config(void);
 
 bool is_sort_allowed(enum sort_t sort);
 
 array_list_t *get_allowed_moves_for_sort(enum sort_t sort);
 
-relation_t get_relation();
+relation_t get_relation(void);
 
-bool is_capture_allowed();
+bool is_capture_allowed(void);
 
-void config_free();
+void config_free(void);
 
 #endif

@@ -38,6 +38,6 @@ unsigned int get_neighbor(unsigned int idx, enum dir_t d);
 struct neighbors_t get_neighbors(unsigned int idx);
 
 /** Returns the seed set by the latest call to `init_neighbors`. */
-unsigned int get_neighbors_seed();
+unsigned int get_neighbors_seed(void);
 
 #endif // __NEIGHBORS_H__

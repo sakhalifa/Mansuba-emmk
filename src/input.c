@@ -1,12 +1,12 @@
 #include "input.h"
 #include "util.h"
 
-void flush_stdin(){
+void flush_stdin(void){
     int c;
     while( (c = fgetc( stdin )) != EOF && c != '\n' );
 }
 
-uint read_user_position(){
+uint read_user_position(void){
     uint column, row;
     int matches = scanf(" %u %u", &row, &column);
     flush_stdin();
@@ -25,7 +25,7 @@ uint read_user_position(){
 }
 
 
-enum actions read_user_action(){
+enum actions read_user_action(void){
     char action;
     int matches = scanf("%c", &action);
     flush_stdin();
@@ -41,7 +41,7 @@ enum actions read_user_action(){
     return MAX_ACTION; 
 }
 
-uint read_user_number(){
+uint read_user_number(void){
     uint number;
     int matches = scanf("%d", &number);
     flush_stdin();

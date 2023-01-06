@@ -10,7 +10,7 @@ typedef struct player{
 
 /// @brief Gets a random player
 /// @return a pointer on a random player
-player_t *get_random_player();
+player_t *get_random_player(void);
 
 /// @brief Inits the player array
 /// @param real_players the number of human player 

@@ -9,7 +9,7 @@ struct world_t;
 
 /** Initializes a world (NO_COLOR, NO_SORT everywhere)
     Always returns the same pointer */
-struct world_t* world_init();
+struct world_t* world_init(void);
 
 /** Return the color at a place */
 enum color_t world_get(const struct world_t* b, unsigned int idx);

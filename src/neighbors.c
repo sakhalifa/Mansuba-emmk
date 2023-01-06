@@ -41,7 +41,7 @@ uint get_neighbor_square(uint idx, enum dir_t d)
     return row*WIDTH + col;
 }
 
-unsigned int get_neighbors_seed(){
+unsigned int get_neighbors_seed(void){
     return current_relation;
 }
 

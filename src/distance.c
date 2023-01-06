@@ -9,7 +9,7 @@
 
 unsigned short *distance_lookup_table = NULL;
 
-void init_distance_lookup_table()
+void init_distance_lookup_table(void)
 {
     if (distance_lookup_table != NULL)
         free(distance_lookup_table);
@@ -98,7 +98,7 @@ void compute_distance_lookup_table(const array_list_t *starting_pos, relation_t 
     init_neighbors(old_rel);
 }
 
-void free_distance_lookup_table()
+void free_distance_lookup_table(void)
 {
     free(distance_lookup_table);
 }
