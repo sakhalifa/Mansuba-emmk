@@ -61,11 +61,10 @@ void add_tower_moves(struct world_t *world, node_t *root, uint source_index, arr
         while ((index_neighbor != UINT_MAX) 
         && !(world_get_sort(world, index_neighbor) != NO_SORT
             && (array_list_contains(starting_pos, &index_neighbor, vs_cmp_index_game_piece) 
-                || world_get(world, index_neighbor) == world_get(world, source_idx
+                || world_get(world, index_neighbor) == world_get(world, source_idx)
                 || !is_capture_allowed())
                 )
             )
-        )
         {
             position_t *malloc_pos = malloc(sizeof(position_t));
             CHECK_MALLOC(malloc_pos);
