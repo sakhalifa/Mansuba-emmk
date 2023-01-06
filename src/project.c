@@ -54,6 +54,15 @@ void play_escape(game_t *game, int verbose){
 
     if (piece.index != UINT_MAX)
     {
+        position_t escape_pos;
+        position_from_idx(&escape_pos, piece.index);
+        if (verbose >= 1)
+        {
+            printf("Player is attempting to escape at ");
+            position_print(&escape_pos);
+            printf("\n");
+        }
+        
         bool success = current_player_try_escape(game, piece);
         if (success && verbose >= 1)
         {
