@@ -6,6 +6,7 @@
 #include <getopt.h>
 #include <sys/time.h>
 #define MAX_WORLD_SIZE (500 * 100)
+#define USAGE_STRING "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level] [-p number_of_players]\n"
 
 int verbose = 1;
 
@@ -67,7 +68,7 @@ struct game_result game_loop(game_t *game, int verbose)
                     position_from_idx(&escaped_pos, piece.index);
                     printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);
                 }
-                else if(verbose >= 1)
+                else if (verbose >= 1)
                 {
                     printf("Escape failed\n");
                 }
@@ -115,6 +116,11 @@ long get_current_time_microseconds()
     return time;
 }
 
+void print_usage(FILE *buffer, char *binary_name)
+{
+    fprintf(buffer, USAGE_STRING, binary_name);
+}
+
 struct args_config
 {
     long seed;
@@ -148,8 +154,7 @@ struct args_config get_args(int argc, char *const *argv)
                 args.victory_type = COMPLEX;
                 break;
             default:
-                fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed]\n",
-                        argv[0]);
+                print_usage(stderr, argv[0]);
                 exit(EXIT_FAILURE);
             }
             break;
@@ -158,6 +163,7 @@ struct args_config get_args(int argc, char *const *argv)
             if (args.max_turn <= 0)
             {
                 fprintf(stderr, "Error, max turns cannot be 0 or less\n");
+                print_usage(stderr, argv[0]);
                 exit(EXIT_FAILURE);
             }
             break;
@@ -179,12 +185,12 @@ struct args_config get_args(int argc, char *const *argv)
             if (args.player_number > MAX_PLAYERS)
             {
                 fprintf(stderr, "Error, you cannot have more than %d players\n", MAX_PLAYERS);
+                print_usage(stderr, argv[0]);
                 exit(EXIT_FAILURE);
             }
             break;
         default:
-            fprintf(stderr, "Usage: %s [-t s|c] [-m maxTurns] [-s seed] [-v verbose_level]\n",
-                    argv[0]);
+            print_usage(stderr, argv[0]);
             exit(EXIT_FAILURE);
         }
     }
