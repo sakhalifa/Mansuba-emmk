@@ -10,76 +10,92 @@
 
 int verbose = 1;
 
+enum actions choose_random_action(const game_t *game, player_t *player){
+    if (has_piece_captured(game, player)){
+        return (enum actions)(rand() % MAX_ACTION);
+    }else{
+        if(rand()%10) return MOVE;
+        else return WAIT;
+    }
+}
+
+void play_move(game_t *game, int verbose){
+    uint piece_idx = game->current_player->automated ? choose_random_piece_for_player(game, game->current_player) : read_player_piece(game);
+    if (verbose >= 2)
+    {
+        position_t pos_deb;
+        position_from_idx(&pos_deb, piece_idx);
+        printf("Chose piece at ");
+        position_print(&pos_deb);
+        printf("\n");
+    }
+    if (piece_idx != UINT_MAX)
+    {
+        node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx) : get_player_move(game, piece_idx);
+        if (move != NULL)
+        {
+            if (verbose >= 2)
+            {
+                printf("Chose move to ");
+                position_print((position_t *)move->value);
+                printf("\n");
+            }
+            current_player_move_piece(game, move);
+        }
+        else if (verbose >= 2)
+        {
+            printf("Couldn't chose move!\n");
+        }
+    }
+}
+
+void play_escape(game_t *game, int verbose){
+    game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_for_player(game, game->current_player) : get_player_captured_piece(game, game->current_player);
+
+    if (piece.index != UINT_MAX)
+    {
+        bool success = current_player_try_escape(game, piece);
+        if (success && verbose >= 1)
+        {
+            printf("Escape successful !\n");
+        }
+        else if (verbose >= 1)
+        {
+            printf("Escape failed\n");
+        }
+    }
+}
+
+void play_action(game_t *game, enum actions action, int verbose){
+    switch (action)
+    {
+    case WAIT:
+        return;
+    case MOVE:
+        play_move(game, verbose);
+        return;
+    case ESCAPE:
+        play_escape(game, verbose);
+        return;
+    default:
+        return;
+    }
+}
+
 struct game_result game_loop(game_t *game, int verbose)
 {
     enum color_t winner = NO_COLOR;
     while ((winner == NO_COLOR) && (game->turn < game->max_turns))
     {
+        // init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
         if (verbose >= 2)
             printf("Playing as player n°%u, is a bot = %d\n", game->current_player->color, game->current_player->automated);
-        enum actions choice = game->current_player->automated ? (enum actions)(rand() % MAX_ACTION) : get_player_action(game);
-        if (choice == WAIT)
-        {
-            choice = choice;
-        }
-        else if (!has_piece_captured(game, game->current_player) || choice == MOVE)
-        {
-            uint piece_idx = game->current_player->automated ? choose_random_piece_for_player(game, game->current_player) : read_player_piece(game);
-            if (verbose >= 2)
-            {
-                position_t pos_deb;
-                position_from_idx(&pos_deb, piece_idx);
-                printf("Chose piece at ");
-                position_print(&pos_deb);
-                printf("\n");
-            }
-            if (piece_idx != UINT_MAX)
-            {
-                node_t *move = game->current_player->automated ? choose_best_move_for_piece(game, piece_idx) : get_player_move(game, piece_idx);
-                if (move != NULL)
-                {
-                    if (verbose >= 2)
-                    {
-                        printf("Chose move to ");
-                        position_print((position_t *)move->value);
-                        printf("\n");
-                    }
-                    current_player_move_piece(game, move);
-                }
-                else if (verbose >= 2)
-                {
-                    printf("Couldn't chose move!\n");
-                }
-            }
-        }
-        else if (choice == ESCAPE)
-        {
-            game_piece_t piece = game->current_player->automated ? choose_random_captured_piece_for_player(game, game->current_player) : get_player_captured_piece(game, game->current_player);
-
-            if (piece.index != UINT_MAX)
-            {
-                position_t escape_pos;
-                position_from_idx(&escape_pos, piece.index);
-                if (verbose >= 1)
-                {
-                    printf("Player is attempting to escape at ");
-
-                    position_print(&escape_pos);
-                    printf("\n");
-                }
-                bool success = current_player_try_escape(game, piece);
-                if (success && verbose >= 1)
-                {
-                    printf("Escape successful!\n");
-                }
-                else if (verbose >= 1)
-                {
-                    printf("Escape failed\n");
-                }
-            }
-        }
+        
+        enum actions choice = game->current_player->automated ? choose_random_action(game, game->current_player) : get_player_action(game);
+        
+        play_action(game, choice, verbose);        
 
         if (check_win(game))
             winner = game->current_player->color;
