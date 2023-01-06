@@ -10,9 +10,7 @@ struct array_list {
     size_t allocated_len;
     void (*free_func)(void *);
 };
-/**
- * Inits an array_list with an initial length and a function to free elements.
- */
+
 struct array_list *array_list_init(size_t len, void (*free_func)(void *))
 {
     size_t i;
