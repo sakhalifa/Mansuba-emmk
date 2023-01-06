@@ -62,7 +62,7 @@ void play_escape(game_t *game, int verbose){
             position_print(&escape_pos);
             printf("\n");
         }
-        
+
         bool success = current_player_try_escape(game, piece);
         if (success && verbose >= 1)
         {
@@ -248,10 +248,12 @@ int main(int argc, char *const *argv)
     player_t *player = get_random_player();
     game_t *game = game_init(world, args.max_turn, args.victory_type, player);
     load_starting_position(game);
+    
     init_distance_lookup_table();
     compute_distance_lookup_table(game->starting_position, SQUARE);
     compute_distance_lookup_table(game->starting_position, TRIANGULAR);
     compute_distance_lookup_table(game->starting_position, HEXAGONAL);
+
     world_populate(game);
     init_neighbors(get_relation());
     struct game_result game_res = game_loop(game, verbose);
