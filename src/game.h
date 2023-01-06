@@ -55,6 +55,8 @@ bool check_win(const game_t *game);
 /// @param game pointer on the game stucture
 void display_game(const game_t *game);
 
+void display_grid(const game_t *game, const node_t *moves);
+
 
 /// @brief Frees the game structure and all it's allocated memory
 /// @param game the game structure

@@ -284,6 +284,36 @@ bool check_win(const game_t *game)
     }
 }
 
+void display_grid(const game_t *game, const node_t *moves){
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
+        printf("-");
+    }
+    printf("\n");
+
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        printf("|");
+        for (int j = 0; j < WIDTH; j++)
+        {
+            position_t position;
+            position_from_idx(&position, i*WIDTH+j);
+            if(moves != NULL && tree_get_node(moves, &position, (void*) cmp_positions) != NULL){
+                printf("\x1B[31m");
+            }
+            printf(" %s", place_to_string(world_get(game->world, i * WIDTH + j), world_get_sort(game->world, i * WIDTH + j)));
+            printf("\x1B[0m");
+        }
+        printf("|\n");
+    }
+
+    for (int j = -2; j < WIDTH * 3; j++)
+    {
+        printf("-");
+    }
+    printf("\n");
+}
+
 void display_game(const game_t *game)
 {
     printf("Current Player: %c\n", color_to_char(game->current_player->color));
@@ -310,28 +340,7 @@ void display_game(const game_t *game)
     }
 
     printf("|\n");
-
-    for (int j = -2; j < WIDTH * 3; j++)
-    {
-        printf("-");
-    }
-    printf("\n");
-
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        printf("|");
-        for (int j = 0; j < WIDTH; j++)
-        {
-            printf(" %s", place_to_string(world_get(game->world, i * WIDTH + j), world_get_sort(game->world, i * WIDTH + j)));
-        }
-        printf("|\n");
-    }
-
-    for (int j = -2; j < WIDTH * 3; j++)
-    {
-        printf("-");
-    }
-    printf("\n");
+    display_grid(game, NULL);
 }
 void change_player(game_t *game, player_t *player)
 {

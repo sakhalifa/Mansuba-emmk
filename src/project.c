@@ -15,7 +15,6 @@ struct game_result game_loop(game_t *game, int verbose)
     enum color_t winner = NO_COLOR;
     while ((winner == NO_COLOR) && (game->turn < game->max_turns))
     {
-        // init_neighbors(seed);
         if (verbose >= 1)
             display_game(game);
         if (verbose >= 2)
@@ -61,12 +60,19 @@ struct game_result game_loop(game_t *game, int verbose)
 
             if (piece.index != UINT_MAX)
             {
+                position_t escape_pos;
+                position_from_idx(&escape_pos, piece.index);
+                if (verbose >= 1)
+                {
+                    printf("Player is attempting to escape at ");
+
+                    position_print(&escape_pos);
+                    printf("\n");
+                }
                 bool success = current_player_try_escape(game, piece);
                 if (success && verbose >= 1)
                 {
-                    position_t escaped_pos;
-                    position_from_idx(&escaped_pos, piece.index);
-                    printf("Escape successful at %u,%u\n", escaped_pos.row, escaped_pos.col);
+                    printf("Escape successful!\n");
                 }
                 else if (verbose >= 1)
                 {
