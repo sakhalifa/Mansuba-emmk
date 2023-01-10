@@ -8,3 +8,23 @@ ceci comme un ensemble, il y aurait ambiguité dans notre exemple.
 On ne sait pas le chemin à prendre dans le cas des sauts multiples. Or,
 avec un arbre, il suffit de remonter l'arbre et nous avons le chemin
 emprunté.
+
+
+\subsection*{structure du jeu}
+
+\begin{minted}{c}
+typedef struct {
+    uint turn;
+    uint max_turns;
+    player_t *current_player;
+    enum victory_type victory_type;
+    struct world_t *world;
+    array_list_t *captured_pieces_list;
+    array_list_t *starting_position;
+} game_t;
+\end{minted}
+
+
+Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement d'une partie du jeu.
+
+
