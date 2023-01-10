@@ -12,7 +12,7 @@ all: create project
 
 doc:
 	mkdir -p doc
-	bash generate_overview_c.sh
+	# bash generate_overview_c.sh
 	doxygen
 
 create:
