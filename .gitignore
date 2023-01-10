@@ -12,3 +12,9 @@ project
 .vscode/
 doc/
 */overview.c
+*.aux
+*latexmk
+*.fls
+_*
+*.log
+*.gz
