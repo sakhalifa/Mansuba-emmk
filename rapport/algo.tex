@@ -1,0 +1,10 @@
+\section*{Principaux algorithmes}
+\subsection*{Mouvements des pièces}
+Pour le mouvement des pièces, nous avons choisi de le représenter comme
+un arbre des positions. Un noeud et ses parents représentent tout le 
+chemin pour arriver à la position au noeud. [EXEMPLE]. C'est un choix
+plutôt exotique, mais justifiable. En effet, si nous avions implémenté
+ceci comme un ensemble, il y aurait ambiguité dans notre exemple.
+On ne sait pas le chemin à prendre dans le cas des sauts multiples. Or,
+avec un arbre, il suffit de remonter l'arbre et nous avons le chemin
+emprunté.

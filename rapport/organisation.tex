@@ -1,0 +1,8 @@
+\section*{Choix techniques}
+Durant ce projet, nous avons copieusement abusé des mallocs. Cela pose
+certains soucis de gestion de la mémoire (principalement des \emph{memory leaks})
+détectables avec \verb|valgrind|, mais nous avantage grandement.
+En effet, cela nous permet de faire des
+objets "persistents". Ils restent en mémoire jusqu'à la fin du programme
+ou libération de la mémoire. Cela nous donne l'option d'utiliser des
+structures de données génériques. Une structure de données
