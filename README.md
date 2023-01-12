@@ -1,5 +1,6 @@
 # Project Mansuba
 
+Board game framework for the "Projet d'algorithmique et de programmation n°1" at ENSEIRB-MATMECA made by Samuel Khalifa and Louis Peyrondet.
 
 ## Build
 For the default executable (4*5 grid):
