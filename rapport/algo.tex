@@ -40,8 +40,12 @@ Notre structure game\_t comprend tous les éléments nécessaire pour le déroul
 
 \subsection{Choix des meilleurs movements}
 \subsubsection{BFS}
-Pour pouvoir calculer les meilleurs movements, nous avons utilisé un Parcours en largeur (Breadth First Search : BFS) sur chacune des cases du plateaux. 
-Le principe est de 
+Pour pouvoir calculer les meilleurs movements, nous avons utilisé un Parcours en largeur (Breadth First Search : BFS) sur le plateaux. 
+Le principe est de créer une file dans laquelle on ajoute toutes les positions de départ d'une couleur.
+Ensuite tant que la file n'est pas vide, on récupère la position en tête, et pour chacun de ses voisins, 
+si sa distance est inférieure on met à jour sa distance qui est égal à la distance de notre position+1,
+puis on l'enfile.
+Ainsi chaque case se voit attribuer sa distance à la position de départ d'une couleur la plus proche. 
  
 Cela nous permet d'avoir la distance d'une case donnée vers la position de départ d'une couleur.
 \subsubsection{Table de correspondance}
