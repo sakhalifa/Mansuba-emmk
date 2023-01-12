@@ -21,23 +21,6 @@ Tandis qu'avec l'implémentation en arbre, il suffit de remonter l'arbre pour vo
 Même si l'arbre complexifie le problème, il permet de rendre les mouvements bien plus génériques.
 
 
-\subsection{Structure du jeu}
-
-\begin{minted}{c}
-typedef struct {
-    uint turn;
-    uint max_turns;
-    player_t *current_player;
-    enum victory_type victory_type;
-    struct world_t *world;
-    array_list_t *captured_pieces_list;
-    array_list_t *starting_position;
-} game_t;
-\end{minted}
-
-
-Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement d'une partie du jeu.
-
 \subsection{Choix des meilleurs mouvements}
 \subsubsection{BFS}
 Pour pouvoir calculer les meilleurs mouvements, nous avons utilisé un Parcours en Largeur (Breadth First Search : BFS) sur le plateau. 
