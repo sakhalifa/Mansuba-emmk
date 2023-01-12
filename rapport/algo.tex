@@ -1,5 +1,5 @@
-\section*{Principaux algorithmes}
-\subsection*{Mouvements des pièces}
+\section{Principaux algorithmes}
+\subsection{Mouvements des pièces}
 Pour le mouvement des pièces, nous avons choisi de le représenter comme
 un arbre des positions. Un noeud et ses parents représentent tout le 
 chemin pour arriver à la position au noeud. Voici un exemple
@@ -21,7 +21,7 @@ Tandis qu'avec l'implémentation en arbre, il suffit de remonter l'arbre pour vo
 Même si l'arbre complexifie le problème, il permet de rendre les mouvements bien plus génériques.
 
 
-\subsection*{structure du jeu}
+\subsection{Structure du jeu}
 
 \begin{minted}{c}
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 
 Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement d'une partie du jeu.
 
-\subsection*{Distances}
+\subsection{Distances}
 Pour pouvoir calculer les meilleurs movements, nous avons utilisé un BFS sur chacune des cases du plateaux. On 
 
 Cela nous permet d'avoir la distance d'une case donnée vers la position de départ à partir de la couleur.
