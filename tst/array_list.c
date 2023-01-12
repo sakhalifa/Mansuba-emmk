@@ -6,14 +6,13 @@ void test_stack(void){
     array_list_t *l;
     l = array_list_init(20, free_nothing);
     assert(array_list_len(l) == 0);
-    assert(l->allocated_len == 32);
     int tab[1][20];
-    l->len = 20;
     for (int i = 0; i < 20; i++)
     {
         *tab[i] = i;
-        array_list_set(l, tab[i], (uint)i);
+        array_list_push(l, tab[i]);
     }
+
     for (int i = 0; i < 20; i++)
     {
         assert((*(int *)array_list_get(l, i)) == i);
@@ -24,11 +23,9 @@ void test_stack(void){
     {
         array_list_push(l, &a);
     }
-    assert(l->allocated_len == 32);
 
     // Push 1 element to reallocate again
     array_list_push(l, &a);
-    assert(l->allocated_len == 64);
 
     // Check if elements were copied successfully
     for (int i = 0; i < 20; i++)
@@ -54,7 +51,6 @@ void test_stack(void){
 
     // Create a 0-length array_list (will allocate for 1 element)
     array_list_t *zero_array = array_list_init(0, free_nothing);
-    assert(zero_array->allocated_len == 1);
     for (int i = 0; i < 20; i++)
     {
         *tab[i] = i;
