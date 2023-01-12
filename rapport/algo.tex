@@ -2,12 +2,23 @@
 \subsection*{Mouvements des pièces}
 Pour le mouvement des pièces, nous avons choisi de le représenter comme
 un arbre des positions. Un noeud et ses parents représentent tout le 
-chemin pour arriver à la position au noeud. [EXEMPLE]. C'est un choix
-plutôt exotique, mais justifiable. En effet, si nous avions implémenté
-ceci comme un ensemble, il y aurait ambiguité dans notre exemple.
-On ne sait pas le chemin à prendre dans le cas des sauts multiples. Or,
-avec un arbre, il suffit de remonter l'arbre et nous avons le chemin
-emprunté.
+chemin pour arriver à la position au noeud. Voici un exemple
+
+\input{exemple_moves.tex}
+
+Cet exemple nous montre 2 représentations des déplacements possibles pour
+le pion à l'indice 6 sans compter les captures. L'ensemble à quelques avantages comparé à l'arbre.
+Premièrement, pas besoin d'allocation dynamique, on peut juste faire un ensemble statiquement alloué
+qui a la taille du monde. Ensuite, on a une complexité O(1) pour voir si on n'est pas déjà allé sur une case
+lors de sauts multiples. L'implémentation en arbre, elle, doit être allouée dynamiquement,
+et il y a une complexité O(h) pour voir si nous ne sommes pas déjà allé sur une case (grâce au double chaînage).
+Mais, contrairement à l'implémentation avec un ensemble, nous pouvons savoir
+exactement quel chemin a été emprunté pour aller à une position. Prenons les sauts
+multiples pour arriver à la case 8. Dans le jeu des dames chinoises classique,
+il y aurait une stratégie : est-ce que je prends le pion à la case 7, ou ceux aux cases 1 et 5 ?
+Or, l'implémentation en ensemble ne permet pas de définir quel chemin nous avons emprunté.
+Tandis qu'avec l'implémentation en arbre, il suffit de remonter l'arbre pour voir quel chemin nous avons emprunté.
+Même si l'arbre complexifie le problème, il permet de rendre les mouvements bien plus génériques.
 
 
 \subsection*{structure du jeu}
