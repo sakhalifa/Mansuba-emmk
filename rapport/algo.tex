@@ -38,16 +38,31 @@ typedef struct {
 
 Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement d'une partie du jeu.
 
-\subsection{Distances}
-Pour pouvoir calculer les meilleurs movements, nous avons utilisé un BFS sur chacune des cases du plateaux. On 
+\subsection{Choix des meilleurs movements}
+\subsubsection{BFS}
+Pour pouvoir calculer les meilleurs movements, nous avons utilisé un Parcours en largeur (Breadth First Search : BFS) sur chacune des cases du plateaux. 
+Le principe est de 
+ 
+Cela nous permet d'avoir la distance d'une case donnée vers la position de départ d'une couleur.
+\subsubsection{Table de correspondance}
 
-Cela nous permet d'avoir la distance d'une case donnée vers la position de départ à partir de la couleur.
-Ces distances sont enregistrées dans un tableau ce qui nous permet d'avoir une \emph{lookup table},
-pour avoir en temps constant toutes les distances.
+Ces distances sont enregistrées dans un tableau ce qui nous permet d'avoir une table de correspondance (\emph{lookup table}),
+pour avoir en temps constant toutes les distances lors d'une partie vu que celle-ci est calculée lors de l'initialisation
+du programme. Concernant la complexité en espace, elle réserve 
+taille\_du\_monde * nombre\_de\_couleurs * nombre\_de\_relations * taille\_short\_int octets. Pour un jeu standard de configuration
+ HEIGHT=4 WIDTH=5, avec 2 joueurs et 3 relations différentes, la taille alloué est de 240 octets, ce qui est correct.
+Nous avons choisis d'utiliser des short int (2 octets) à la place des int (4 octets) pour réduire la taille totale allouée,
+le seul incovéniant que cela ajoute est que la distance maximale pouvant être enregistrée sans overflow est de \emph{65 535} mais cela
+est largement suffisant pour nos utilsations.     
 
-Nous avons opté pour une représention de cette table par un tableau contigu en mémoire afin de favoriser le cache cpu. 
+Pour choisir le meilleur coup à jouer, on regarde parmis toutes les position atteignable depuis 
+notre case et on choisit celle dont la distance est la plus petite dans notre table de correspondance.
 
+Nous avons opté pour une représention de cette table par un tableau contigu en mémoire afin de favoriser le cache cpu
+lors du BFS avec la localité spatiale et temporelle des accès mémoire. 
 
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}
     \def\xs{1.5} %shift in x direction
     \def\ys{0.7} %shift in y direction
@@ -64,6 +79,7 @@ Nous avons opté pour une représention de cette table par un tableau contigu en
         \node {\x}; \& \node {\x}; \& \node {\x};\\
         \node {\x}; \& \node {\x}; \& \node {\x};\\
         \node {\x}; \& \node {\x}; \& \node {\x};\\
+        \node {\x}; \& \node {\x}; \& \node {\x};\\
     };
     }
     
@@ -75,5 +91,7 @@ Nous avons opté pour une représention de cette table par un tableau contigu en
     \node [above] at (mm3.north) {Couleur};
     
 \end{tikzpicture}
+\caption{Représentation de la table de correspondance}
+\end{figure}
 
 
