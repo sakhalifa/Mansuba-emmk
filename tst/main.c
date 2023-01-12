@@ -2,7 +2,7 @@
 
 int verbose = 2;
 
-int main(){
+int main(void){
     // test_get_neighbor();
     // test_get_neighbors();
     // printf("Finished testing neighbors.c\n");

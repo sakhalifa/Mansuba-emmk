@@ -15,12 +15,12 @@ bool are_trees_equal(node_t *t1, node_t *t2)
         printf("Expected {%u,%u} Got {%u,%u}\n", t1_pos->col, t1_pos->row, t2_pos->col, t2_pos->row);
         return false;
     }
-    if (t1->children->len != t2->children->len)
+    if (array_list_len(t1->children) != array_list_len(t2->children))
     {
-        printf("Expected child_length=%ld, Got child_length=%ld\n", t1->children->len, t2->children->len);
+        printf("Expected child_length=%ld, Got child_length=%ld\n", array_list_len(t1->children), array_list_len(t2->children));
         return false;
     }
-    for (int i = 0; i < (int)t1->children->len; i++)
+    for (int i = 0; i < (int) array_list_len(t1->children); i++)
     {
         if (!are_trees_equal((node_t *)array_list_get(t1->children, i), (node_t *)array_list_get(t2->children, i)))
         {
@@ -32,7 +32,7 @@ bool are_trees_equal(node_t *t1, node_t *t2)
 
 position_t all_pos[WIDTH][HEIGHT];
 
-node_t *get_expected_output_test_pawn()
+node_t *get_expected_output_test_pawn(void)
 {
     /*
     Order:
@@ -52,7 +52,7 @@ node_t *get_expected_output_test_pawn()
 
     return root;
 }
-node_t *get_expected_output_test_elephant()
+node_t *get_expected_output_test_elephant(void)
 {
     /*
     Order:
@@ -81,7 +81,7 @@ node_t *get_expected_output_test_elephant()
     return root;
 }
 
-node_t * get_expected_output_test_tower(){
+node_t * get_expected_output_test_tower(void){
     node_t *root = tree_create(&all_pos[2][1], free_nothing);
     node_t *current = node_add_child(root, &all_pos[1][1]);
     node_add_child(current, &all_pos[0][1]);
@@ -92,7 +92,7 @@ node_t * get_expected_output_test_tower(){
     return root;
 }
 
-void test_pawn(){
+void test_pawn(void){
     struct world_t *world = world_init();
     array_list_t *dummy_list = array_list_init(0, free);
     position_t pos[] = {{2, 0}, {2, 2}, {3, 1}, {3, 3}, {4, 2}};
@@ -110,7 +110,7 @@ void test_pawn(){
     array_list_free(dummy_list);
 }
 
-void test_elephant(){
+void test_elephant(void){
     struct world_t *world = world_init();
     array_list_t *dummy_list = array_list_init(0, free);
     position_t pos[] = {{2,1}, {3,3}};
@@ -137,7 +137,7 @@ void print_pos(void *p){
     printf("(%u, %u)", pos->row, pos->col);
 }
 
-void test_tower(){
+void test_tower(void){
     struct world_t *world = world_init();
     array_list_t *dummy_list = array_list_init(0, free);
     
@@ -158,7 +158,7 @@ void test_tower(){
 
 }
 
-void test_moves()
+void test_moves(void)
 {
     init_neighbors(SQUARE);
     for(int i = 0; i<WIDTH; i++){

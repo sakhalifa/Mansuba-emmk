@@ -1,11 +1,11 @@
-#include "player.h"
 #include "util.h"
+#include "player.h"
 #include "geometry.h"
 
 extern player_t players[MAX_PLAYERS];
 
-void test_player_init(){
-    init_players();
+void test_player_init(void){
+    init_players(0);
 
 
     for (int i = 0; i < MAX_PLAYERS; i++)
@@ -14,8 +14,8 @@ void test_player_init(){
     }
 }
 
-void test_random_player(){
-    init_players();
+void test_random_player(void){
+    init_players(0);
     player_t *p = get_random_player();
 
     assert(p);
@@ -32,8 +32,8 @@ void test_random_player(){
 }
 
 
-void test_next_player(){
-    init_players();
+void test_next_player(void){
+    init_players(0);
 
     player_t *p = players;
 

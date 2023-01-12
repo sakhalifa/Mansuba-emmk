@@ -8,7 +8,7 @@ uint count_neighs(struct neighbors_t n){
     return cpt;
 }
 
-bool test_get_neighbors_square(){
+bool test_get_neighbors_square(void){
     
     init_neighbors(SQUARE);    
     assert(count_neighs(get_neighbors(0)) == 2);
@@ -27,7 +27,7 @@ bool test_get_neighbors_square(){
     return true;
 }
 
-bool test_get_neighbors_triangle(){
+bool test_get_neighbors_triangle(void){
     init_neighbors(TRIANGULAR);
 
     assert(count_neighs(get_neighbors(0)) == 2);
@@ -39,7 +39,7 @@ bool test_get_neighbors_triangle(){
     return true;
 }
 
-bool test_get_neighbor_square(){
+bool test_get_neighbor_square(void){
     init_neighbors(SQUARE);    
 
     uint n;
@@ -74,7 +74,7 @@ bool test_get_neighbor_square(){
     return true;
 }
 
-void test_get_neighbor_hexagonal(){
+void test_get_neighbor_hexagonal(void){
     init_neighbors(HEXAGONAL);
     uint n;
     //cas normal gauche/droite
@@ -134,7 +134,7 @@ void test_get_neighbor_hexagonal(){
     
     
 }
-bool test_get_neighbor_triangle(){
+bool test_get_neighbor_triangle(void){
     
     init_neighbors(TRIANGULAR);
 
@@ -162,11 +162,11 @@ bool test_get_neighbor_triangle(){
     return true;
 }
 
-bool test_get_neighbors(){
+bool test_get_neighbors(void){
     return true;
 }
 
-bool test_get_neighbor(){
+bool test_get_neighbor(void){
 
     test_get_neighbor_square();
     test_get_neighbor_triangle();

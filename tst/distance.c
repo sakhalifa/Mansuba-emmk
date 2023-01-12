@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-bool test_distance()
+bool test_distance(void)
 {
     init_neighbors(SQUARE);
     init_distance_lookup_table();
@@ -24,7 +24,7 @@ bool test_distance()
     }
 
     struct world_t *world = world_init();
-    init_players();
+    init_players(0);
     player_t *player = get_random_player();
     game_t *game = game_init(world, 10, SIMPLE, player);
     load_starting_position(game);

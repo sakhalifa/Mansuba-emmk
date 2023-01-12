@@ -2,10 +2,10 @@
 #include "util.h"
 //TODO Refactor
 
-void test_stack(){
+void test_stack(void){
     array_list_t *l;
     l = array_list_init(20, free_nothing);
-    assert(l->len == 0);
+    assert(array_list_len(l) == 0);
     assert(l->allocated_len == 32);
     int tab[1][20];
     l->len = 20;
@@ -35,19 +35,19 @@ void test_stack(){
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 20; i < (int)l->len; i++)
+    for (int i = 20; i < (int)array_list_len(l); i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }
 
     // Remove the last element before the 20 spam.
     array_list_remove(l, 19);
-    assert(l->len == 32);
+    assert(array_list_len(l) == 32);
     for (int i = 0; i < 19; i++)
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 19; i < (int)l->len; i++)
+    for (int i = 19; i < (int)array_list_len(l); i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }
@@ -70,7 +70,7 @@ void test_stack(){
     array_list_free(zero_array);
 }
 
-void test_no_memory_leak(){
+void test_no_memory_leak(void){
     array_list_t *zero_array = array_list_init(0, free);
     for (int i = 0; i < 20; i++)
     {
@@ -81,7 +81,7 @@ void test_no_memory_leak(){
     array_list_free(zero_array);
 }
 
-bool test_array()
+bool test_array(void)
 {
     test_stack();
     test_no_memory_leak();
