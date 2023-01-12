@@ -31,11 +31,11 @@ typedef struct {
 Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement
 d'une partie du jeu.
 Avec le recul et l'avancement dans le projet une amélioration que nous voulions mettre en place mais n'avons
-pas eu le temps était de remplacer les champs captured\_pieces\_list et starting\_pos par des tableaux d'array\_list.
+pas eut le temps était de remplacer les champs captured\_pieces\_list et starting\_pos par des tableaux d'array\_list.
 Les tableaux seraient de taille nombre\_de\_couleurs afin d'avoir une array\_list par couleur ce qui permet
-une séparation entre les pièces capturés selon leurs couleurs. Le bénifice d'un tel changement est 
-d'éviter les parcours inutile, par exemple lors de la libération de pièces on doit dans un premier temps
-parcourir la listes des pièces capturés afin de récupèrer seulement celles de la couleur du joueur alors
+une séparation entre les pièces capturées selon leurs couleurs. Le bénéfice d'un tel changement est 
+d'éviter les parcours inutiles, par exemple lors de la libération de pièces on doit dans un premier temps
+parcourir la listes des pièces capturées afin de récupérer seulement celles de la couleur du joueur alors
 qu'avec la nouvelle implémentation cette étape n'est pas nécessaire donc il y aurait un gain de temps et
 une simplification du code.  
 
