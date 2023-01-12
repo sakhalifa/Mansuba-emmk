@@ -2,7 +2,7 @@
 \subsection{Mouvements des pièces}
 Pour le mouvement des pièces, nous avons choisi de le représenter comme
 un arbre des positions. Un noeud et ses parents représentent tout le 
-chemin pour arriver à la position au noeud. Voici un exemple
+chemin pour arriver à la position au noeud. Voici un exemple :
 
 \input{exemple_moves.tex}
 
@@ -38,12 +38,12 @@ typedef struct {
 
 Notre structure game\_t comprend tous les éléments nécessaire pour le déroulement d'une partie du jeu.
 
-\subsection{Choix des meilleurs movements}
+\subsection{Choix des meilleurs mouvements}
 \subsubsection{BFS}
-Pour pouvoir calculer les meilleurs movements, nous avons utilisé un Parcours en largeur (Breadth First Search : BFS) sur le plateaux. 
+Pour pouvoir calculer les meilleurs mouvements, nous avons utilisé un Parcours en Largeur (Breadth First Search : BFS) sur le plateau. 
 Le principe est de créer une file dans laquelle on ajoute toutes les positions de départ d'une couleur.
 Ensuite tant que la file n'est pas vide, on récupère la position en tête, et pour chacun de ses voisins, 
-si sa distance est inférieure on met à jour sa distance qui est égal à la distance de notre position+1,
+si sa distance est inférieure on met à jour sa distance qui est égale à la distance de notre position+1,
 puis on l'enfile.
 Ainsi chaque case se voit attribuer sa distance à la position de départ d'une couleur la plus proche. 
  
@@ -54,15 +54,15 @@ Ces distances sont enregistrées dans un tableau ce qui nous permet d'avoir une 
 pour avoir en temps constant toutes les distances lors d'une partie vu que celle-ci est calculée lors de l'initialisation
 du programme. Concernant la complexité en espace, elle réserve 
 taille\_du\_monde * nombre\_de\_couleurs * nombre\_de\_relations * taille\_short\_int octets. Pour un jeu standard de configuration
- HEIGHT=4 WIDTH=5, avec 2 joueurs et 3 relations différentes, la taille alloué est de 240 octets, ce qui est correct.
-Nous avons choisis d'utiliser des short int (2 octets) à la place des int (4 octets) pour réduire la taille totale allouée,
-le seul incovéniant que cela ajoute est que la distance maximale pouvant être enregistrée sans overflow est de \emph{65 535} mais cela
-est largement suffisant pour nos utilsations.     
+ HEIGHT=4 WIDTH=5, avec 2 joueurs et 3 relations différentes, la taille allouée est de 240 octets, ce qui est correct.
+Nous avons choisi d'utiliser des short int (2 octets) à la place des int (4 octets) pour réduire la taille totale allouée,
+le seul inconvéniant que cela ajoute est que la distance maximale pouvant être enregistrée sans overflow est de \emph{65 535} mais cela
+est largement suffisant pour nos utilisations.
 
-Pour choisir le meilleur coup à jouer, on regarde parmis toutes les position atteignable depuis 
+Pour choisir le meilleur coup à jouer, on regarde parmi toutes les positions atteignables depuis 
 notre case et on choisit celle dont la distance est la plus petite dans notre table de correspondance.
 
-Nous avons opté pour une représention de cette table par un tableau contigu en mémoire afin de favoriser le cache cpu
+Nous avons opté pour une représentation de cette table par un tableau contigu en mémoire afin de favoriser le cache cpu
 lors du BFS avec la localité spatiale et temporelle des accès mémoire. 
 
 \begin{figure}[H]
