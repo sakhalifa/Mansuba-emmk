@@ -29,7 +29,7 @@ typedef struct {
 
 
 Notre structure game\_t contient tous les éléments nécessaires pour le déroulement d'une partie du jeu.
-Avec le recul et l'avancement dans le projet,i une amélioration que nous voulions mettre en place mais n'avons
+Avec le recul et l'avancement dans le projet, une amélioration que nous voulions mettre en place mais n'avons
 pas eu le temps était de remplacer les champs captured\_pieces\_list et starting\_pos par des tableaux d'array\_list.
 Les tableaux seraient de taille nombre\_de\_couleurs afin d'avoir une array\_list pour chaque couleur ce qui permet
 une séparation entre les pièces capturées selon leurs couleurs. Le bénéfice d'un tel changement est 
@@ -69,10 +69,10 @@ En effet, contrairement au tableau dynamique, l'affectation et la récupération
 Mais, les opérations d'insertion et de suppression sont en O(1). En gardant
 des pointeurs vers le dernier et premier élément de la liste, cela nous permet d'avoir un type
 qui peut fonctionner comme une pile et une file en temps constant. Nous avions
-particulèrement besoin d'une file pour le parcours en largeur\textsuperscript{\ref{alg:BFS}}.
+particulièrement besoin d'une file pour le parcours en largeur\textsuperscript{\ref{alg:BFS}}.
 \subsection{Structure des fichiers}
 
-Fichiers organisés en modules qui sont un couple .c et .h .  
+Les fichiers sont organisés en modules qui sont un couple .c et .h .  
 
 \subsubsection{Les modules élémentaires}
 
@@ -85,7 +85,7 @@ Leurs définitions étaient imposées mais l'implémentation était libre.
     \item neighbors : Gère les fonctionnalités pour récupèrer les voisins d'une case.
 \end{itemize}
 
-Les modules \emph{world} et \emph{neighbors} dépendent de geometry.
+Les modules \emph{world} et \emph{neighbors} dépendent de \emph{geometry}.
 
 
 \subsubsection{Le module util}
