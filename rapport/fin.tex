@@ -1,0 +1,30 @@
+\section{Mots de fin}
+Pour finir ce rapport, nous aimerions parler de ce que nous avons appris, ce qui nous a plu dans ce projet, et ce qui nous a déplu.
+\subsection{Ce que nous avons appris}
+Nous n'avons pas tant appris sur le plan technique comparé à nos camarades,
+cependant, cela peut s'expliquer par notre parcours. En effet, l'un a fait une licence informatique, tandis que l'autre a fait un DUT Informatique.
+Nous avions donc déjà un fort bagage technique. Néanmoins, ce projet nous a tout de même permis de consolider nos connaissances,
+et même d'apprendre de toutes nouvelles choses. Par exemple, nous avons appris que pour déclarer une fonction sans paramètres,
+il fallait la déclarer comme ceci : \verb|type nom(void);|. En effet, si
+nous ne mettons pas le \verb|void|, cela n'est plus un prototype de fonction.
+Cela peut donc causer plusieurs soucis au niveau de la compilation (incohérences \verb|.h| et \verb|.c|).
+Pour détecter ce type d'erreurs, nous avons donc appris qu'il fallait utiliser le tag gcc \verb|-Wstrict-prototypes|.
+De plus, nous nous sommes efforcés d'utiliser des principes de programmation en C plutôt obscurs,
+tels que ne pas utiliser d'assert dans le code en production, car avec un tag gcc, on peut désactiver les assert.
+Nous avons donc défini une macro qui permet de vérifier si un malloc a bien alloué de la mémoire, sinon, le programme plante.
+
+\subsection{Les + du projet}
+On était relativement libre sur le projet. On pouvait implémenter une solution algorithmique différente de celle proposée,
+et nous avions un minimum à implémenter, mais pas un maximum. De plus, la seule structure de code vraiment imposée est
+celle de départ (même si cela nous a bien embêté). Aussi, nous étions bien encadrés,
+dès que nous avions une question, l'enseignant nous répondait de façon approfondie et compréhensible.
+De plus, les solutions algorithmiques proposées étaient intéressantes, voire intriguantes.
+Enfin, le sujet était intéressant dans son ensemble.
+
+\subsection{Les - du projet}
+Les fichiers \verb|.c| et \verb|.h| imposés étaient plutôt embêtants.
+Nous en avons déjà parlé plus haut \textsuperscript{\ref{ssec:module-util}}, mais cela nous a forcé à faire un fichier 
+\verb|util.h| alors que nous aurions pu mettre certains types dans 
+\verb|neighbors.h| ou \verb|geometry.h|. Ensuite, le fait qu'il n'y ait pas 
+d'\emph{Issue Board} sur la forge nous a forcé à créer un trello, ce n'est
+pas si grave, mais tout de même embêtant.
