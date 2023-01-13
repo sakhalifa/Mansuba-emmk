@@ -7,12 +7,18 @@ void test_stack(void){
     l = array_list_init(20, free_nothing);
     assert(array_list_len(l) == 0);
     int tab[1][20];
+    // Add 20 elements to array_list
     for (int i = 0; i < 20; i++)
     {
-        *tab[i] = i;
+        *tab[i] = 1;
         array_list_push(l, tab[i]);
     }
 
+    // Sets the value of those 20 elements
+    for(int i = 0; i<20; i++){
+        *tab[i] = i;
+        array_list_set(l, tab[i], i);
+    }
     for (int i = 0; i < 20; i++)
     {
         assert((*(int *)array_list_get(l, i)) == i);

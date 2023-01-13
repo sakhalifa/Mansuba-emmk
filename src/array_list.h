@@ -38,7 +38,8 @@ void *array_list_get(const array_list_t *list, unsigned int idx);
 /// @param list the list to assign the element
 /// @param val the value to assign
 /// @param idx the index where the value will be assigned
-void array_list_set(array_list_t *list, void *val, unsigned int idx);
+/// @return the overwritten element
+void *array_list_set(array_list_t *list, void *val, unsigned int idx);
 
 /// @brief Check if a list contains an element
 /// @param l the list

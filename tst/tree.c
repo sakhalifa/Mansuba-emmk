@@ -62,7 +62,7 @@ void test_remove_child(void){
     int check = 1;
     node_t* check_remove = node_remove_child(child, &check, vs_cmp_int_int);
     assert(check_remove == to_remove);
-    assert(array_list_len(child->children));
+    assert(array_list_len(child->children) == 0);
 
     node_free(to_remove);
     node_free(root);

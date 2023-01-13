@@ -8,6 +8,7 @@
 
 bool test_distance(void)
 {
+    
     init_neighbors(SQUARE);
     init_distance_lookup_table();
     for (uint i = 0; i < WORLD_SIZE; i++)

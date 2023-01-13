@@ -18,7 +18,7 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
         ;
     array_list_t *ret = malloc(sizeof(array_list_t));
     CHECK_MALLOC(ret);    
-    ret->list = malloc(i * sizeof(void *));
+    ret->list = calloc(i, sizeof(void *));
     CHECK_MALLOC(ret->list);
     ret->len = 0;
     ret->allocated_len = i;
@@ -37,9 +37,7 @@ void realloc_list(array_list_t *list)
     CHECK_MALLOC(list->list);
 }
 
-/**
- * Push an element onto the array_list at list->len
- */
+
 void array_list_push(array_list_t *list, void *x)
 {
     if (list->len + 1 > list->allocated_len)
@@ -50,9 +48,7 @@ void array_list_push(array_list_t *list, void *x)
     list->len += 1;
 }
 
-/**
- * Gets an element from the array_list
- */
+
 void *array_list_get(const array_list_t *list, unsigned int idx)
 {
     if (idx >= list->len)
@@ -62,20 +58,20 @@ void *array_list_get(const array_list_t *list, unsigned int idx)
     return list->list[idx];
 }
 
-/**
- * Sets the element to index idx in array_list to val
- */
-void array_list_set(array_list_t *list, void *val, unsigned int idx)
+
+void *array_list_set(array_list_t *list, void *val, unsigned int idx)
 {
+    void *old_elem = NULL;
     if (idx < list->len)
     {
+        old_elem = list->list[idx];
         list->list[idx] = val;
     }
+
+    return old_elem;
 }
 
-/**
- * Removes the element at idx from array_list and returns it
- */
+
 void *array_list_remove(array_list_t *list, int idx)
 {
     void *element = list->list[idx];
@@ -104,9 +100,7 @@ bool array_list_contains(const array_list_t *l, void *val, int (*cmp_func)(void 
     return array_list_get_index(l, val, cmp_func) != -1;
 }
 
-/**
- * Frees the array_list. This WILL free all the elements inside of it
- */
+
 void array_list_free(array_list_t *array_list)
 {
     for (size_t i = 0; i < array_list->len; i++)
