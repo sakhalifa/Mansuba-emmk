@@ -1,0 +1,22 @@
+\section{Tests}
+
+Tout les tests du projet sont rassemblés dans le dossier tst/ . 
+
+\subsection{Structures de données}
+Pour chacune des structures de données que nous avons utilisées (arbres, array\_list, liste chaînée),
+il existe un fichier de test correspondant. Cela nous permet de nous assurer que ces structures, qui
+forment la base de notre projet, fonctionnent sans problèmes. Dans ces tests on s'assure que les fonctions
+donnent le résultat attendu dans les cas classiques ainsi que dans des cas limites tel que la suppression 
+dans une liste vide. 
+
+Ces tests sont également examiné par \emph{valgrind} afin d'être sûr qu'il n'y a pas 
+de fuite de mémoire.
+
+\subsection{Modules principaux}
+Pour pouvoir tester nos modules principaux, on met en place une situation spécifique puis on appelle une des 
+fonctions du module et on compare cette nouvelle situation après l'éxécution à celle qui est attendu.
+
+Certains module n'ont cependant pas de test car difficilement réalisable. C'est le cas par exemple de notre
+module player\_handler, qui s'occupe de gérer l'interaction d'un joueur à travers le terminal, vu que simuler
+les entrées n'est pas trival et surtout que c'est un module de haut niveau donc presque aucun module n'en dépend.
+
