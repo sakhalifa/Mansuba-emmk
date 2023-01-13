@@ -3,28 +3,28 @@
 Le projet de cette année, Mansuba, était la réalisation d'un \emph{framework} pour la création de jeux de plateau.
 Le développement du projet s'est déroulé entre le 8 novembre 2022 et le 13 janvier 2023.
 
-Une base immutable était fourni. Nous ne pouvions modifier les fichiers \verb|geometry.h| \verb|world.h| et \verb|neighbors.h|.
+Une base immutable était fournie. Nous ne pouvions modifier les fichiers \verb|geometry.h| \verb|world.h| et \verb|neighbors.h|.
 Toutes modifications dans \verb|world.c| étaient écrasées.
-Le projet était séparé en \emph{achievements}, des jalons de fonctionnalités.
+Le projet était divisé en \emph{achievements}, des jalons de fonctionnalités.
 Les \emph{achievements} étaient à implémenter dans l'ordre.
 Il y en avait 7, mais nous n'en avons implémentés que 6.
 
 \begin{enumerate}
     \setcounter{enumi}{-1}
-    \item La base du projet. On doit implémenter un monde, 
-    des relations, le déplacement simple d'un pion, 
+    \item La base du projet. On devait implémenter un monde, 
+    des relations entre les positions du monde, le déplacement simple d'un pion, 
     le saut simple d'un pion, le saut multiple d'un pion, 
     la condition de victoire simple, la condition de victoire complexe,
     et mettre en place une boucle de jeu robot vs robot.
-    \item Implémentation de nouvelles pièces. On doit implémenter d'autres
-    types de pièces, qui ont leurs mouvements à elles. On doit implémenter la tour et l'éléphant.
-    \item Implémentation d'un système générique de relations. On doit implémenter
+    \item Implémentation de nouvelles pièces. On devait implémenter d'autres
+    types de pièces, qui ont leurs mouvements à elles. On devait implémenter la tour et l'éléphant.
+    \item Implémentation d'un système générique de relations. On devait implémenter
     3 relations différentes, la grille classique, la grille triangulaire, et une de notre choix. Nous avons opté pour une hexagonale.
     \item Implémentation des captures et des évasions. Maintenant, une pièce peut capturer une autre pièce
-    en se déplaçant à sa position. Capturer une pièce interrompt le mouvement. Toute pièce capturée
+    en se déplaçant sur sa position. Capturer une pièce interrompt le mouvement. Toute pièce capturée
     peut tenter de s'évader si sa position est libérée. Elle a 50\% de chance de s'évader.
     \item Implémentation de robots un peu plus intelligents. Jusqu'ici, nos robots jouaient de manière aléatoire.
-    Maintenant, les robots doivent choisir le coup qui amènent la pièce choisie à la position la plus proche
+    Maintenant, les robots doivent choisir le coup qui amène la pièce choisie à la position la plus proche
     d'une des positions de départ du joueur adverse
     \item Implémentation d'un objet générique de configuration. Il permet de définir 
     les pièces autorisées, le type du plateau de jeu, les déplacements autorisés pour chaque pièce
