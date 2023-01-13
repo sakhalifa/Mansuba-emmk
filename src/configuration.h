@@ -1,11 +1,8 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 #include "util.h"
-#include "array_list.h"
-#include "tree.h"
 #include "world.h"
-
-typedef void (*move_t)(struct world_t *world, node_t *root, uint source_index, array_list_t *starting_pos);
+#include "moves.h"
 
 void add_allowed_sort(enum sort_t sort);
 

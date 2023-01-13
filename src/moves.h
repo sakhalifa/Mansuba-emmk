@@ -4,7 +4,9 @@
 #include "util.h"
 #include "position.h"
 #include "world.h"
+#include "array_list.h"
 
+typedef void (*move_t)(struct world_t *world, node_t *root, uint source_index, array_list_t *starting_pos);
 typedef enum {
     SIMPLE_MOVE = 0,
     SIMPLE_JUMP = 1,
