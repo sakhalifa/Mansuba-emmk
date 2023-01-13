@@ -77,21 +77,21 @@ Fichiers organisés en modules qui sont un couple .c et .h .
 
 \subsubsection{Les modules élémentaires}
 
-Ces modules forment la base de la logique du programme. 
+Ces modules forment la base de la logique du programme.
+Leurs définitions étaient imposées mais l'implémentation était libre. 
 
 \begin{itemize}
-    \item geometry : Gère les interactions avec le monde du jeu tel que placer ou récupèrer des pièces.
-    \item world : 
+    \item geometry : Gère les types de base ainsi que les définitions du projet.
+    \item world : Gère les interactions avec le monde du jeu tel que placer ou récupèrer des pièces.
     \item neighbors : Gère les fonctionnalités pour récupèrer les voisins d'une case.
 \end{itemize}
 
-world et neighbors dépendent de geometry.
+Les modules \emph{world} et \emph{neighbors} dépendent de geometry.
 
-TODO more
 
 \subsubsection{Le module util}
 \label{ssec:module-util}
-Nous avons décidé d'utiliser un module \emph{util} dont la majorité des autres modules include. 
+Nous avons décidé d'utiliser un module \emph{util} dont la majorité des autres modules inclut. 
 Ce module contient les interfaces système comme \emph{stdio.h}, des définitions comme \emph{limit.h},
 des définitions de type que nous utilisons dans l'ensemble du code tel que \emph{uint} pour représenter
 le type \emph{unsigned int} ou des structures ainsi que des fonctions d'erreur. Nous avons pas eu le temps
@@ -142,18 +142,21 @@ pas modifier ainsi que d'avoir à seulement inclure un fichier en en-tête des a
         \label{fig:dep-playerhandler}
     \end{figure}
 
+    \item Enfin le module game s'occupe de l'éxécution d'une partie du jeu. 
+    \begin{figure}[H]
+        \centering \includegraphics[width=5cm]{images/game_8h__incl.png}
+        \caption{Dépendances du module game}
+        \label{fig:dep-game}
+    \end{figure}
 
 \end{itemize}
 
 
 
-
-
-game
-
-
-Tous ces modules sont inclus dans le fichier de plus haut niveau \emph{projet}. Le graphique complet de dépendance
-de celui-ci est disponible en annexe, figure \ref{fig:dep-projet}. Avec ce graphique on peut voir l'entiéreté des dépendance depuis \emph{projet}. 
+Tous ces modules sont inclus dans le fichier de plus haut niveau \emph{projet} qui s'occupe 
+d'initialiser le jeu puis de lancer la partie.
+Le graphique complet de dépendance
+de celui-ci est disponible en annexe, figure \ref{fig:dep-projet}. Avec ce graphique on peut voir l'entièreté des dépendances depuis \emph{projet}. 
 
 
 
