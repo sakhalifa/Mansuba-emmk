@@ -24,13 +24,15 @@ Même si l'arbre complexifie le problème, il permet de rendre les mouvements bi
 \subsection{Choix des meilleurs mouvements}
 \subsubsection{BFS}
 Pour pouvoir calculer les meilleurs mouvements, nous avons utilisé un Parcours en Largeur (Breadth First Search : BFS) sur le plateau. 
-Le principe est de créer une file dans laquelle on ajoute toutes les positions de départ d'une couleur.
+Premièrement on initialise la distance de toutes les cases avec une valeur maximale puis
+le principe est de créer une file dans laquelle on ajoute toutes les positions de départ d'une couleur.
 Ensuite tant que la file n'est pas vide, on récupère la position en tête, et pour chacun de ses voisins, 
-si sa distance est inférieure on met à jour sa distance qui est égale à la distance de notre position+1,
+si sa distance est inférieure on met à jour sa distance, qui est maintenant égale à la distance de notre position+1,
 puis on l'enfile.
-Ainsi chaque case se voit attribuer sa distance à la position de départ d'une couleur la plus proche. 
+Ainsi chaque case se voit attribuer sa distance à la position de départ la plus proche pour une couleur. 
  
-Cela nous permet d'avoir la distance d'une case donnée vers la position de départ d'une couleur.
+Cela nous permet d'avoir la distance d'une case donnée vers la position de départ d'une couleur avec une certaine relation. 
+Ensuite il suffit de changer la relation et de relancer l'algorithme.
 \subsubsection{Table de correspondance}
 
 Ces distances sont enregistrées dans un tableau ce qui nous permet d'avoir une table de correspondance (\emph{lookup table}),
