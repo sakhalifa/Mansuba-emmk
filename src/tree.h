@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "array_list.h"
 
+// TODO : Hide implementation!!!!
 /**
  * A node structure.
  * Every child of a node must have the same free_func as its parent.

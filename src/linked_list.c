@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
-struct cell
+typedef struct cell
 {
     void *value;
     struct cell *next;
     struct cell *prev;
-};
+} cell_t;
 struct linked_list
 {
     cell_t *first;
