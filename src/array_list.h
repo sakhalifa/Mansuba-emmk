@@ -1,6 +1,7 @@
 #ifndef __ARRAY_LIST_H__
 #define __ARRAY_LIST_H__
-#include <stdlib.h>
+#include "util.h"
+#include <stddef.h>
 #include <stdbool.h>
 
 typedef struct array_list array_list_t;

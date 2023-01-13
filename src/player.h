@@ -1,7 +1,6 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
-#include <stdbool.h> 
-#include "geometry.h" 
+#include "util.h"
  
 typedef struct player{
     enum color_t color;

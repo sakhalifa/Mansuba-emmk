@@ -3,6 +3,7 @@
 #include "configuration.h"
 #include <string.h>
 #include "player_handler.h"
+#include "neighbors.h"
 #include <getopt.h>
 #include <sys/time.h>
 #define MAX_WORLD_SIZE (500 * 100)

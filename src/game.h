@@ -3,9 +3,8 @@
 
 #include "util.h"
 #include "moves.h"
-#include "world.h"
 #include "player.h"
-#include "neighbors.h"
+#include "world.h"
 
 extern int verbose;
 

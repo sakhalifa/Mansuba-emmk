@@ -1,7 +1,6 @@
 #ifndef __LINKED_LIST_H__
 #define __LINKED_LIST_H__
-#include <stdbool.h>
-#include <stddef.h>
+#include "util.h"
 typedef struct linked_list linked_list_t;
 
 /// @brief Allocates an empty linked_list

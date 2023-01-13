@@ -1,8 +1,9 @@
 #ifndef __MOVES_H__
 #define __MOVES_H__
 #include "tree.h"
-#include "world.h"
+#include "util.h"
 #include "position.h"
+#include "world.h"
 
 typedef enum {
     SIMPLE_MOVE = 0,
