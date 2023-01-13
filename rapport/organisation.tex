@@ -97,20 +97,65 @@ des définitions de type que nous utilisons dans l'ensemble du code tel que \emp
 le type \emph{unsigned int} ou des structures ainsi que des fonctions d'erreur. Nous avons pas eu le temps
 mais les fonctions d'erreur auraient pu avoir leur propre module \emph{erreur} afin d'avoir une meilleur organisation.
 
-Notre choix de l'utilisation de ce module est de pouvoir enrichir les fichiers élémentaire que nous ne pouvons pas
+Notre choix de l'utilisation de ce module est de pouvoir enrichir les fichiers élémentaire que nous ne pouvions pas
 pas modifier ainsi que d'avoir à seulement inclure un fichier en en-tête des autres.  
 
 
+\subsubsection{Les modules}
 
-distance
-moves
-configuration
+\begin{itemize}
+    \item Le module distance permet d'avoir la distance de chaque cases vers une position gagnante.
+    Cela nous permet de calculer les meilleurs mouvements pour une pièce.
+    Son implémentation est détaillée dans la section \ref{distance}. 
+    
+    \begin{figure}[H]
+        \centering \includegraphics[width=5cm]{images/distance_8h__incl.png}
+        \caption{Dépendances du module distance}
+        \label{fig:dep-distance}
+    \end{figure}
+
+    \item  Le module \emph{configuration} permet de répondre à l'achievement 5, il encapsule toutes les fonctions
+    liées aux paramétrages des configurations. 
+    \begin{figure}[H]
+        \centering \includegraphics[width=5cm]{images/configuration_8h__incl.png}
+        \caption{Dépendances du module configuration}
+        \label{fig:dep-config}
+    \end{figure}
+
+    \item Le module moves contient la logique qui permet de récupèrer les mouvements possible pour
+    les différents type de pièces. Toute l'implémentation est cachée dans le .c exposant seulement une fonction
+    \emph{get\_moves} ce qui simplifie l'usage.
+    \begin{figure}[H]
+        \centering \includegraphics[width=5cm]{images/moves_8h__incl.png}
+        \caption{Dépendances du module moves}
+        \label{fig:dep-moves}
+    \end{figure}
+
+    \item Input est un petit module qui gère les entrées utilisateur sur le terminal. Il ne dépend de rien.
+
+    \item Player sert à la gestion des joueurs dans le jeu. Sa seule dépendance est le module util.
+
+    \item Le module player\_handler permet l'intéractivité entre le jeu et un ou plusieur joueurs humains via le terminal.
+    \begin{figure}[H]
+        \centering \includegraphics[width=5cm]{images/player__handler_8h__incl.png}
+        \caption{Dépendances du module player\_handler}
+        \label{fig:dep-playerhandler}
+    \end{figure}
+
+
+\end{itemize}
+
+
+
+
+
 game
-player
-input
-player\_handler
 
-projet
+
+Tous ces modules sont inclus dans le fichier de plus haut niveau \emph{projet}. Le graphique complet de dépendance
+de celui-ci est disponible en annexe, figure \ref{fig:dep-projet}. Avec ce graphique on peut voir l'entiéreté des dépendance depuis \emph{projet}. 
+
+
 
 
 
