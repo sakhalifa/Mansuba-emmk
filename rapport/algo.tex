@@ -32,10 +32,10 @@ puis on l'enfile.
 Ainsi chaque case se voit attribuer sa distance à la position de départ la plus proche pour une couleur. 
  
 Cela nous permet d'avoir la distance d'une case donnée vers la position de départ d'une couleur avec une certaine relation. 
-Ensuite il suffit de changer la relation et de relancer l'algorithme.
+Ensuite il suffit de changer la relation, vu que le module \emph{neighbors} s'adapte à la relation,  et/ou la couleur et de relancer l'algorithme.
 
 \begin{algorithm}
-    \caption{BFS pour calculer les distances}\label{alg:cap}
+    \caption{BFS pour calculer les distances pour une couleur et une relation}\label{alg:cap}
     \begin{algorithmic}
     \Require $C \in couleurs$
     \Require $R \in relations$
