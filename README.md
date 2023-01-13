@@ -2,6 +2,23 @@
 
 Board game framework for the "Projet d'algorithmique et de programmation n°1" at ENSEIRB-MATMECA made by Samuel Khalifa and Louis Peyrondet.
 
+## Compile the .tex
+### Prerequisites
+* xcolor
+* subfig
+* framed
+* tikz
+  * With the tikz library `graphs`
+* graphicx
+* minted
+  * You will also need to install the pygmentize library (`apt install python3-pygments`)
+* hyperref
+* float
+
+### Command to compile
+    cd rapport && <latex-compiler> -shell-escape rapport/rapport.tex
+
+
 ## Build
 For the default executable (4*5 grid):
 
@@ -14,6 +31,7 @@ For a specific width 'w' and height 'h' executable :
 To generate the Doxygen documentation :
 
     make doc
+
 
 ## Execution
 

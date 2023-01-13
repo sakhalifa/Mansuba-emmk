@@ -38,7 +38,15 @@
                                     };
                             };
                     }
-                child {node {8} edge from parent [<->]}
+                child {
+                    node {8} edge from parent [<->]
+                    child {
+                        node {2} edge from parent [<->]
+                        child {
+                            node {0} edge from parent [<->]
+                        };
+                    };
+                }
                 child {node {4} edge from parent [<->]};
             \end{tikzpicture}
         }
