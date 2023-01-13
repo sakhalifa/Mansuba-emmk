@@ -39,6 +39,9 @@ int main(void){
     test_distance();
     printf("Finished testing distance.c\n");
 
+    test_linked_list();
+    printf("Finished testing linked_list.c\n");
+
     config_free();
     return 0;
 }

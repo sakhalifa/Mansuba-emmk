@@ -28,14 +28,14 @@ void *linked_list_get_last(linked_list_t *l);
 /// @return the length of the linked list
 size_t linked_list_length(linked_list_t *l);
 
-/// @brief Removes the last element of the linked list
+/// @brief Removes the last element of the linked list and frees it
 /// @param l the linked list
-/// @return the length of the linked list
+/// @return true iif the last element was removed
 bool linked_list_remove_last(linked_list_t *l);
 
-/// @brief Removes the first element of the linked list
+/// @brief Removes the first element of the linked list and frees it
 /// @param l the linked list
-/// @return the length of the linked list
+/// @return true iif the first element was removed
 bool linked_list_remove_first(linked_list_t *l);
 
 /// @brief Appends an element to the end of the list

@@ -12,6 +12,9 @@ bool test_distance(void);
 //*****ARRAY_LIST*****//
 bool test_array(void);
 
+//****LINKED_LIST*****//
+bool test_linked_list(void);
+
 //*******MOVES*******//
 void test_moves(void);
 
