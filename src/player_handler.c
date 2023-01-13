@@ -67,7 +67,7 @@ game_piece_t get_player_captured_piece(const game_t *game, const player_t * play
     printf("Captured pieces :\n");
     uint player_piece_counter = 0;
     
-    for (size_t i = 0; i < array_list_len(game->captured_pieces_list); i++)
+    for (size_t i = 0; i < array_list_length(game->captured_pieces_list); i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if(piece->piece.color == player->color){
@@ -83,7 +83,7 @@ game_piece_t get_player_captured_piece(const game_t *game, const player_t * play
     game_piece_t final_piece;
     final_piece.index = UINT_MAX;
 
-    for (size_t i = 0; i < array_list_len(game->captured_pieces_list); i++)
+    for (size_t i = 0; i < array_list_length(game->captured_pieces_list); i++)
     {
         game_piece_t *piece = array_list_get(game->captured_pieces_list, i);
         if(piece->piece.color == player->color){

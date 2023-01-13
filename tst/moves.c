@@ -15,12 +15,12 @@ bool are_trees_equal(node_t *t1, node_t *t2)
         printf("Expected {%u,%u} Got {%u,%u}\n", t1_pos->col, t1_pos->row, t2_pos->col, t2_pos->row);
         return false;
     }
-    if (array_list_len(t1->children) != array_list_len(t2->children))
+    if (array_list_length(t1->children) != array_list_length(t2->children))
     {
-        printf("Expected child_length=%ld, Got child_length=%ld\n", array_list_len(t1->children), array_list_len(t2->children));
+        printf("Expected child_length=%ld, Got child_length=%ld\n", array_list_length(t1->children), array_list_length(t2->children));
         return false;
     }
-    for (int i = 0; i < (int) array_list_len(t1->children); i++)
+    for (int i = 0; i < (int) array_list_length(t1->children); i++)
     {
         if (!are_trees_equal((node_t *)array_list_get(t1->children, i), (node_t *)array_list_get(t2->children, i)))
         {

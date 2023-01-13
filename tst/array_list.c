@@ -5,7 +5,7 @@
 void test_stack(void){
     array_list_t *l;
     l = array_list_init(20, free_nothing);
-    assert(array_list_len(l) == 0);
+    assert(array_list_length(l) == 0);
     int tab[1][20];
     // Add 20 elements to array_list
     for (int i = 0; i < 20; i++)
@@ -38,19 +38,19 @@ void test_stack(void){
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 20; i < (int)array_list_len(l); i++)
+    for (int i = 20; i < (int)array_list_length(l); i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }
 
     // Remove the last element before the 20 spam.
     array_list_remove(l, 19);
-    assert(array_list_len(l) == 32);
+    assert(array_list_length(l) == 32);
     for (int i = 0; i < 19; i++)
     {
         assert((*(int *)array_list_get(l, i)) == i);
     }
-    for (int i = 19; i < (int)array_list_len(l); i++)
+    for (int i = 19; i < (int)array_list_length(l); i++)
     {
         assert((*(int *)array_list_get(l, i)) == 20);
     }

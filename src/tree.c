@@ -26,7 +26,7 @@ node_t *node_add_child(node_t* node, void *val){
 }
 
 bool node_has_child(node_t *node, void* val, int (*cmp_func)(void*, void*)){
-    for(uint i = 0; i<array_list_len(node->children); i++){
+    for(uint i = 0; i<array_list_length(node->children); i++){
         node_t* child = array_list_get(node->children, i);
         if(!cmp_func(val, child->value)){
             return true;
@@ -36,7 +36,7 @@ bool node_has_child(node_t *node, void* val, int (*cmp_func)(void*, void*)){
 }
 
 node_t *node_remove_child(node_t *node, void* val, int (*cmp_func)(void*, void*)){
-    for(uint i = 0; i<array_list_len(node->children); i++){
+    for(uint i = 0; i<array_list_length(node->children); i++){
         node_t* child = array_list_get(node->children, i);
         if(!cmp_func(val, child->value)){
             array_list_remove(node->children, i);
@@ -60,7 +60,7 @@ node_t *tree_get_node(const node_t *root, void* val, int (*cmp_func)(void*, void
     if(!cmp_func(val, root->value)){
         return (node_t *) root;
     }
-    for(uint i = 0; i<array_list_len(root->children); i++){
+    for(uint i = 0; i<array_list_length(root->children); i++){
         node_t* n = tree_get_node(array_list_get(root->children, i), val, cmp_func);
         if(n != NULL){
             return n;
@@ -94,7 +94,7 @@ void node_print(node_t* node, unsigned int indents, void (*print_value)(void*)){
     }
     print_value(node->value);
     printf("\n");
-    for(uint i = 0; i<array_list_len(node->children); i++){
+    for(uint i = 0; i<array_list_length(node->children); i++){
         node_print(array_list_get(node->children, i), indents+1, print_value);
     }
 }

@@ -12,7 +12,7 @@ int *create_int_malloc(int v){
 void test_create(void){
     int *a = create_int_malloc(50);
     node_t* root = tree_create(a, free);
-    assert(array_list_len(root->children) == 0);
+    assert(array_list_length(root->children) == 0);
     assert(root->parent == NULL);
     assert(root->value == a);
     node_free(root);
@@ -28,10 +28,10 @@ void test_add_child(void){
     int *d = create_int_malloc(3);
     node_t* root_child_one_child_two = node_add_child(root_child_one, d);
 
-    assert(array_list_len(root->children) == 1);
+    assert(array_list_length(root->children) == 1);
     assert(root_child_one->parent == root);
     assert(root_child_one->value == b);
-    assert(array_list_len(root_child_one->children) == 2);
+    assert(array_list_length(root_child_one->children) == 2);
     assert(root_child_one_child_one->parent == root_child_one);
     assert(root_child_one_child_two->parent == root_child_one);
 
@@ -55,14 +55,14 @@ void test_remove_child(void){
     for(int i = 0; i<5; i++){
         cur_node = node_add_child(cur_node, create_int_malloc(i));
     }
-    assert(array_list_len(root_child_one_child_two->children) == 1);
+    assert(array_list_length(root_child_one_child_two->children) == 1);
 
     node_t* child = array_list_get(root_child_one_child_two->children, 0);
     node_t* to_remove = array_list_get(child->children, 0);
     int check = 1;
     node_t* check_remove = node_remove_child(child, &check, vs_cmp_int_int);
     assert(check_remove == to_remove);
-    assert(array_list_len(child->children) == 0);
+    assert(array_list_length(child->children) == 0);
 
     node_free(to_remove);
     node_free(root);

@@ -152,7 +152,7 @@ node_t *get_moves(struct world_t *world, position_t *pos, array_list_t *starting
 
     enum sort_t sort = world_get_sort(world, position_to_idx(pos));
     array_list_t *allowed_moves = get_allowed_moves_for_sort(sort);
-    for(uint i = 0; i<array_list_len(allowed_moves); i++){
+    for(uint i = 0; i<array_list_length(allowed_moves); i++){
         ((move_t)array_list_get(allowed_moves, i))(world, root, source_index, starting_pos);
     }
 

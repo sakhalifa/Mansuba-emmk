@@ -26,7 +26,7 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *))
     return ret;
 }
 
-size_t array_list_len(const array_list_t *list){
+size_t array_list_length(const array_list_t *list){
     return list->len;
 }
 

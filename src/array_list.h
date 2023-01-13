@@ -14,7 +14,7 @@ struct array_list *array_list_init(size_t len, void (*free_func)(void *));
 /// @brief Gets the length of an array list
 /// @param list the array list
 /// @return the length of the array list
-size_t array_list_len(const array_list_t *list);
+size_t array_list_length(const array_list_t *list);
 
 /// @brief Pushes an element at the end of the array_list
 /// @param list the list to push the element to
