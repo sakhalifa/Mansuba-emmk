@@ -1,11 +1,16 @@
 \section{Tests}
 
-Tous les tests du projet sont rassemblés dans le dossier tst/ . 
+Tous les tests du projet sont rassemblés dans le dossier tst/ . Un couple de fichier main.c et main.h 
+rassemble tous les prototypes et éxécute tous les tests présent dans les autres fichiers. Grâce à cette
+organisation lorsque nous ajoutons un module à notre projet, pour le tester, il suffit de créer un fichier .c
+du même nom, d'y ajouter les définitions des fonctions de tests puis d'ajouter les prototypes dans le main.h et
+finalement d'ajouter ces fonctions au main.c pour avoir ces tests intégrés à notre environement de test.
+Un simple \emph{make test} permet l'éxécution de tous les tests. 
 
 \subsection{Structures de données}
 Pour chacune des structures de données que nous avons utilisées (arbres, array\_list, liste chaînée),
 il existe un fichier de test correspondant. Cela nous permet de nous assurer que ces structures, qui
-forment la base de notre projet, fonctionnent sans problèmes. Dans ces tests, nous nous assurons que les fonctions
+forment la base de notre projet et de nos algorithmes, fonctionnent sans problèmes. Dans ces tests, nous nous assurons que les fonctions
 donnent le résultat attendu dans les cas classiques ainsi que dans des cas limites tel que la suppression 
 dans une liste vide. 
 
@@ -20,3 +25,11 @@ Certains modules n'ont cependant pas de test car difficilement réalisable. C'es
 module player\_handler, qui s'occupe de gérer l'interaction d'un joueur à travers le terminal, vu que simuler
 les entrées n'est pas trivial et surtout que c'est un module de haut niveau donc presque aucun module ne dépend de lui.
 
+\subsection{Mode de débug}
+Avec l'utilisation des niveaux de verboses lors du jeu combiné avec le module d'interaction qui nous permet de jouer via le terminal,
+nous pouvons également découvrir des bugs lors de l'éxécution du programme à l'aide du niveau de verbose 2
+qui affiche beaucoup d'information sur la partie en cours.
+   
+Cela ne remplace en aucun cas les tests unitaire qui s'assurent de la fonctionnalités des modules mais 
+il y a quand même des avantages à pouvoir trouver des bugs grâce à cette interactivité que nous pouvons
+par la suite ajouter aux tests unitaires pour renforcer ces derniers. 
