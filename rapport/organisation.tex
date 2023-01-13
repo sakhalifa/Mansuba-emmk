@@ -41,13 +41,34 @@ une simplification du code.
 
 
 \subsection{Implémentation des structures de données}
-Les structures de données ne sont utilisable que par des interface pour cacher iméplemntation etc.... 
-
-
+Premièrement toutes nos structures de données (sauf l'arbre par manque de temps)
+n'exportent pas l'implémentation de la structure sous-jacente. Dans le \verb|.h|, il n'y a que la déclaration
+du nom de la structure, pas son implémentation. Cela nous permet de réaliser un couplage faible
+entre les différents fichiers utilisant ces structures de données.
+\subsubsection{Tableau dynamique}
+Pour le tableau dynamique, nous avons besoin des opérations standards 
+sur une liste, à savoir l'ajout, la suppression, l'insertion, l'affectation, et la récupération.
+Vu que c'est un tableau sous-jacent, l'insertion et la suppression seront en complexité en temps O(n).
+Il faut déplacer tous les éléments dans le tableau.
+Ensuite, la récupération et affectation seront en complexité en temps O(1).
+Enfin, l'ajout d'un élément à la fin du tableau sera en temps moyen O(log(n)).
+En effet, lorsqu'on dépasse la taille du tableau, on doit allouer un nouveau tableau
+pouvant contenir tous les éléments précédents et l'élément à ajouter.
+L'approche naïve serait d'allouer un nouveau tableau de taille n+1. Le problème,
+c'est que si on veut rajouter pas 1, mais 2 élements, on devra allouer 2 nouveaux tableaux, et donc recopier la liste complète 2 fois.
+L'approche un peu plus subtile (celle qu'on a choisie), c'est de doubler la taille du tableau.
+Cela évitera de devoir copier tous les éléments de la liste trop souvent. Au désavantage de gâcher un peu plus de mémoire.
+\subsubsection{Arbre}
+Pour notre arbre, nous avons choisi de l'implémenter avec une structure récursive.
+Un noeud possède une valeur, une liste d'enfants et un parent.
+Nous avons opté pour un double chaînage car nous en avions besoin pour remonter l'arbre
+lors du calcul des mouvements possibles\textsuperscript{\ref{fig:example-moves}}.
+Pour la liste des enfants, nous avons utilisé le tableau dynamique défini précédemment.
+\subsubsection{Liste chaînée}
+Nous avions aussi besoin d'une liste chaînée.
+En effet, contrairement au tableau dynamique, l'affectation et la récupération sont en complexité O(n).
+Mais, les opérations d'insertion et de suppression sont en O(1). En gardant
+des pointeurs vers le dernier et premier élément de la liste, cela nous permet d'avoir un type
+qui peut fonctionner comme une pile et une file en temps constant. Nous avions
+particulèrement besoin d'une file pour le parcours en largeur\textsuperscript{\ref{alg:BFS}}.
 \subsection{Structure des fichiers}
-
-
-
-mettre graph dep
-
-

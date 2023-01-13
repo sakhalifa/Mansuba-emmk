@@ -30,7 +30,7 @@ struct game_result
 };
 
 
-/// @brief Allocted and initialize the game structure with the given parameters 
+/// @brief Allocates and initialize the game structure with the given parameters 
 /// @param world the world 
 /// @param max_turn the maximum number of turns
 /// @param victory_type the type of victory used
