@@ -1,6 +1,7 @@
 #ifndef __LINKED_LIST_H__
 #define __LINKED_LIST_H__
 #include <stdbool.h>
+#include <stddef.h>
 typedef struct linked_list linked_list_t;
 
 /// @brief Allocates an empty linked_list
@@ -25,7 +26,7 @@ void *linked_list_get_last(linked_list_t *l);
 /// @brief Gets the length of the linked list
 /// @param l the linked list
 /// @return the length of the linked list
-int linked_list_get_length(linked_list_t *l);
+size_t linked_list_length(linked_list_t *l);
 
 /// @brief Removes the last element of the linked list
 /// @param l the linked list

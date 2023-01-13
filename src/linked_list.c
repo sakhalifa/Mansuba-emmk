@@ -66,7 +66,7 @@ void linked_list_free(linked_list_t *l)
     free(l);
 }
 
-int linked_list_get_length(linked_list_t *l)
+size_t linked_list_length(linked_list_t *l)
 {
     return l->length;
 }
