@@ -52,18 +52,3 @@ Here are the different options
 | -v | The verbose level. Values ranges from : 0 (display only the seed and who won), 1 (standard display witht the game grid), 2 (Debug mode, gives every move tree and selection done) eg: "-v 2" | 1 |
 | -c | The preset configuration to use. Preset available : "dame-chinoises" eg: "-c dame-chinoises"| default_config |
 | -p | The number of real player. 0 equivalent to bot against bot, 2 is 1 player against another eg: "-p 1" | 0 |
-
-
-## Sources
-
-La page de spécification du projet :
-
-<https://www.labri.fr/perso/renault/working/teaching/projets/2022-23-S5-Mansuba.php>
-
-La page du projet sur la forge :
-
-https://thor.enseirb-matmeca.fr/ruby/projects/projetss5
-
-La page des projets en général :
-
-<https://www.labri.fr/perso/renault/working/teaching/projets/projets.php>
